@@ -115,6 +115,27 @@ p{
     font-family: "Satoshi-Regular";
 }
 
+.button_logout{
+    color: var(--white);
+    background-color: var(--black);
+    border : 1px solid var(--white);
+    border-radius: 12px;
+    margin-top: 16px;
+    margin-bottom: 40px;
+    padding: 8px 20px;
+
+    cursor:pointer;
+    margin-left: 60px;
+    margin-top:40px;
+}
+
+.button_logout > a{
+    color : var(--white);
+    text-decoration: none;
+    margin: 10px;
+
+}
+
 /* Pet */
 .container_pet{
     width: 480px;
@@ -174,6 +195,18 @@ p{
     top:0px;
 }
 
+.task_head{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.add_task a{
+    padding:12px;
+    border: 1px solid var(--white);
+    border-radius: 100px;
+}
+
 .task_title p{
     font-size: 24px;
     font-family: "Satoshi-Black";
@@ -184,6 +217,8 @@ p{
     font-size: 20px;
     font-family: "Satoshi-Bold";
 }
+
+
 
 .task_active{
     margin-bottom: 40px;
@@ -224,7 +259,9 @@ p{
 .task_desc{
     font-size: 16px;
     font-family: "Satoshi-Medium";
+    width: 500px;
 }
+
 
 input[type=checkbox] {
     display: inline-block;
