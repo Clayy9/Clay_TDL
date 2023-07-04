@@ -50,16 +50,16 @@
 <div class="right">
     <div class="container_task">
         <div class="task_active">
-            <div class="task_active_title">
+            <div class="task_title">
             <p>Your task</p>
             </div>
             <div class="task_active_list">
                 <div class="task_active_card">
                     <div class="task_category">
-                        <img src="./assets/images/category/Category=Medic.png" alt="">
+                        <img class="task_category_img" src="./assets/images/category/Category=Medic.png" alt="">
                     </div>
                     <div class="task_info">
-                        <div class="task_title">
+                        <div class="task_subtitle">
                             <p>Judul</p>
                         </div>
                         <div class="task_deadline">
@@ -71,25 +71,51 @@
                         </div>
                         </div>
                     <div class="task_checkbox">
-
+                        <form>
+                            <input type="checkbox" id="done" onclick="check_task()"/>
+                        </form>
                     </div>
                     
                 </div>
             </div>
         </div>
-        <!-- <div class="task_completed">
-            <div class="task_completed_title">
 
+        <div class="task_completed">
+            <div class="task_title">
+                <p>Completed Task</p>
             </div>
             <div class="task_active_list">
                 <div class="task_active_card">
+                    <div class="task_category">
+                        <img class="task_category_img" src="./assets/images/category/Category=Medic.png" alt="">
+                    </div>
+                    <div class="task_info">
+                        <div class="task_subtitle">
+                            <p>Judul</p>
+                        </div>
+                        <div class="task_deadline">
+                            <i class="fa-solid fa-clock" style="color: white;"></i>                        
+                            <p>Tanggal</p>
+                        </div>
+                        <div class="task_desc">
+                            <p>Ini adalah deskripsi dari task saya</p>
+                        </div>
+                        </div>
+                    <div class="task_checkbox">
+                        <form>
+                            <input type="checkbox" id="done" onclick="check_task()"/>
+                        </form>
+                    </div>
                     
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </div>
 
 
 </body>
+
+<!-- Script -->
+<script src="./assets/js/script.js"></script> 
 </html>

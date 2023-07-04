@@ -61,6 +61,8 @@ body {
 
     display: flex;
     flex-direction: row;
+
+    position:relative;
 }
 
 * {
@@ -166,6 +168,80 @@ p{
     margin:40px;
 
     width: 800px;
-    padding: 40px 20px;
+    padding: 32px 24px 40px 24px;
+
+    position: absolute;
+    top:0px;
 }
 
+.task_title p{
+    font-size: 24px;
+    font-family: "Satoshi-Black";
+    margin-bottom: 20px;
+}
+
+.task_subtitle p{
+    font-size: 20px;
+    font-family: "Satoshi-Bold";
+}
+
+.task_active{
+    margin-bottom: 40px;
+}
+
+.task_active_card{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    border: 1px solid var(--white);
+    padding: 20px 20px;
+    border-radius: 6px;
+
+    position: relative;
+}
+
+.task_category{
+    margin-right: 20px;
+}
+
+.task_deadline{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.task_deadline i{
+    margin-right: 10px;
+}
+
+.task_deadline p{
+    font-size: 16px;
+    font-family: "Satoshi-Regular";
+}
+
+.task_desc{
+    font-size: 16px;
+    font-family: "Satoshi-Medium";
+}
+
+input[type=checkbox] {
+    display: inline-block;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 5px;
+    margin-right: 20px;
+
+    position: absolute;
+    right: 40px;
+    top:40%;
+}
+
+input[type=checkbox]:checked{
+    background-color: var(--black);
+    color: var(--white);
+}
