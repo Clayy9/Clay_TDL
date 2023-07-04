@@ -1,0 +1,171 @@
+/* Set color, font, etc */
+:root {
+
+    /* Font color */
+      --black: #000000;
+      --white: #F1F1F1;
+  
+    /* Font size */
+  
+      --hero: 80px;
+      --header1: 60px;
+      --header2: 40px;
+      --header3: 32px;
+      --text: 24px;
+      --text2: 16px;
+  }
+  
+  @font-face {
+    font-family: 'Satoshi-Light';
+    src: url('../fonts/Satoshi-Light.otf');
+  } 
+
+  @font-face {
+    font-family: 'Satoshi-Regular';
+    src: url('../fonts/Satoshi-Regular.otf');
+  }
+  
+  @font-face {
+    font-family: 'Satoshi-Medium';
+    src: url('../fonts/Satoshi-Medium.otf');
+  }
+  
+  @font-face {
+    font-family: 'Satoshi-Bold';
+    src: url('../fonts/Satoshi-Bold.otf');
+  }
+  
+  @font-face {
+    font-family: 'Satoshi-Black';
+    src: url('../fonts/Satoshi-Black.otf');
+  }
+
+  html {
+    scroll-behavior: smooth;
+
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+    background-color: var(--black);
+    padding: 40px 40px;
+
+    display: flex;
+    flex-direction: row;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0;
+}
+
+p{
+  cursor: default;
+  color: var(--white);
+}
+
+/* Profile */
+.profile{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 60px;
+    width: 480px;
+    border:1px solid var(--white);
+    border-radius:10px;
+
+    margin-bottom:40px;
+    padding: 48px 20px;
+
+}
+
+.profile_img{
+    width:60px;
+    height: auto;
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.profile_desc{
+    display: flex;
+    flex-direction: column;
+    height: 45px;
+    width: auto;
+}
+
+.profile_desc_username{
+    font-size: 20px;
+    font-family: "Satoshi-Bold";
+}
+
+.profile_desc_email{
+    font-size: 16px;
+    font-family: "Satoshi-Regular";
+}
+
+/* Pet */
+.container_pet{
+    width: 480px;
+    height: auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border:1px solid var(--white);
+    padding:40px 20px;
+    border-radius: 10px;
+}
+
+.pet_info_name > p{
+    font-size: 32px;
+    font-family: "Satoshi-Black";
+}
+
+.pet_info_task_completed p{
+    font-size: 24px;
+    font-family: "Satoshi-Black";
+}
+
+.pet_info_task_completed{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.pet_info_task_completed_track{
+    margin-right:120px;
+}
+
+.pet_display_img{
+    width: 400px;
+    height: auto;
+    margin-top:64px;
+    margin-bottom:64px;
+
+}
+
+/* Task */
+.container_task{
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    border:1px solid var(--white);
+    border-radius: 10px;
+    margin:40px;
+
+    width: 800px;
+    padding: 40px 20px;
+}
+
