@@ -1,10 +1,10 @@
 <?php   
-include "config/connection.php";
 include "config/security.php";
-$id = $_SESSION['id'];
-$email = $_SESSION['email'];
-$getData = mysqli_query($conn, "select * from tb_users where id='$id'");
-$row = mysqli_fetch_assoc($getData);
+include "config/connection.php";
+    $user_id = $_SESSION['id'];
+    $email = $_SESSION['email'];
+    $username = $_SESSION['username'];
+ 
 ?>
 
 <!DOCTYPE html>
@@ -19,27 +19,30 @@ $row = mysqli_fetch_assoc($getData);
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
-    <script src="https://kit.fontawesome.com/67a87c1aef.js" crossorigin="anonymous"></script>
 
 <body>
     <div class="left">
-    <div class="profile">
-        <div class="container_profile">
-            <img  class="profile_img" src=" ./assets/images/<?php echo $row['profile_img']; ?>" alt="">
-        </div>
+        <div class="profile">
+            <div class="container_profile">
+                <img  class="profile_img" src=" ./assets/images/<?php echo $profile_img; ?>" alt="">
+            </div>
         <div class="profile_desc">
-            <p class="profile_desc_username"><?php echo $row['username']; ?></p>
+            <p class="profile_desc_username"><?php echo $username; ?></p>
             <p class="profile_desc_email"><?php echo $email ?></p>
         </div>
         <div class="logout">
-        <button class="button_logout"><a href="logout.php"><i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i>Logout</a></button>
+        <a href="logout.php">
+            <button class="button_logout">
+                <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i> Logout
+            </button>
+        </a>
         </div>
     </div>
 
     <div class="container_pet">
         <div class="pet_display">
 
-        <?php
+            <?php
             $sql = "select * from tb_users left join tb_pets on tb_users.pet_id = tb_pets.id";
             $query = mysqli_query($conn, $sql);
             while ($petResult = mysqli_fetch_array($query)) {
@@ -66,7 +69,7 @@ $row = mysqli_fetch_assoc($getData);
 
         <?php } ?>
         
-
+        
     </div>
 </div>
 
@@ -82,43 +85,8 @@ $row = mysqli_fetch_assoc($getData);
                 </div>
             </div>
 
-            <div class="task_active_list">
-            <?php
-            $sql = "select * from tb_tasks left join tb_categories on tb_tasks.category_id = tb_categories.id";
-            $query = mysqli_query($conn, $sql);
-            while ($result = mysqli_fetch_array($query)) {
-                $task_title = $result['task_name'];
-                $task_deadline = $result['task_date'];
-                $task_desc = $result['task_desc'];
-                $category = $result['category_id'];
-                $category_img = $result['category_img'];
-                ?>
-                
-                <div class="task_active_card">
-                    <div class="task_category">
-                        <img class="task_category_img" src="./assets/images/category/<?php echo $category_img?>" alt="">
-                    </div>
-                    <div class="task_info">
-                        <div class="task_subtitle">
-                            <p><?php echo $task_title; ?></p>
-                        </div>
-                        <div class="task_deadline">
-                            <i class="fa-solid fa-clock" style="color: white;"></i>                        
-                            <p><?php echo $task_deadline; ?></p>
-                        </div>
-                        <div class="task_desc">
-                            <p><?php echo $task_desc; ?></p>
-                        </div>
-                        </div>
-                    <div class="task_checkbox">
-                        <form>
-                            <input type="checkbox" id="done" onclick="check_task()"/>
-                        </form>
-                    </div>
-            <?php
-            }
-            ?>
-                </div>
+            <div class="task_active_list" id="active_tasks">
+                <font color="white">loading . . . .  . . . . . </font>
             </div>
         </div>
 
@@ -143,7 +111,7 @@ $row = mysqli_fetch_assoc($getData);
                             <p>Ini adalah deskripsi dari task saya</p>
                         </div>
                         </div>
-                    <div class="task_checkbox">
+                        <div class="task_checkbox">
                         <form>
                             <input type="checkbox" id="done" onclick="check_task()"/>
                         </form>
@@ -155,7 +123,7 @@ $row = mysqli_fetch_assoc($getData);
     </div>
 </div>
 
-<div id="add_task_form_container">
+<!-- <div id="add_task_form_container">
         <div class="form_container">
         <h1>Add New Task</h1>
             <form method="post" action="sv_task.php">
@@ -163,11 +131,11 @@ $row = mysqli_fetch_assoc($getData);
                 <div class="inputForm">
                     <input class="textField" type="text" name="email" id="email" placeholder="Type your email..."
                         required />
-                </div>
-                <h3>Description</h3>
-                <div class="inputForm">
+                    </div>
+                    <h3>Description</h3>
+                    <div class="inputForm">
                     <input class="textField" type="text" name="email" id="email" placeholder="Type your email..."
-                        required />
+                    required />
                 </div>
                 <h3>Category</h3>
                 <div class="inputForm">
@@ -181,10 +149,18 @@ $row = mysqli_fetch_assoc($getData);
                 </div>
             </form>
         </div>
-</div>
-
-</body>
+</div> -->
 
 <!-- Script -->
+<script src="./assets/js/jquery-3.7.0.js"></script> 
 <script src="./assets/js/script.js"></script> 
+<script src="https://kit.fontawesome.com/67a87c1aef.js" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        get_data();
+    });
+</script>
+</body>
+
 </html>

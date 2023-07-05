@@ -282,3 +282,8 @@ input[type=checkbox]:checked{
     background-color: var(--black);
     color: var(--white);
 }
+
+/* Add task */
+.form_container{
+    
+}
