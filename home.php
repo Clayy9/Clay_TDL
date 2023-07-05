@@ -4,6 +4,7 @@ include "config/connection.php";
     $user_id = $_SESSION['id'];
     $email = $_SESSION['email'];
     $username = $_SESSION['username'];
+    $profile_img = $_SESSION['profile_img']
  
 ?>
 
@@ -86,7 +87,7 @@ include "config/connection.php";
             </div>
 
             <div class="task_active_list" id="active_tasks">
-                <font color="white">loading . . . .  . . . . . </font>
+                <font color="white">loading . . . .  . . . . . </font> 
             </div>
         </div>
 
@@ -94,62 +95,14 @@ include "config/connection.php";
             <div class="task_title">
                 <p>Completed Task</p>
             </div>
-            <div class="task_active_list">
-                <div class="task_active_card">
-                    <div class="task_category">
-                        <img class="task_category_img" src="./assets/images/category/Category=Medic.png" alt="">
-                    </div>
-                    <div class="task_info">
-                        <div class="task_subtitle">
-                            <p>Judul</p>
-                        </div>
-                        <div class="task_deadline">
-                            <i class="fa-solid fa-clock" style="color: white;"></i>                        
-                            <p>Tanggal</p>
-                        </div>
-                        <div class="task_desc">
-                            <p>Ini adalah deskripsi dari task saya</p>
-                        </div>
-                        </div>
-                        <div class="task_checkbox">
-                        <form>
-                            <input type="checkbox" id="done" onclick="check_task()"/>
-                        </form>
-                    </div>
-                    
-                </div>
+            <div class="task_active_list" id="completed_tasks">
+                <font color="white">loading . . . .  . . . . . </font> 
             </div>
+        </div>
         </div>
     </div>
 </div>
 
-<!-- <div id="add_task_form_container">
-        <div class="form_container">
-        <h1>Add New Task</h1>
-            <form method="post" action="sv_task.php">
-                <h3>Title</h3>
-                <div class="inputForm">
-                    <input class="textField" type="text" name="email" id="email" placeholder="Type your email..."
-                        required />
-                    </div>
-                    <h3>Description</h3>
-                    <div class="inputForm">
-                    <input class="textField" type="text" name="email" id="email" placeholder="Type your email..."
-                    required />
-                </div>
-                <h3>Category</h3>
-                <div class="inputForm">
-                    <input class="textField" type="text" name="email" id="email" placeholder="Type your email..."
-                        required />
-                </div>
-                <div class="button_submit">
-                    <center>
-                        <td colspan="2"><input class="button" type="submit" value="Login" name="submit"></td>
-                    </center>
-                </div>
-            </form>
-        </div>
-</div> -->
 
 <!-- Script -->
 <script src="./assets/js/jquery-3.7.0.js"></script> 
@@ -159,6 +112,7 @@ include "config/connection.php";
 <script>
     $(document).ready(function() {
         get_data();
+        completed_data();
     });
 </script>
 </body>

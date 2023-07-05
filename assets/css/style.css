@@ -236,6 +236,23 @@ p{
     position: relative;
 }
 
+
+.task_completed{
+    margin-bottom: 40px;
+}
+
+.task_completed_card{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    border: 1px solid var(--white);
+    padding: 20px 20px;
+    border-radius: 6px;
+
+    position: relative;
+}
+
 .task_category{
     margin-right: 20px;
 }
@@ -285,5 +302,8 @@ input[type=checkbox]:checked{
 
 /* Add task */
 .form_container{
-    
+    padding 32px 40px 32px 60px;
+    background-color: var(--black);
+
+    z-index: 10;
 }

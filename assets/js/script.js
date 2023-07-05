@@ -1,12 +1,5 @@
 function check_task(task_id)
 {
-  // var checkbox = document.getElementById('done');
-  // if (checkbox.checked = true)
-  // {
-  //   taskSubtitle = document.querySelector(".task_subtitle");
-  //   taskSubtitle.classList.toggle("done");
-  // }
-
   $.ajax({
     url: 'sv_task.php',
     method: 'POST',
@@ -16,9 +9,27 @@ function check_task(task_id)
     },
     success: function( result ) {
       get_data();
+      completed_data();
     }
   });
 }
+
+function uncheck_task(task_id)
+{
+  $.ajax({
+    url: 'sv_task.php',
+    method: 'POST',
+    data: {
+      id: task_id,
+      act: 'uncheck'
+    },
+    success: function( result ) {
+      get_data();
+      completed_data();
+    }
+  });
+}
+
 
 function get_data()
 {
@@ -34,5 +45,16 @@ function get_data()
   });
 }
 
-
-$
+function completed_data()
+{
+  $.ajax({
+    url: 'sv_task.php',
+    method: 'POST',
+    data: {
+      act: 'completed'
+    },
+    success: function( result ) {
+      $("#completed_tasks").html( result );
+    }
+  });
+}
