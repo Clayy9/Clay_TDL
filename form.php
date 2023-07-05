@@ -17,14 +17,14 @@ include "config/connection.php";
     <title>To Do List</title>
 
     <!-- Link -->
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/style_form.css">
 </head>
 
 
 <body>
 <div id="add_task_form_container">
         <div class="form_container">
-        <h1>Add New Task</h1>
+        <h1>NEW TASK</h1>
             <form method="post" action="sv_task.php">
                 <h3>Title</h3>
                 <div class="inputForm">
@@ -36,14 +36,36 @@ include "config/connection.php";
                     <input class="textField" type="text" name="email" id="email" placeholder="Type your email..."
                     required />
                 </div>
-                <h3>Category</h3>
                 <div class="inputForm">
-                    <input class="textField" type="text" name="email" id="email" placeholder="Type your email..."
-                        required />
+                <h3>Category</h3>
+                    <div class="customSelect">
+                        <select name="category" id="category" required>
+                        <option value="" selected disabled>Select a category</option>
+                        <option value="sport">Sport</option>
+                        <option value="study">Study</option>
+                        <option value="meeting">Meeting</option>
+                        <option value="medic">Medic</option>
+                        </select>
+                        <span class="arrow"></span>
+                    </div>
                 </div>
+
+                <div class="inputForm">
+                <h3>Priority</h3>
+                    <div class="customSelect">
+                        <select name="category" id="category" required>
+                        <option value="" selected disabled>Select a priority</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        </select>
+                        <span class="arrow"></span>
+                    </div>
+                </div>
+
                 <div class="button_submit">
                     <center>
-                        <td colspan="2"><input class="button" type="submit" value="Login" name="submit"></td>
+                        <td colspan="2"><input class="form_button" type="submit" value="ADD TASK" name="submit"></td>
                     </center>
                 </div>
             </form>

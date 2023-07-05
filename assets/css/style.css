@@ -301,9 +301,3 @@ input[type=checkbox]:checked{
 }
 
 /* Add task */
-.form_container{
-    padding 32px 40px 32px 60px;
-    background-color: var(--black);
-
-    z-index: 10;
-}
