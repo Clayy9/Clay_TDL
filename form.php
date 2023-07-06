@@ -31,19 +31,18 @@ include "config/connection.php";
             <form method="post" action="sv_form.php">
                 <h3>Title</h3>
                 <div class="inputForm">
-                    <input class="textField" type="text" name="task_name" id="task_name" placeholder="Type your email..."
-                        required />
+                    <input class="textField" type="text" name="task_name" id="task_name" placeholder="Type your title..." required />
                     </div>
                     <h3>Description</h3>
                     <div class="inputForm">
-                    <input class="textField" type="text" name="task_desc" id="task_desc" placeholder="Type your description..."
-                    required />
+                    <input class="textField" type="text" name="task_desc" id="task_desc" placeholder="Type your description..." />
                 </div>
                 <div class="inputForm">
                 <h3>Category</h3>
                     <div class="customSelect">
-                        <select name="category_id" id="category_id" required>
+                        <select name="category_id" id="category_id" >
                         <option value="" selected disabled>Select a category</option>
+                        <option value="0" default selected="selected">None</option>
                         <option value="1">Medic</option>
                         <option value="2">Meeting</option>
                         <option value="3">Sport</option>
@@ -56,9 +55,9 @@ include "config/connection.php";
                 <div class="inputForm">
                 <h3>Priority</h3>
                     <div class="customSelect">
-                        <select name="priority_id" id="priority_id" required>
+                        <select name="priority_id" id="priority_id">
                         <option value="" selected disabled>Select a priority</option>
-                        <option value="1">Low</option>
+                        <option value="1" default selected="selected">Low</option>
                         <option value="2">Medium</option>
                         <option value="3">High</option>
                         </select>
@@ -70,8 +69,7 @@ include "config/connection.php";
                     <div class="inputForm">
                     <h3>Due Date</h3>
                     <div class="inputForm">
-                        <input class="textField" type="datetime-local" name="task_date" id="task_date" placeholder="Type your email..."
-                            required />
+                        <input class="textField" type="datetime-local" name="task_date" id="task_date" />
                         </div>
                     </div>
                 </div>
