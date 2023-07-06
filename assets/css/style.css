@@ -325,15 +325,38 @@ input[type=checkbox]:checked{
     border: 1px solid var(--white); 
     
     right:100px;
-    bottom:40px;
+    bottom:42px;
 
     padding: 4px 12px;
-
+    cursor:pointer;
 
     position:absolute;
 }
 
 .button_delete p{
+    font-family: "Satoshi-Bold";
+    font-size:16px;
+}
+
+.button_update{
+    background-color: var(--black);
+    width: 80px;
+    height: 32px;
+    border: 1px solid var(--white); 
+    
+    right:200px;
+    bottom:42px;
+
+    padding: 4px 12px;
+    cursor:pointer;
+
+
+    position:absolute;
+}
+
+
+
+.button_update > p{
     font-family: "Satoshi-Bold";
     font-size:16px;
 }
@@ -359,3 +382,5 @@ input[type=checkbox]:checked{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  
