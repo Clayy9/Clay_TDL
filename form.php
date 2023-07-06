@@ -22,29 +22,32 @@ include "config/connection.php";
 
 
 <body>
+<div class="back_to_home">
+    <a onclick="location.href='home.php'"><i class="fa-solid fa-xmark fa-xl" style="color: #ffffff;"></i></a>
+</div>
 <div id="add_task_form_container">
         <div class="form_container">
         <h1>NEW TASK</h1>
-            <form method="post" action="sv_task.php">
+            <form method="post" action="sv_form.php">
                 <h3>Title</h3>
                 <div class="inputForm">
-                    <input class="textField" type="text" name="email" id="email" placeholder="Type your email..."
+                    <input class="textField" type="text" name="task_name" id="task_name" placeholder="Type your email..."
                         required />
                     </div>
                     <h3>Description</h3>
                     <div class="inputForm">
-                    <input class="textField" type="text" name="email" id="email" placeholder="Type your email..."
+                    <input class="textField" type="text" name="task_desc" id="task_desc" placeholder="Type your description..."
                     required />
                 </div>
                 <div class="inputForm">
                 <h3>Category</h3>
                     <div class="customSelect">
-                        <select name="category" id="category" required>
+                        <select name="category_id" id="category_id" required>
                         <option value="" selected disabled>Select a category</option>
-                        <option value="sport">Sport</option>
-                        <option value="study">Study</option>
-                        <option value="meeting">Meeting</option>
-                        <option value="medic">Medic</option>
+                        <option value="1">Medic</option>
+                        <option value="2">Meeting</option>
+                        <option value="3">Sport</option>
+                        <option value="4">Study</option>
                         </select>
                         <span class="arrow"></span>
                     </div>
@@ -53,13 +56,23 @@ include "config/connection.php";
                 <div class="inputForm">
                 <h3>Priority</h3>
                     <div class="customSelect">
-                        <select name="category" id="category" required>
+                        <select name="priority_id" id="priority_id" required>
                         <option value="" selected disabled>Select a priority</option>
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
+                        <option value="1">Low</option>
+                        <option value="2">Medium</option>
+                        <option value="3">High</option>
                         </select>
                         <span class="arrow"></span>
+                    </div>
+                </div>
+
+                <div class="inputForm_date">
+                    <div class="inputForm">
+                    <h3>Due Date</h3>
+                    <div class="inputForm">
+                        <input class="textField" type="datetime-local" name="task_date" id="task_date" placeholder="Type your email..."
+                            required />
+                        </div>
                     </div>
                 </div>
 
@@ -67,6 +80,7 @@ include "config/connection.php";
                     <center>
                         <td colspan="2"><input class="form_button" type="submit" value="ADD TASK" name="submit"></td>
                     </center>
+            </form>
                 </div>
             </form>
         </div>

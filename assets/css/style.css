@@ -76,6 +76,10 @@ p{
   color: var(--white);
 }
 
+a{
+    cursor: pointer;
+}
+
 /* Profile */
 .profile{
     display: flex;
@@ -155,6 +159,7 @@ p{
     font-family: "Satoshi-Black";
 }
 
+
 .pet_info_task_completed p{
     font-size: 24px;
     font-family: "Satoshi-Black";
@@ -176,6 +181,19 @@ p{
     margin-top:64px;
     margin-bottom:64px;
 
+    animation: 8s float;
+}
+
+@keyframes float {
+    0%{
+        transform: translateY(0px);
+    }
+    50%{
+        transform: translateY(-60px);
+    }
+    100%{
+        transform: translateY(0px);
+    }
 }
 
 /* Task */
@@ -300,4 +318,44 @@ input[type=checkbox]:checked{
     color: var(--white);
 }
 
-/* Add task */
+.button_delete{
+    background-color: var(--black);
+    width: 80px;
+    height: 32px;
+    border: 1px solid var(--white); 
+    
+    right:100px;
+    bottom:40px;
+
+    padding: 4px 12px;
+
+
+    position:absolute;
+}
+
+.button_delete p{
+    font-family: "Satoshi-Bold";
+    font-size:16px;
+}
+
+/* Loading */
+.loader {
+    border: 16px solid var(--black);
+    border-radius: 50%;
+    border-top: 8px solid var(--white);
+    border-bottom: 8px solid var(--white);
+    width: 32px;
+    height: 32px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

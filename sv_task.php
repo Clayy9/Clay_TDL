@@ -5,15 +5,27 @@ include "config/connection.php";
 $user_id = $_SESSION['id'];
 $act = $_POST['act']; //membedakan prosesnya
 $id = $_POST['id'];
+$completedVariable = 1;
 
-if($act == "set_done"){
-    $sql = "update tb_tasks set status_id=2 where id='$id'";
+if ($act == "set_done") {
+    $sql = "UPDATE tb_tasks SET status_id = 2 WHERE id = '$id'";
     $query = mysqli_query($conn, $sql);
-} 
+
+    $addCompletedTask = "UPDATE tb_users SET task_completed = task_completed + 1 WHERE user_id = '$user_id'";
+    $completedTask = mysqli_query($conn, $addCompletedTask);
+
+}
+
 else if($act == "uncheck"){
     $sql = "update tb_tasks set status_id=1 where id='$id'";
     $query = mysqli_query($conn, $sql);
 }
+
+else if($act == "deleteTask"){
+    $sql = "DELETE FROM tb_tasks WHERE id = '$id'";
+    $query = mysqli_query($conn, $sql);
+}
+
 else if($act == "loading"){
     $sql = "select t.*, c.category_name, c.category_img from tb_tasks t left join tb_categories c on t.category_id = c.id where user_id='$user_id' and status_id=1";
     $query = mysqli_query($conn, $sql);
@@ -43,16 +55,17 @@ else if($act == "loading"){
                 </div>
                 </div>
             <div class="task_checkbox">
-                <form>
                     <input type="checkbox" id="undone<?php echo $task_id; ?>" onclick="check_task(<?php echo $task_id; ?>)"/>
-                </form>
+                    <button type="button" id="delete_undone<?php echo $task_id; ?>" onclick="delete_task(<?php echo $task_id; ?>)" class="button_delete" value="Delete"><p>Delete</p></button>   
             </div>
         </div>
         
         <br>
     <?php
     }
-}else if($act == "completed"){
+}
+
+else if($act == "completed"){
     $sql = "select t.*, c.category_name, c.category_img from tb_tasks t left join tb_categories c on t.category_id = c.id where user_id='$user_id' and status_id=2";
     $query = mysqli_query($conn, $sql);
     while ($result = mysqli_fetch_array($query)) {
@@ -81,10 +94,9 @@ else if($act == "loading"){
                 </div>
                 </div>
             <div class="task_checkbox">
-                <form>
                     <input type="checkbox" id="done<?php echo $task_id; ?>" onclick="uncheck_task(<?php echo $task_id; ?>)"  checked/>
-                </form>
-            </div>
+                    <button type="button" id="delete_undone<?php echo $task_id; ?>" onclick="delete_task(<?php echo $task_id; ?>)" class="button_delete" value="Delete"><p>Delete</p></button>   
+                </div>
         </div>
         
         <br>

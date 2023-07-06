@@ -24,42 +24,38 @@ $bg = "./assets/bg_login.png";
 
 <body>
     <div class="container">
-        <div class="containerForm"><br>
+        <div class="form_container"><br>
             <h1>Sign Up</h1>
             <form action="sv_register.php" method="post">
                 <div class="inputColumn">
                     <h3>Username</h3>
                     <div class="inputText">
-                        <i class="fa-solid fa-user" style="color: #c0c0c2;"></i>
                         <input class="textField" type="text" name="username" id="username"
                             placeholder="Type your username..." required>
                     </div>
                     <h3>Full Name</h3>
                     <div class="inputText">
-                        <i class="fa-solid fa-user" style="color: #c0c0c2;"></i>
                         <input class="textField" type="text" name="fullname" id="fullname"
                             placeholder="Type your fullname..." required>
                     </div>
                     <h3>Email</h3>
                     <div class="inputText">
-                        <i class="fa-solid fa-envelope" style="color: #c0c0c2;"></i>
                         <input class="textField" type="text" name="email" id="email" placeholder="Type your email..."
                             required>
                     </div>
                     <h3>Password</h3>
                     <div class="inputText">
-                        <i class="fa-solid fa-lock" style="color: #c0c0c2;"></i>
                         <input class="textField" type="password" name="password" id="password"
                             placeholder="Type your password..." required>
                     </div>
                 </div>
                 <div class="button_submit">
                     <center>
-                        <td colspan="2"><input class="button" type="submit" value="Sign Up" name="submit"></td>
+                        <td colspan="2"><input class="form_button" type="submit" value="Sign Up" name="submit"></td>
                     </center>
                 </div>
             </form>
-            <div class="register">Already have an account? <a href="index.php" style="font-weight: bold">Login now!</a>
+            <div class="login">Already have an account? <a href="index.php" style="font-weight: bold">Login now!</a>
             </div><br>
         </div>
     </div>

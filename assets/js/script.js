@@ -30,6 +30,20 @@ function uncheck_task(task_id)
   });
 }
 
+function delete_task(task_id) {
+  $.ajax({
+    url: 'sv_task.php',
+    method: 'POST',
+    data: {
+      id: task_id,
+      act: 'deleteTask'
+    },
+    success: function( result ) {
+      get_data();
+      completed_data();
+    }
+  });
+}
 
 function get_data()
 {
@@ -55,6 +69,21 @@ function completed_data()
     },
     success: function( result ) {
       $("#completed_tasks").html( result );
+    }
+  });
+}
+
+function refresh_score(task_id)
+{
+  $.ajax({
+    url: 'sv_score.php',
+    method: 'POST',
+    data: {
+      act: 'saveScore'
+    },
+    success: function( result ) {
+      $("#completed_tasks").html( result );
+      
     }
   });
 }

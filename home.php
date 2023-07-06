@@ -5,7 +5,6 @@ include "config/connection.php";
     $email = $_SESSION['email'];
     $username = $_SESSION['username'];
     $profile_img = $_SESSION['profile_img']
- 
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +45,8 @@ include "config/connection.php";
             <?php
             $sql = "select * from tb_users left join tb_pets on tb_users.pet_id = tb_pets.id";
             $query = mysqli_query($conn, $sql);
-            while ($petResult = mysqli_fetch_array($query)) {
+            $petResult = mysqli_fetch_array($query);
+            $completed_percentage = $petResult['task_completed']*10;
                 ?>
                 <img class="pet_display_img" src="./assets/images/pet/<?php echo $petResult['pet_img']?>"/>
         </div>
@@ -55,22 +55,16 @@ include "config/connection.php";
             <div class="pet_info_name">
                 <p><?php echo $petResult['pet_name']; ?></p>
             </div>
-            <div class="pet_info_level">
 
-            </div>
             <div class="pet_info_task_completed">
                 <div class="pet_info_task_completed_track">
-                    <p>30 Task Completed</p>
+                    <p><?php echo $petResult['task_completed']; ?> Task Completed</p>
                 </div>
                 <div class="pet_info_task_completed_percentage">
-                    <p>30%</p>
+                    <p><?php echo $completed_percentage; ?>XP</p>
                 </div>
             </div>
-        </div>
-
-        <?php } ?>
-        
-        
+        </div>        
     </div>
 </div>
 
@@ -82,12 +76,13 @@ include "config/connection.php";
                     <p>Your task</p>
                 </div>
                 <div class="add_task">
-                    <a onclick="addNewTask()"><i class="fa-sharp fa-solid fa-plus" style="color: #ffffff;"></i></a>
+                    <a onclick="location.href='form.php'"><i class="fa-sharp fa-solid fa-plus" style="color: #ffffff;"></i></a>
                 </div>
+                
             </div>
 
             <div class="task_active_list" id="active_tasks">
-                <font color="white">loading . . . .  . . . . . </font> 
+                <div class="loader"></div>
             </div>
         </div>
 
@@ -96,7 +91,7 @@ include "config/connection.php";
                 <p>Completed Task</p>
             </div>
             <div class="task_active_list" id="completed_tasks">
-                <font color="white">loading . . . .  . . . . . </font> 
+                <div class="loader"></div>
             </div>
         </div>
         </div>
@@ -113,6 +108,8 @@ include "config/connection.php";
     $(document).ready(function() {
         get_data();
         completed_data();
+        delete_task();
+        refresh_score();
     });
 </script>
 </body>
