@@ -10,6 +10,8 @@ function check_task(task_id)
     success: function( result ) {
       get_data();
       completed_data();
+      saveScore();
+      saveXP();
     }
   });
 }
@@ -26,6 +28,8 @@ function uncheck_task(task_id)
     success: function( result ) {
       get_data();
       completed_data();
+      saveScore();
+      saveXP();
     }
   });
 }
@@ -41,6 +45,8 @@ function delete_task(task_id) {
     success: function( result ) {
       get_data();
       completed_data();
+      saveScore();
+      saveXP();
     }
   });
 }
@@ -73,17 +79,28 @@ function completed_data()
   });
 }
 
-function refresh_score(task_id)
-{
+function saveScore() {
   $.ajax({
     url: 'sv_score.php',
     method: 'POST',
     data: {
-      act: 'saveScore'
+      act: 'saveScore',
     },
-    success: function( result ) {
-      $("#completed_tasks").html( result );
-      
+    success: function(result) {
+      $("#pet_score").html(result);
     }
   });
+}
+
+function saveXP(){
+  $.ajax({
+    url: 'sv_score.php',
+    method: 'POST',
+    data:{
+      act: 'saveXP',
+    },
+    success: function(result) {
+      $("#pet_xp").html(result);
+    }
+  })
 }

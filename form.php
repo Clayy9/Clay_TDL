@@ -67,9 +67,18 @@ include "config/connection.php";
 
                 <div class="inputForm_date">
                     <div class="inputForm">
-                    <h3>Due Date</h3>
+                    <h3>Date</h3>
                     <div class="inputForm">
-                        <input class="textField" type="datetime-local" name="task_date" id="task_date" />
+                        <input class="textField" type="date" name="task_date" id="task_date" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inputForm_date">
+                    <div class="inputForm">
+                    <h3>Time</h3>
+                    <div class="inputForm">
+                        <input class="textField" type="time" name="task_time" id="task_time" />
                         </div>
                     </div>
                 </div>

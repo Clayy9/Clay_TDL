@@ -56,6 +56,7 @@ body {
     /* IE and Edge */
     scrollbar-width: none;
     /* Firefox */
+    background-color: var(--white);
     background-color: var(--black);
     padding: 40px 40px;
 
@@ -181,7 +182,7 @@ a{
     margin-top:64px;
     margin-bottom:64px;
 
-    animation: 8s float;
+    animation: 8s float infinite;
 }
 
 @keyframes float {
@@ -354,11 +355,15 @@ input[type=checkbox]:checked{
     position:absolute;
 }
 
-
+button[type=button]{
+    cursor: pointer;
+}
 
 .button_update > p{
     font-family: "Satoshi-Bold";
     font-size:16px;
+
+    cursor: pointer;
 }
 
 /* Loading */

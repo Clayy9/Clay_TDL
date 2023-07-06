@@ -4,30 +4,33 @@ include "config/connection.php";
 
 $user_id = $_SESSION['id'];
 $act = $_POST['act']; //membedakan prosesnya
-$id = $_POST['id'];
-$completedVariable = 1;
+$completed_percentage = 0;
 
 if ($act == "saveScore") {
-    $sql = "select * from tb_pets where id='$id'";
+    $sql = "SELECT COUNT(*) AS task_completed FROM tb_tasks WHERE user_id='$user_id' AND status_id=2";
     $query = mysqli_query($conn, $sql);
-    ?>
-
-    <div class="pet_info">
-            <div class="pet_info_name">
-                <p><?php echo $petResult['pet_name']; ?></p>
-            </div>
+    while ($result = mysqli_fetch_array($query)) {
+        $task_completed = $result['task_completed'];
+        ?>
 
             <div class="pet_info_task_completed">
                 <div class="pet_info_task_completed_track">
-                    <p><?php echo $petResult['task_completed']; ?> Task Completed</p>
-                </div>
-                <div class="pet_info_task_completed_percentage">
-                    <p><?php echo $completed_percentage; ?>XP</p>
+                    <p><?php echo $task_completed ?> Task Completed</p>
                 </div>
             </div>
-        </div>        
+        </div>
         <?php
-} else {}
+    }
+} else if ($act == "saveXP")
+{
+    $sql = "SELECT tb_pets.* FROM tb_users LEFT JOIN tb_pets ON tb_users.pet_id = tb_pets.id";
+        $query = mysqli_query($conn, $sql);
+        while ($result = mysqli_fetch_array($query)) {
+            ?>
+            <p><?php echo $result['pet_score']; ?>XP</p>
+            <?php
+        }
+}
 ?>
 
 

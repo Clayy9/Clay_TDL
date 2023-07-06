@@ -39,34 +39,36 @@ include "config/connection.php";
         </div>
     </div>
 
-    <div class="container_pet">
-        <div class="pet_display">
+    <div class="container_pet" id="container_pet">
+        <?php
+        $sql = "SELECT tb_pets.* FROM tb_users LEFT JOIN tb_pets ON tb_users.pet_id = tb_pets.id";
+        $query = mysqli_query($conn, $sql);
+        while ($result = mysqli_fetch_array($query)) {
+        ?>
+            <div class="pet_display">
+                <img class="pet_display_img" src="./assets/images/pet/<?php echo $result['pet_img']; ?>"/>
+            </div>
 
-            <?php
-            $sql = "select * from tb_users left join tb_pets on tb_users.pet_id = tb_pets.id";
-            $query = mysqli_query($conn, $sql);
-            $petResult = mysqli_fetch_array($query);
-            $completed_percentage = $petResult['task_completed']*10;
-                ?>
-                <img class="pet_display_img" src="./assets/images/pet/<?php echo $petResult['pet_img']?>"/>
+            <div class="pet_info">
+                <div class="pet_info_name">
+                    <p><?php echo $result['pet_name']; ?></p>
+                </div>
+
+                <div class="pet_info_task_completed">
+                    <div id="pet_score">
+                        <div class="loader"></div>
+                    </div>
+                    <div class="pet_info_task_completed_percentage" id="pet_xp">
+                        <div class="loader"></div>
+                    </div>
+                </div>
+            </div>
+        <?php
+        }
+        ?>
         </div>
-
-        <div class="pet_info">
-            <div class="pet_info_name">
-                <p><?php echo $petResult['pet_name']; ?></p>
-            </div>
-
-            <div class="pet_info_task_completed">
-                <div class="pet_info_task_completed_track">
-                    <p><?php echo $petResult['task_completed']; ?> Task Completed</p>
-                </div>
-                <div class="pet_info_task_completed_percentage">
-                    <p><?php echo $completed_percentage; ?>XP</p>
-                </div>
-            </div>
-        </div>        
     </div>
-</div>
+
 
 <div class="right">
     <div class="container_task">
@@ -94,7 +96,6 @@ include "config/connection.php";
                 <div class="loader"></div>
             </div>
         </div>
-        </div>
     </div>
 </div>
 
@@ -109,7 +110,7 @@ include "config/connection.php";
         get_data();
         completed_data();
         delete_task();
-        refresh_score();
+        saveScore();
     });
 </script>
 </body>

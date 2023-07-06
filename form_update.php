@@ -17,6 +17,10 @@ include "config/connection.php";
 
 
 <body>
+<div class="back_to_home">
+    <a onclick="location.href='home.php'"><i class="fa-solid fa-xmark fa-xl" style="color: #ffffff;"></i></a>
+</div>
+
 <?php
 if(isset($_GET['task_id'])){
     $task_id = $_GET['task_id'];
@@ -30,10 +34,17 @@ if(isset($_GET['task_id'])){
     if($task){
         $task_name = $task['task_name'];
         $task_date = $task['task_date'];
+        $task_time = $task['task_time'];
         $task_desc = $task['task_desc'];
         $priority_id = $task['priority_id'];
         $category_id = $task['category_id'];
-        // ... lanjutkan dengan atribut lain yang ingin Anda tampilkan di form
+        $reminder_id = $task['reminder_id'];
+        $status_id = $task['status_id'];
+
+        $old_priority_id = $priority_id;
+        $old_category_id = $category_id;
+        $old_reminder_id = $reminder_id;
+        $old_status_id = $status_id;
     }
 }
 ?>
@@ -41,9 +52,11 @@ if(isset($_GET['task_id'])){
 <!-- Form untuk update data tugas -->
 <div id="add_task_form_container">
         <div class="form_container">
-        <h1>NEW TASK</h1>
-            <form method="post" action="sv_form.php">
+        <h1>EDIT TASK</h1>
+            <form method="post" action="sv_update.php">
             <input type="hidden" name="task_id" value="<?php echo $task_id; ?>">
+            <input type="hidden" name="status_id" value="<?php echo $status_id; ?>">
+            <input type="hidden" name="reminder_id" value="<?php echo $reminder_id; ?>">
                 <div class="back_to_home">
                     <a onclick="location.href='home.php'"><i class="fa-solid fa-xmark fa-xl" style="color: #ffffff;"></i></a>
                 </div>
@@ -85,9 +98,18 @@ if(isset($_GET['task_id'])){
 
                 <div class="inputForm_date">
                     <div class="inputForm">
+                    <h3>Date</h3>
+                    <div class="inputForm">
+                        <input class="textField" type="date" name="task_date" id="task_date" value="<?php echo $task_date; ?>"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="inputForm_date">
+                    <div class="inputForm">
                     <h3>Due Date</h3>
                     <div class="inputForm">
-                        <input class="textField" type="datetime-local" name="task_date" id="task_date" value="<?php echo $task_date; ?>"/>
+                        <input class="textField" type="time" name="task_time" id="task_time" value="<?php echo $task_date; ?>"/>
                         </div>
                     </div>
                 </div>
@@ -102,5 +124,17 @@ if(isset($_GET['task_id'])){
         </div>
 </div>
 </form>
+
+<!-- Script -->
+<script src="./assets/js/jquery-3.7.0.js"></script> 
+<script src="./assets/js/script.js"></script> 
+<script src="https://kit.fontawesome.com/67a87c1aef.js" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function() {
+        get_data();
+        completed_data();
+    });
+</script>
 </body>
 </head>

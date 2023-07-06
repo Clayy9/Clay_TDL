@@ -9,6 +9,11 @@ if (empty($task_date)) {
     $task_date = "date(Y-m-d)";
   }
 
+$task_time = $_POST['task_time'];
+  if (empty($task_date)) {
+      $task_date = "00:00";
+    }
+
 $task_desc = $_POST['task_desc'];
 if (empty($task_desc)) {
     $task_desc = "Tidak ada deskripsi";
@@ -32,8 +37,8 @@ $status_id = 1; // Nilai kunci asing status_id yang valid
 
 
     $sql_insert = $sql_insert = "INSERT INTO tb_tasks 
-    (task_name, task_date, task_desc, priority_id, user_id, category_id, reminder_id, status_id) VALUES 
-    ('$task_name','$task_date','$task_desc','$priority_id','$user_id','$category_id','$reminder_id','$status_id')";
+    (task_name, task_date, task_time, task_desc, priority_id, user_id, category_id, reminder_id, status_id) VALUES 
+    ('$task_name','$task_date','$task_time','$task_desc','$priority_id','$user_id','$category_id','$reminder_id','$status_id')";
     $run_query_check = mysqli_query($conn, $sql_insert);
     if (!$run_query_check) {
         die('Query error: ' . mysqli_error($conn));
