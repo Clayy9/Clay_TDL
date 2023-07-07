@@ -50,9 +50,7 @@ $bg = "./assets/bg_login.png";
                     </div>
                 </div>
                 <div class="button_submit">
-                    <center>
-                        <td colspan="2"><input class="form_button" type="submit" value="Sign Up" name="submit"></td>
-                    </center>
+                    <td colspan="2"><input class="form_button" type="submit" value="Sign Up" name="submit"></td>
                 </div>
             </form>
             <div class="login">Already have an account? <a href="index.php" style="font-weight: bold">Login now!</a>

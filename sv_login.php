@@ -6,9 +6,9 @@ if (isset($_POST['submit'])) {
     if (isset($_POST['email']) && isset($_POST['password'])) {
         $email = $_POST['email'];
         $password = md5($_POST['password']);
-        
+
         $query = mysqli_query($conn, "SELECT * FROM tb_users WHERE email = '$email' AND password = '$password'");
-                
+
         if (mysqli_num_rows($query) > 0) {
             $row = mysqli_fetch_assoc($query);
 
@@ -24,21 +24,21 @@ if (isset($_POST['submit'])) {
 
 
             if ($status == "Admin") {
-            // User is an admin (status = 1)
-            ?>
+                // User is an admin (status = 1)
+                ?>
                 <script>
                     alert("Hello Admin");
                     location.href = "admin/admin.php";
                 </script>
-            <?php
+                <?php
                 exit();
-                } else if ($status == "User") {
+            } else if ($status == "User") {
                 // User is not an admin (status = 0)
-            ?>
-                <script>
-                    location.href = "home.php";
-                </script>
-            <?php
+                ?>
+                    <script>
+                        location.href = "home.php";
+                    </script>
+                <?php
             }
 
         } else {

@@ -38,9 +38,7 @@ $bg = "./assets/bg_login.png";
                         placeholder="Type your password..." required />
                 </div>
                 <div class="button_submit">
-                    <center>
-                        <td colspan="2"><input class="form_button" type="submit" value="Login" name="submit"></td>
-                    </center>
+                    <td colspan="2"><input class="form_button" type="submit" value="Login" name="submit"></td>
                 </div>
             </form>
             <div class="register">Don't have an account? <a href="register.php" style="font-weight: bold">Sign up

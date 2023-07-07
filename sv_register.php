@@ -12,8 +12,7 @@ $query = mysqli_query($conn, $sql_select);
 $num = mysqli_num_rows($query); //mengambil jumlah data yang muncul
 $result = mysqli_fetch_array($query); //mengambil array data
 
-if ($num > 0) 
-{
+if ($num > 0) {
     ?>
     <script>
         alert("Account Already Exist");
