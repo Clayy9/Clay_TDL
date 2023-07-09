@@ -152,3 +152,25 @@
         </div>
 </div>
 </form>
+
+    $priority_display = 'None';
+    if ($priority_id == '1') {
+        $priority_display = 'Low';
+    } else if ($priority_id == '2') {
+        $priority_display = 'Medium';
+    } else if ($priority_id == '3') {
+        $priority_display = 'High';
+    }
+
+    $category_display = 'None';
+    if ($category_id == '0') {
+        $category_display = 'None';
+    } else if ($category_id == '1') {
+        $category_display = 'Medic';
+    } else if ($category_id == '2') {
+        $category_display = 'Meeting';
+    } else if ($category_id == '3') {
+        $category_display = 'Sport';
+    } else if ($category_id == '4') {
+        $category_display = 'Study';
+    }

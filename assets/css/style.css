@@ -213,6 +213,102 @@ a {
     }
 }
 
+/* Feature */
+#filter_container {
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+
+    position: absolute;
+    right: 122px;
+    top: 112px;
+
+    padding: 40px 32px;
+    border: 1px solid var(--white);
+    border-radius: 10px;
+    background-color: var(--black);
+
+    width: 600px;
+
+    display: none;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.task_feature>a {
+    margin-right: 40px;
+    border: 1px solid var(--white);
+    border-radius: 100px;
+    padding: 12px;
+}
+
+.inputFormFilter>h3 {
+    margin-bottom: 10px;
+}
+
+
+.inputForm_date {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.inputForm_date_text {
+    margin-left: 20px;
+    margin-right: 20px;
+
+}
+
+.inputForm_date_text h3 {
+    margin-bottom: 16px;
+
+}
+
+.inputFormFilter {
+    font-family: "Satoshi-Bold";
+    font-size: 20px;
+    color: var(--white);
+
+}
+
+.inputFormFilter .date_filter_input {
+    width: 200px;
+    height: auto;
+
+    font-family: "Satoshi-Regular";
+    background-color: #1D1B1B;
+    font-size: 16px;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 10px;
+    color: var(--white);
+
+
+}
+
+.form_button_filter {
+    font-family: 'Satoshi-Black';
+    font-size: 20px;
+    color: var(--white);
+    background-color: var(--black);
+    border: 1px solid var(--white);
+    border-radius: 12px;
+    margin-top: 16px;
+    padding: 8px 40px;
+
+    transition: 0.5s;
+
+    cursor: pointer;
+}
+
+.back_to_home_filter {
+    top: 40px;
+    right: 40px;
+    color: white;
+
+    position: absolute;
+}
+
 /* Task */
 .container_task {
     flex-direction: row;
@@ -250,6 +346,7 @@ a {
 
 .task_subtitle {
     width: 332px;
+
 }
 
 .task_subtitle p {
@@ -289,6 +386,8 @@ a {
     border: 1px solid var(--white);
     padding: 20px 20px;
     border-radius: 6px;
+    opacity: 0.1;
+
 
     position: relative;
 }
@@ -477,6 +576,7 @@ button[type=button] {
 .inputForm {
     margin-bottom: 16px;
 }
+
 
 /* Styling custom dropdown */
 .customSelect {

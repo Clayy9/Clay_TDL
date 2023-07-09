@@ -81,9 +81,14 @@ include "config/connection.php";
                     <div class="task_title">
                         <p>Your task</p>
                     </div>
-                    <a id="add_task_button">
-                        <i class="fa-sharp fa-solid fa-plus" style="color: #ffffff;"></i>
-                    </a>
+                    <div class="task_feature">
+                        <a id="add_task_button">
+                            <i class="fa-sharp fa-solid fa-plus" style="color: #ffffff;"></i> </a>
+                        <a id="filter_task_button">
+                            <i class="fa-solid fa-filter" style="color: #ffffff;"></i>
+                        </a>
+                    </div>
+
                 </div>
 
                 <div class="task_active_list" id="active_tasks">
@@ -102,14 +107,15 @@ include "config/connection.php";
         </div>
     </div>
 
-    <!-- Form untuk menambahkan data tugas -->
+    <!-- Form -->
     <form id="add_task_form_container">
         <div class="form_container">
             <div class="back_to_home">
                 <a onclick="location.href='home.php'"><i class="fa-solid fa-xmark fa-xl"
                         style="color: #ffffff;"></i></a>
             </div>
-            <h1>NEW TASK</h1>
+            <input type="hidden" name="id" class="id form-control" id="id" value="">
+            <h1 id="title_task">NEW TASK</h1>
             <div class="inputForm">
                 <h3>Title</h3>
                 <input class="textField" type="text" name="task_name" id="task_name" maxlength="30"
@@ -158,7 +164,7 @@ include "config/connection.php";
                 </div>
             </div>
 
-            <div class="inputForm_date">
+            <div class="inputForm">
                 <div class="inputForm">
                     <h3>Date</h3>
                     <div class="inputForm">
@@ -167,7 +173,7 @@ include "config/connection.php";
                 </div>
             </div>
 
-            <div class="inputForm_date">
+            <div class="inputForm">
                 <div class="inputForm">
                     <h3>Time</h3>
                     <div class="inputForm">
@@ -176,14 +182,65 @@ include "config/connection.php";
                 </div>
             </div>
 
+            <input type="hidden" name="reminder_id" class="id form-control" id="reminder_id" value="">
+            <input type="hidden" name="status_id" class="id form-control" id="status_id" value="">
+
+
             <div class="button_submit">
-                <td colspan="2"><input class="form_button" type="button" value="ADD TASK" id="submit-button"
-                        name="submit">
+                <td colspan="2"><input class="form_button" type="button" value="SAVE" id="submit-button" name="submit">
                 </td>
             </div>
         </div>
         </div>
     </form>
+
+    <!-- Modal Filter -->
+    <div id="filter_container">
+        <div class="back_to_home_filter">
+            <a id="back_to_home_filter_button"><i class="fa-solid fa-xmark fa-xl" style="color: #ffffff;"></i></a>
+        </div>
+        <form id="filter_form_container">
+            <div class="date_filter">
+                <div class="inputForm_date">
+                    <div class="inputFormFilter">
+                        <h3>Date</h3>
+                        <div class="inputForm_date">
+                            <div>
+                                <input class="date_filter_input" type="date" name="task_date_filter_from"
+                                    id="task_date_filter_from" />
+                            </div>
+                            <div>
+                                <p class="inputForm_date_text"> s/d </p>
+                            </div>
+                            <div>
+                                <input class="date_filter_input" type="date" name="task_date_filter_to_date"
+                                    id="task_date_filter_to_date" />
+                            </div>
+                        </div>
+
+                        <div class="inputFormFilter">
+                            <h3>Status</h3>
+                            <div class="customSelect">
+                                <select name="status_id_filter" id="status_id_filter">
+                                    <option value="all">All</option>
+                                    <option value="1">Active</option>
+                                    <option value="2">Done</option>
+                                    <option value="3">Expired</option>
+                                </select>
+                                <span class="arrow"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button_submit">
+                <td colspan="2"><input class="form_button_filter" type="button" value="VIEW" id="submit-button-filter"
+                        onclick="filterTask()" name="submit">
+                </td>
+            </div>
+        </form>
+    </div>
 
 
     <!-- Script -->
@@ -197,8 +254,7 @@ include "config/connection.php";
             completed_data();
             delete_task();
             saveScore();
-            // addTask()
-            // editTask()
+
         });
     </script>
 </body>
