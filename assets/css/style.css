@@ -236,7 +236,7 @@ a {
 }
 
 .task_feature>a {
-    margin-right: 40px;
+    margin-left: 20px;
     border: 1px solid var(--white);
     border-radius: 100px;
     padding: 12px;
@@ -318,11 +318,11 @@ a {
     border: 1px solid var(--white);
     border-radius: 10px;
     margin: 40px;
+    position: absolute;
 
     width: 800px;
     padding: 32px 24px 40px 24px;
 
-    position: absolute;
     top: 0px;
 }
 
@@ -666,4 +666,22 @@ button[type=button] {
 
     cursor: pointer;
 
+}
+
+/* Box.php */
+.container_task_all {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    border: 1px solid var(--white);
+    border-radius: 10px;
+    margin: 40px;
+    position: absolute;
+
+    width: 1000px;
+    padding: 32px 24px 40px 24px;
+
+    top: 0px;
+    left: 200px;
 }

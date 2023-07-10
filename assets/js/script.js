@@ -262,7 +262,23 @@ function update_task() {
   });
 }
 
+// Cek Expired Task
+function expiredTask() {
+  $.ajax({
+    url: "sv_task.php",
+    method: "POST",
+    data: {
+      id: task_id,
+      act: "expiredTask",
+    },
+    success: function (result) {
+      alert("expiredTask aktif");
+    },
+  });
+}
+
 $(document).ready(function () {
+  expiredTask();
   get_data();
   completed_data();
   saveScore();

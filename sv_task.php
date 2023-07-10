@@ -91,12 +91,28 @@ if ($act == "set_done") {
     $reminder_id = $_POST['reminder_id'];
     $status_id = $_POST['status_id'];
 
-    $sql = "UPDATE tb_tasks SET task_name = '$task_name', task_date = '$task_date', task_desc = '$task_desc', priority_id = '$priority_id', user_id = '$user_id', category_id = '$category_id', reminder_id = '$reminder_id', status_id = '$status_id' WHERE id = '$task_id'";
+    $sql = "UPDATE tb_tasks SET task_name = '$task_name', task_time = '$task_time', task_date = '$task_date', task_name = '$task_name', task_desc = '$task_desc', priority_id = '$priority_id', user_id = '$user_id', category_id = '$category_id', reminder_id = '$reminder_id', status_id = '$status_id' WHERE id = '$task_id'";
     mysqli_query($conn, $sql);
 
 
+} else if ($act == "expiredTask") {
+    $task_id = $_REQUEST['id'];
+    $sql = "SELECT * FROM tb_tasks WHERE user_id = '$user_id' AND task_id = '$task_id'";
+    $query = mysqli_query($conn, $sql);
+    $result = mysqli_fetch_array($query);
+
+
+    $task_date = $result['task_date'];
+
+    if ($result['task_date'] < date('Y-m-d')) {
+        $sqlUpdate = "UPDATE tb_task SET status_id = 3 WHERE task_id = '$task_id'";
+        mysqli_query($conn, $sqlUpdate);
+    }
+
+
+
 } else if ($act == "loading") {
-    $sql = "SELECT t.*, c.category_name, c.category_img FROM tb_tasks t LEFT JOIN tb_categories c ON t.category_id = c.id WHERE user_id = '$user_id' AND status_id = 1 ORDER BY task_date ASC";
+    $sql = "SELECT t.*, c.category_name, c.category_img FROM tb_tasks t LEFT JOIN tb_categories c ON t.category_id = c.id WHERE user_id = '$user_id' AND status_id = 1 ORDER BY task_date ";
     $query = mysqli_query($conn, $sql);
     while ($result = mysqli_fetch_array($query)) {
         $task_id = $result['id'];
@@ -116,46 +132,46 @@ if ($act == "set_done") {
 
         ?>
 
-                                <div class="task_active_card">
-                                    <div class="task_category">
-                                        <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
-                                    </div>
-                                    <div class="task_info">
-                                        <div class="task_subtitle">
-                                            <p>
+                                    <div class="task_active_card">
+                                        <div class="task_category">
+                                            <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
+                                        </div>
+                                        <div class="task_info">
+                                            <div class="task_subtitle">
+                                                <p>
                         <?php echo $task_title; ?>
-                                            </p>
-                                        </div>
-                                        <div class="task_deadline">
-                                            <i class="fa-solid fa-clock" style="color: white;"></i>
-                                            <p>
+                                                </p>
+                                            </div>
+                                            <div class="task_deadline">
+                                                <i class="fa-solid fa-clock" style="color: white;"></i>
+                                                <p>
                         <?php echo $task_date; ?>
-                                            </p>
-                                            <p>⠀
+                                                </p>
+                                                <p>⠀
                         <?php echo $task_time; ?>
-                                            </p>
-                                        </div>
-                                        <div class="task_desc">
-                                            <p>
+                                                </p>
+                                            </div>
+                                            <div class="task_desc">
+                                                <p>
                         <?php echo $task_desc; ?>
-                                            </p>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="task_checkbox">
+                                            <input type="checkbox" id="undone<?php echo $task_id; ?>" onclick="check_task(<?php echo $task_id; ?>)" />
+                                            <button type="button" style="cursor:pointer" id="delete_undone<?php echo $task_id; ?>"
+                                                onclick="delete_task(<?php echo $task_id; ?>)" class="button_delete" value="Delete">
+                                                <p style="cursor:pointer">Delete</p>
+                                            </button>
+                                            <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
+                                                onclick="editTask(<?php echo $task_id; ?>)" id="edit_task_button<?php echo $task_id; ?>"
+                                                class="button_update" value="Edit">
+                                                <p style="cursor:pointer">Edit</p>
+                                            </button>
                                         </div>
                                     </div>
-                                    <div class="task_checkbox">
-                                        <input type="checkbox" id="undone<?php echo $task_id; ?>" onclick="check_task(<?php echo $task_id; ?>)" />
-                                        <button type="button" style="cursor:pointer" id="delete_undone<?php echo $task_id; ?>"
-                                            onclick="delete_task(<?php echo $task_id; ?>)" class="button_delete" value="Delete">
-                                            <p style="cursor:pointer">Delete</p>
-                                        </button>
-                                        <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
-                                            onclick="editTask(<?php echo $task_id; ?>)" id="edit_task_button<?php echo $task_id; ?>"
-                                            class="button_update" value="Edit">
-                                            <p style="cursor:pointer">Edit</p>
-                                        </button>
-                                    </div>
-                                </div>
 
-                                <br>
+                                    <br>
         <?php
     }
 } else if ($act == "completed") {
@@ -172,44 +188,44 @@ if ($act == "set_done") {
 
         ?>
 
-                                    <div class="task_active_card">
-                                        <div class="task_category">
-                                            <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
-                                        </div>
-                                        <div class="task_info">
-                                            <div class="task_subtitle">
-                                                <p>
+                                        <div class="task_active_card">
+                                            <div class="task_category">
+                                                <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
+                                            </div>
+                                            <div class="task_info">
+                                                <div class="task_subtitle">
+                                                    <p>
                         <?php echo $task_title; ?>
-                                                </p>
-                                            </div>
-                                            <div class="task_deadline">
-                                                <i class="fa-solid fa-clock" style="color: white;"></i>
-                                                <p>
+                                                    </p>
+                                                </div>
+                                                <div class="task_deadline">
+                                                    <i class="fa-solid fa-clock" style="color: white;"></i>
+                                                    <p>
                         <?php echo $task_date; ?>
-                                                </p>
-                                            </div>
-                                            <div class="task_desc">
-                                                <p>
+                                                    </p>
+                                                </div>
+                                                <div class="task_desc">
+                                                    <p>
                         <?php echo $task_desc; ?>
-                                                </p>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="task_checkbox">
+                                                <input type="checkbox" id="done<?php echo $task_id; ?>" onclick="uncheck_task(<?php echo $task_id; ?>)"
+                                                    checked />
+                                                <button type="button" id="delete_done<?php echo $task_id; ?>" onclick="delete_task(<?php echo $task_id; ?>)"
+                                                    class="button_delete" value="Delete">
+                                                    <p style="cursor:pointer">Delete</p>
+                                                </button>
+                                                <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
+                                                    onclick="location.href='form_update.php?task_id=<?php echo $task_id; ?>'" class="button_update"
+                                                    value="Edit">
+                                                    <p style="cursor:pointer">Edit</p>
+                                                </button>
                                             </div>
                                         </div>
-                                        <div class="task_checkbox">
-                                            <input type="checkbox" id="done<?php echo $task_id; ?>" onclick="uncheck_task(<?php echo $task_id; ?>)"
-                                                checked />
-                                            <button type="button" id="delete_done<?php echo $task_id; ?>" onclick="delete_task(<?php echo $task_id; ?>)"
-                                                class="button_delete" value="Delete">
-                                                <p style="cursor:pointer">Delete</p>
-                                            </button>
-                                            <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
-                                                onclick="location.href='form_update.php?task_id=<?php echo $task_id; ?>'" class="button_update"
-                                                value="Edit">
-                                                <p style="cursor:pointer">Edit</p>
-                                            </button>
-                                        </div>
-                                    </div>
 
-                                    <br>
+                                        <br>
         <?php
     }
 } else if ($act == "filter") {
@@ -219,8 +235,14 @@ if ($act == "set_done") {
 
     $sql = "SELECT t.*, c.category_name, c.category_img FROM tb_tasks t LEFT JOIN tb_categories c ON t.category_id = c.id WHERE user_id = '$user_id'";
 
-    if ($statusFilter !== "all") {
+    if ($statusFilter == "") {
         $sql .= " AND status_id = '$id'";
+    } else if ($statusFilter == "1") {
+        $sql .= " AND status_id = 1";
+    } else if ($statusFilter == "2") {
+        $sql .= " AND status_id = 2";
+    } else if ($statusFilter == "3") {
+        $sql .= " AND status_id = 3";
     }
 
 
@@ -245,45 +267,46 @@ if ($act == "set_done") {
         $category_img = $result['category_img'];
         ?>
 
-                                        <div class="task_active_card">
-                                            <div class="task_category">
-                                                <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
-                                            </div>
-                                            <div class="task_info">
-                                                <div class="task_subtitle">
-                                                    <p>
+                                            <div class="task_active_card">
+                                                <div class="task_category">
+                                                    <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
+                                                </div>
+                                                <div class="task_info">
+                                                    <div class="task_subtitle">
+                                                        <p>
                         <?php echo $task_title; ?>
-                                                    </p>
-                                                </div>
-                                                <div class="task_deadline">
-                                                    <i class="fa-solid fa-clock" style="color: white;"></i>
-                                                    <p>
+                                                        </p>
+                                                    </div>
+                                                    <div class="task_deadline">
+                                                        <i class="fa-solid fa-clock" style="color: white;"></i>
+                                                        <p>
                         <?php echo $task_date; ?>
-                                                    </p>
-                                                    <p>⠀
+                                                        </p>
+                                                        <p>⠀
                         <?php echo $task_time; ?>
-                                                    </p>
-                                                </div>
-                                                <div class="task_desc">
-                                                    <p>
+                                                        </p>
+                                                    </div>
+                                                    <div class="task_desc">
+                                                        <p>
                         <?php echo $task_desc; ?>
-                                                    </p>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="task_checkbox">
+                                                    <input type="checkbox" id="undone<?php echo $task_id; ?>" onclick="check_task(<?php echo $task_id; ?>)"
+                                                        selected />
+                                                    <button type="button" style="cursor:pointer" id="delete_undone<?php echo $task_id; ?>"
+                                                        onclick="delete_task(<?php echo $task_id; ?>)" class="button_delete" value="Delete">
+                                                        <p style="cursor:pointer">Delete</p>
+                                                    </button>
+                                                    <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
+                                                        onclick="editTask(<?php echo $task_id; ?>)" class="button_update" value="Edit">
+                                                        <p style="cursor:pointer">Edit</p>
+                                                    </button>
                                                 </div>
                                             </div>
-                                            <div class="task_checkbox">
-                                                <input type="checkbox" id="undone<?php echo $task_id; ?>" onclick="check_task(<?php echo $task_id; ?>)" />
-                                                <button type="button" style="cursor:pointer" id="delete_undone<?php echo $task_id; ?>"
-                                                    onclick="delete_task(<?php echo $task_id; ?>)" class="button_delete" value="Delete">
-                                                    <p style="cursor:pointer">Delete</p>
-                                                </button>
-                                                <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
-                                                    onclick="editTask(<?php echo $task_id; ?>)" class="button_update" value="Edit">
-                                                    <p style="cursor:pointer">Edit</p>
-                                                </button>
-                                            </div>
-                                        </div>
 
-                                        <br>
+                                            <br>
         <?php
     }
 }

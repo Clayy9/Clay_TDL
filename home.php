@@ -87,6 +87,8 @@ include "config/connection.php";
                         <a id="filter_task_button">
                             <i class="fa-solid fa-filter" style="color: #ffffff;"></i>
                         </a>
+                        <a id="all_task_button" onclick="location.href='box.php'">
+                            <i class="fa-solid fa-box-open" style="color: #ffffff;"></i> </a>
                     </div>
 
                 </div>
@@ -257,6 +259,8 @@ include "config/connection.php";
 
         });
     </script>
+
+
 </body>
 
 </html>
