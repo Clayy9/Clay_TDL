@@ -61,6 +61,17 @@ function filterTask() {
   });
 }
 
+// Mengambil tanggal hari ini
+var now = new Date();
+var y = now.getFullYear();
+var m = now.getMonth() + 1;
+var d = now.getDate();
+
+m = m < 10 ? "0" + m : m;
+d = d < 10 ? "0" + d : d;
+
+document.querySelector("input[type=date]").value = y + "-" + m + "-" + d;
+
 function check_task(task_id) {
   $.ajax({
     url: "sv_task.php",
@@ -72,8 +83,35 @@ function check_task(task_id) {
     success: function (result) {
       get_data();
       completed_data();
-      saveScore();
-      saveXP();
+      loadingPET();
+      addXP(task_id);
+    },
+  });
+}
+
+function addXP(task_id) {
+  $.ajax({
+    url: "sv_task.php",
+    method: "POST",
+    data: {
+      act: "addXP",
+      task_id: task_id,
+    },
+    success: function (result) {
+      $("#pet_xp").html(result);
+    },
+  });
+}
+
+function loadingPET() {
+  $.ajax({
+    url: "sv_task.php",
+    method: "POST",
+    data: {
+      act: "loadingPET",
+    },
+    success: function (result) {
+      $("#container_pet").html(result);
     },
   });
 }
@@ -89,8 +127,7 @@ function uncheck_task(task_id) {
     success: function (result) {
       get_data();
       completed_data();
-      saveScore();
-      saveXP();
+      loadingPET();
     },
   });
 }
@@ -106,8 +143,7 @@ function delete_task(task_id) {
     success: function (result) {
       get_data();
       completed_data();
-      saveScore();
-      saveXP();
+      loadingPET();
     },
   });
 }
@@ -134,19 +170,6 @@ function completed_data() {
     },
     success: function (result) {
       $("#completed_tasks").html(result);
-    },
-  });
-}
-
-function saveScore() {
-  $.ajax({
-    url: "sv_score.php",
-    method: "POST",
-    data: {
-      act: "saveScore",
-    },
-    success: function (result) {
-      $("#pet_score").html(result);
     },
   });
 }
@@ -185,8 +208,7 @@ $("#submit-button").click(function (e) {
 
       get_data();
       completed_data();
-      saveScore();
-      saveXP();
+      loadingPET();
 
       // Mengatur ulang form
       $("#add_task_form_container")[0].reset();
@@ -262,25 +284,8 @@ function update_task() {
   });
 }
 
-// Cek Expired Task
-function expiredTask() {
-  $.ajax({
-    url: "sv_task.php",
-    method: "POST",
-    data: {
-      id: task_id,
-      act: "expiredTask",
-    },
-    success: function (result) {
-      alert("expiredTask aktif");
-    },
-  });
-}
-
 $(document).ready(function () {
-  expiredTask();
   get_data();
   completed_data();
-  saveScore();
-  saveXP();
+  loadingPET();
 });
