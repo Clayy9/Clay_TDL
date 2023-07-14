@@ -22,7 +22,7 @@ include "config/connection.php";
     <div class="left">
         <div class="profile">
             <div class="container_profile">
-                <img class="profile_img" src=" ./assets/images/<?php echo $profile_img; ?>" alt="">
+                <img class="profile_img" src=" ./assets/images/profile/<?php echo $profile_img; ?>" alt="">
             </div>
             <div class="profile_desc">
                 <p class="profile_desc_username">
@@ -32,13 +32,23 @@ include "config/connection.php";
                     <?php echo $email ?>
                 </p>
             </div>
-            <div class="logout">
-                <a href="logout.php">
-                    <button class="button_logout">
-                        <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i> Logout
-                    </button>
-                </a>
+            <div class="profile_action">
+                <div class="editProfile">
+                    <a href="edit_profile.php">
+                        <button class="button_logout">
+                            <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i> Edit
+                        </button>
+                    </a>
+                </div>
+                <div class="logout">
+                    <a href="logout.php">
+                        <button class="button_logout">
+                            <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i> Logout
+                        </button>
+                    </a>
+                </div>
             </div>
+
         </div>
 
         <div class="container_pet" id="container_pet">
@@ -231,8 +241,6 @@ include "config/connection.php";
             loadingPET();
         });
     </script>
-
-
 </body>
 
 </html>
