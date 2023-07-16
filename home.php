@@ -20,35 +20,8 @@ include "config/connection.php";
 
 <body>
     <div class="left">
-        <div class="profile">
-            <div class="container_profile">
-                <img class="profile_img" src=" ./assets/images/profile/<?php echo $profile_img; ?>" alt="">
-            </div>
-            <div class="profile_desc">
-                <p class="profile_desc_username">
-                    <?php echo $username; ?>
-                </p>
-                <p class="profile_desc_email">
-                    <?php echo $email ?>
-                </p>
-            </div>
-            <div class="profile_action">
-                <div class="editProfile">
-                    <a href="edit_profile.php">
-                        <button class="button_logout">
-                            <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i> Edit
-                        </button>
-                    </a>
-                </div>
-                <div class="logout">
-                    <a href="logout.php">
-                        <button class="button_logout">
-                            <i class="fa-solid fa-right-from-bracket" style="color: #ffffff;"></i> Logout
-                        </button>
-                    </a>
-                </div>
-            </div>
-
+        <div class="profile" id="profile">
+            <div class="loader"></div>
         </div>
 
         <div class="container_pet" id="container_pet">
@@ -231,6 +204,7 @@ include "config/connection.php";
     <!-- Script -->
     <script src="./assets/js/jquery-3.7.0.js"></script>
     <script src="./assets/js/script.js"></script>
+    <script src="./assets/js/script-profile.js"></script>
     <script src="https://kit.fontawesome.com/67a87c1aef.js" crossorigin="anonymous"></script>
 
     <script>
@@ -239,6 +213,7 @@ include "config/connection.php";
             completed_data();
             delete_task();
             loadingPET();
+            loadingProfile();
         });
     </script>
 </body>

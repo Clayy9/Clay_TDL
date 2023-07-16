@@ -26,7 +26,7 @@ include "config/connection.php";
 
     <div class="container_form_edit">
         <div class="form_edit">
-            <form id="form_profile_edit">
+            <form id="form_profile_edit" enctype="multipart/form-data">
                 <div class="back_to_home">
                     <a onclick="location.href='home.php'"><i class="fa-solid fa-xmark fa-xl"
                             style="color: #ffffff;"></i></a>
@@ -61,13 +61,13 @@ include "config/connection.php";
                 </div>
 
                 <div class="inputForm">
-                    <h3>New Password</h3>
-                    <input class="textField" type="password" name="password" id="password" placeholder="New Password" />
+                    <h3>Old Password</h3>
+                    <input class="textField" type="password" name="password" id="password" placeholder="Old Password" />
                 </div>
 
                 <div class="inputForm">
                     <h3>Confirm New Password</h3>
-                    <input class="textField" type="password" name="password_confirm" id="password_confirm"
+                    <input class="textField" type="password" name="new_password" id="new_password"
                         placeholder="Confirm New Password" />
                 </div>
 
@@ -112,6 +112,9 @@ include "config/connection.php";
 
     <!-- Script -->
     <script src="./assets/js/jquery-3.7.0.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.18.0/js/md5.min.js"
+        integrity="sha512-Hmp6qDy9imQmd15Ds1WQJ3uoyGCUz5myyr5ijainC1z+tP7wuXcze5ZZR3dF7+rkRALfNy7jcfgS5hH8wJ/2dQ=="
+        crossorigin="anonymous"></script>
     <script src="./assets/js/script-profile.js"></script>
     <script src="https://kit.fontawesome.com/67a87c1aef.js" crossorigin="anonymous"></script>
 </body>
