@@ -334,6 +334,20 @@ h3 {
     box-shadow: 0px 0px 16px 0px var(--white);
 }
 
+.selected {
+    display: flex;
+    flex-direction: row;
+    width: 190px;
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 16px 12px 16px 12px;
+    cursor: pointer;
+
+    -webkit-box-shadow: 0px 0px 16px 0px var(--white);
+    -moz-box-shadow: 0px 0px 16px 0px var(--white);
+    box-shadow: 0px 0px 16px 0px var(--white);
+}
+
 .edit_profile_pet_card_img img {
     width: 160px;
     height: auto;

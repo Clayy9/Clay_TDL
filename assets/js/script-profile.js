@@ -80,6 +80,8 @@ var formData = new FormData(formProfile);
 // Memilih PET
 function selectedPet(id) {
   $("#pet_id").val(id);
+  $(".edit_profile_pet_card").removeClass("selected");
+  $("#pet_card_" + id).addClass("selected");
 }
 
 

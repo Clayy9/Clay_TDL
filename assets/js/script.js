@@ -100,24 +100,6 @@ $("#submit-button-profile").click(function (e) {
   });
 });
 
-// Memilih PET
-function selectedPet(id){
-  $("#pet_id").val(id);
-  //css untuk menandai pet yang sedang dipilih
-
-  // $.ajax({
-  //   url:"sv_profile.php",
-  //   method:"POST",
-  //   data: {
-  //     id: id,
-  //     act: "selectPet"
-  //   },
-  //   success: function (){
-  //      alert("Anda Berhasil Mengubah Pet");
-  //   }
-  // })
-}
-
 function check_task(task_id) {
   $.ajax({
     url: "sv_task.php",
@@ -325,7 +307,6 @@ function update_task() {
     },
     success: function (result) {
       get_data();
-      completed_tasks();
     },
   });
 }
