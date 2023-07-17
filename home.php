@@ -140,7 +140,25 @@ include "config/connection.php";
                 </div>
             </div>
 
-            <input type="hidden" name="reminder_id" class="id form-control" id="reminder_id" value="">
+            <div class="inputForm">
+                <div class="inputForm">
+                    <h3>Reminder</h3>
+                    <div class="inputForm reminder">
+                        <input class="textField reminder" type="number" name="reminder_number" id="reminder_number"
+                            placeholder="Type number" />
+                        <div class="customSelect reminder">
+                            <select name="reminder_type" id="reminder_type">
+                                <option value="minutes" default selected="selected">Minutes</option>
+                                <option value="hours">Hours</option>
+                                <option value="days">Days</option>
+                            </select>
+                            <span class="arrow"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- <input type="hidden" name="reminder_id" class="id form-control" id="reminder_id" value=""> -->
             <input type="hidden" name="status_id" class="id form-control" id="status_id" value="">
 
 

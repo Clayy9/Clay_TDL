@@ -586,7 +586,7 @@ button[type=button] {
 .customSelect {
     position: relative;
     width: 400px;
-    height: 40px;
+    height: 54px;
     color: var(--white);
 
 }
@@ -635,6 +635,38 @@ button[type=button] {
 
 .customSelect select:focus+.arrow {
     transform: translateY(-50%) rotate(45deg);
+}
+
+/* Reminder Input */
+
+div.inputForm.reminder {
+    display: flex;
+    flex-direction: row;
+}
+
+div.inputForm.reminder>#reminder_type {
+    width: 40px !important;
+}
+
+.customSelect.reminder {
+    position: relative;
+    width: 120px;
+    height: 54px;
+    color: var(--white);
+
+}
+
+.textField.reminder {
+    font-family: "Satoshi-Regular";
+    background-color: #1D1B1B;
+    font-size: 16px;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 10px;
+    width: 240px;
+    height: auto;
+    color: var(--white);
+    margin-right: 40px;
 }
 
 /* Button */
