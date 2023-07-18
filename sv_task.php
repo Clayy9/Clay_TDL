@@ -25,21 +25,28 @@ if ($act == "set_done") {
             FROM tb_pet_phases
             LEFT JOIN tb_pets ON tb_pet_phases.pet_id = tb_pets.id
             LEFT JOIN tb_users ON tb_users.pet_id = tb_pet_phases.pet_id
-                WHERE xp >= min_xp AND xp <= max_xp AND
-                tb_users.pet_id = tb_pet_phases.pet_id
+            WHERE tb_users.id = '$user_id'
+                AND (
+                    (xp >= min_xp AND xp <= max_xp)
+                    OR (xp > max_xp AND max_xp = 100)
+                )
+            ORDER BY max_xp DESC
             LIMIT 1
         )
         WHERE id = '$user_id'";
 
     $query = mysqli_query($conn, $sql);
 
-    $sqlGetData = "SELECT tb_users.*, tb_pets.*, tb_pet_phases.* , 
-                (SELECT COUNT(*) FROM tb_tasks WHERE user_id='$user_id' AND status_id=2) AS task_completed 
-                FROM tb_users 
-                LEFT JOIN tb_pet_phases ON tb_users.pet_phases_id = tb_pet_phases.id 
-                LEFT JOIN tb_pets ON tb_users.pet_id = tb_pets.id 
-                WHERE tb_users.id='$user_id' AND xp>=min_xp AND xp<=max_xp AND
-                tb_users.pet_id = (SELECT tb_users.pet_id FROM tb_users WHERE id='$user_id' LIMIT 1)";
+
+    $sqlGetData = "SELECT tb_users.*, tb_pets.*, tb_pet_phases.*,
+                (SELECT COUNT(*) FROM tb_tasks WHERE user_id='$user_id' AND status_id=2) AS task_completed
+                FROM tb_users
+                LEFT JOIN tb_pet_phases ON tb_users.pet_phases_id = tb_pet_phases.id
+                LEFT JOIN tb_pets ON tb_users.pet_id = tb_pets.id
+                WHERE tb_users.id='$user_id' AND
+                ((xp >= min_xp AND xp <= max_xp) OR (xp > max_xp OR max_xp = 100))
+                AND tb_users.pet_id = (SELECT tb_users.pet_id FROM tb_users WHERE id='$user_id' LIMIT 1)
+                ORDER BY tb_pet_phases.max_xp DESC LIMIT 1";
 
     $query = mysqli_query($conn, $sqlGetData);
     $resultUpdatePET = mysqli_fetch_array($query);
@@ -182,8 +189,7 @@ if ($act == "set_done") {
             die('Query error: ' . mysqli_error($conn));
         } else {
             ?>
-                            <script>
-                                alert("New Task Succeed");
+                            <script>     alert("New Task Succeed");
                             </script>
             <?php
             header("Refresh:0.1; url=home.php");
