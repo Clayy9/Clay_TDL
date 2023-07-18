@@ -143,8 +143,6 @@ if ($act == "set_done") {
             $category_id = "0";
         }
 
-        $reminder_id = null; // Nilai kunci asing reminder_id yang valid
-    
         $reminder_number = $_POST['reminder_number'];
         $reminder_type = $_POST['reminder_type'];
         $totalTime = 0;
@@ -162,41 +160,27 @@ if ($act == "set_done") {
             $execReminder = true;
         }
 
+    $status_id = 1;
+    $sql_insert = "INSERT INTO tb_tasks(task_name, task_date, task_time, task_desc, priority_id, user_id, category_id, status_id) VALUES ('$task_name', '$task_date', '$task_time', '$task_desc', '$priority_id', '$user_id', '$category_id', '$status_id')";
+    $run_query_check = mysqli_query($conn, $sql_insert);
+
         if ($execReminder) {
             $reminder_date = date('Y-m-d', strtotime($task_date . ' ' . $task_time . ' - ' . $totalTime . ' minutes'));
             $reminder_time = date('H:i', strtotime($task_time . ' - ' . $totalTime . ' minutes'));
 
-            $sqlReminder = "INSERT INTO tb_reminders(reminder_date, reminder_time) VALUES('$reminder_date', '$reminder_time')";
+            $sqlGetTaskId = "SELECT id FROM tb_tasks ORDER BY id DESC LIMIT 1";
+            $queryGetTaskId = mysqli_query($conn, $sqlGetTaskId);
+            $resultGetTaskId = mysqli_fetch_array($queryGetTaskId);
+
+            $task_id = $resultGetTaskId['id'];
+            $sqlReminder = "INSERT INTO tb_reminders(task_id, reminder_date, reminder_time) VALUES('$task_id', '$reminder_date', '$reminder_time')";
             mysqli_query($conn, $sqlReminder);
-
-            $reminder_id = mysqli_insert_id($conn);
-
-        }
-
-        $status_id = 1; // Nilai kunci asing status_id yang valid
-    
-        if ($reminder_id == null) {
-            $sql_insert = "INSERT INTO tb_tasks(task_name, task_date, task_time, task_desc, priority_id, user_id, category_id, reminder_id, status_id) VALUES ('$task_name', '$task_date', '$task_time', '$task_desc', '$priority_id', '$user_id', '$category_id', NULL, '$status_id')";
-            $run_query_check = mysqli_query($conn, $sql_insert);
-        } else {
-            $sql_insert = "INSERT INTO tb_tasks(task_name, task_date, task_time, task_desc, priority_id, user_id, category_id, reminder_id, status_id) VALUES ('$task_name', '$task_date', '$task_time', '$task_desc', '$priority_id', '$user_id', '$category_id', '$reminder_id', '$status_id')";
-            $run_query_check = mysqli_query($conn, $sql_insert);
         }
 
 
-
-        if (!$run_query_check) {
-            die('Query error: ' . mysqli_error($conn));
-        } else {
-            ?>
-                            <script>     alert("New Task Succeed");
-                            </script>
-            <?php
-            header("Refresh:0.1; url=home.php");
-        }
 
     } else if ($act == "edit") {
-        $sql = "SELECT * FROM tb_tasks WHERE id = '$id'";
+        $sql = "SELECT * FROM tb_tasks LEFT JOIN tb_reminders ON tb_tasks.id = tb_reminders.task_id WHERE id = '$id'";
         $query = mysqli_query($conn, $sql);
         $result = mysqli_fetch_array($query);
 
