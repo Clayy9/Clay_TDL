@@ -349,7 +349,7 @@ a {
 }
 
 .task_subtitle {
-    width: 332px;
+    width: 100%;
 
 }
 
@@ -422,6 +422,7 @@ a {
     width: 332px;
     color: gainsboro;
     margin-top: 6px;
+    word-break: break-all;
 }
 
 .task_checkbox {
@@ -534,6 +535,17 @@ button[type=button] {
 }
 
 /* Task */
+
+.priority_tag {
+    font-family: "Satoshi-Medium";
+    font-size: 10px;
+    color: var(--white);
+    margin-left: 6px;
+    padding: 4px 10px;
+    background-color: rgb(33, 33, 33);
+    border-radius: 10px;
+}
+
 .form_container {
     display: flex;
     flex-direction: column;
@@ -989,4 +1001,53 @@ h3 {
 
 .modal_edit_profile {
     z-index: 100;
+}
+
+/* Reminder Modal */
+#reminder {
+    position: absolute;
+    top: 32px;
+    left: 40px;
+}
+
+.reminder_container {
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px;
+    z-index: 100;
+    background-color: var(--black);
+    border: 1px solid var(--white);
+
+    width: 400px;
+    height: auto;
+}
+
+.reminder_title>p {
+    font-family: "Satoshi-Black";
+    font-size: 16px;
+    text-align: left;
+    margin-bottom: 4px;
+
+}
+
+.reminder_desc>p {
+    font-family: "Satoshi-Medium";
+    font-size: 12px;
+    text-align: left;
+    margin-bottom: 12px;
+}
+
+.reminder_button {
+    font-family: 'Satoshi-Medium';
+    font-size: 12px;
+    color: var(--white);
+    background-color: var(--black);
+    border: 1px solid var(--white);
+    border-radius: 12px;
+    margin-top: 16px;
+    padding: 8px 12px;
+
+    transition: 0.5s;
+
+    cursor: pointer;
 }

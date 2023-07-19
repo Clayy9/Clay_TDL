@@ -218,6 +218,48 @@ include "config/connection.php";
         </form>
     </div>
 
+    <!-- Modal Reminder -->
+
+    <!-- <script>
+        // Mengecek apakah fitur Autoplay didukung oleh peramban
+        function isAutoplaySupported() {
+            // Periksa apakah peramban mendukung fitur Autoplay
+            if ("autoplay" in document.createElement("audio")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // Memainkan ringtone
+        function playRingtone() {
+            var ringtone = new Audio("./assets/ringtones/default.mp3");
+            ringtone.play();
+        }
+
+        // Fungsi untuk memulai pemutaran ringtone setelah interaksi pengguna
+        function startAutoplay() {
+            if (isAutoplaySupported()) {
+                playRingtone();
+            } else {
+                // Jika Autoplay tidak didukung, tampilkan pesan untuk mengingatkan pengguna
+                alert("Reminder: ");
+            }
+        }
+
+        // Menambahkan event listener untuk deteksi interaksi pengguna
+        document.addEventListener('onload', function () {
+            startAutoplay();
+        });
+
+        // Memulai pemutaran otomatis saat halaman dimuat
+        startAutoplay();
+
+    </script> -->
+
+    <div id="reminder">
+
+    </div>
 
     <!-- Script -->
     <script src="./assets/js/jquery-3.7.0.js"></script>
@@ -232,6 +274,7 @@ include "config/connection.php";
             delete_task();
             loadingPET();
             loadingProfile();
+            checkDateTime();
         });
     </script>
 </body>
