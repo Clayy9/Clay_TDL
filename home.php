@@ -150,12 +150,12 @@ include "config/connection.php";
                     <div id="inputForm_reminder_wrapper">
                         <div class="inputForm reminder">
                             <!-- Input angka -->
-                            <input class="textField reminder" type="number" name="reminder_number" id="reminder_number"
-                                placeholder="Type number" />
+                            <input class="textField reminder" type="number" name="reminder_number[]"
+                                id="reminder_number" placeholder="Type number" />
 
                             <!-- Pilih Tipe Reminder -->
                             <div class="customSelect reminder">
-                                <select name="reminder_type" id="reminder_type">
+                                <select name="reminder_type[]" id="reminder_type">
                                     <option value="minutes" default selected="selected">Minute(s)</option>
                                     <option value="hours">Hour(s)</option>
                                     <option value="days">Day(s)</option>

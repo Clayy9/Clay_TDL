@@ -251,28 +251,29 @@ if ($act == "set_done") {
         // Olah data dari multiple input reminder
         $arrayLength = count($reminder_number);
 
-        // Buat array kosong untuk menyimpan data reminder
-        $reminders = [];
+        // Periksa apakah $reminder_number dan $reminder_type adalah array
+        if (is_array($reminder_number) && is_array($reminder_type)) {
+            $arrayLength = count($reminder_number); // atau count($reminder_type), keduanya harus memiliki panjang yang sama
+    
+            // Buat array untuk menyimpan nilai yang dihitung
+            $totalTime = array();
+            $execReminder = false;
 
-        for ($i = 0; $i < $arrayLength; $i++) {
-            if (!empty($reminder_number[$i]) && !empty($reminder_type[$i])) {
-                // Tambahkan data reminder ke dalam array $reminders
-                $reminderData = "reminder_date[]=" . $reminderDates[$i] . "&reminder_time[]=" . $reminderTimes[$i];
-                array_push($reminders, $reminderData);
+            for ($i = 0; $i < $arrayLength; $i++) {
+                if (!empty($reminder_number[$i]) && !empty($reminder_type[$i])) {
+                    // Proses reminder_number jika memiliki nilai
+                    if ($reminder_number[$i] != "") {
+                        if ($reminder_type[$i] == "minutes") {
+                            $totalTime[$i] = $reminder_number[$i];
+                        } else if ($reminder_type[$i] == "hours") {
+                            $totalTime[$i] = $reminder_number[$i] * 60;
+                        } else if ($reminder_type[$i] == "days") {
+                            $totalTime[$i] = $reminder_number[$i] * 1440;
+                        }
+                        $execReminder = true;
+                    }
+                }
             }
-        }
-
-
-        // Proses reminder_number ada value
-        if ($reminder_number != "") {
-            if ($reminder_type == "minutes") {
-                $totalTime = $reminder_number;
-            } else if ($reminder_type == "hours") {
-                $totalTime = $reminder_number * 60;
-            } else if ($reminder_type == "days") {
-                $totalTime = $reminder_number * 1.440;
-            }
-            $execReminder = true;
         }
 
         $status_id = 1;
@@ -280,16 +281,18 @@ if ($act == "set_done") {
         $run_query_check = mysqli_query($conn, $sql_insert);
 
         if ($execReminder) {
-            $reminder_date = date('Y-m-d', strtotime($task_date . ' ' . $task_time . ' - ' . $totalTime . ' minutes'));
-            $reminder_time = date('H:i', strtotime($task_time . ' - ' . $totalTime . ' minutes'));
+            for ($i = 0; $i < $arrayLength; $i++) {
+                $reminder_date[$i] = date('Y-m-d', strtotime($task_date . ' ' . $task_time . ' - ' . $totalTime[$i] . ' minutes'));
+                $reminder_time[$i] = date('H:i', strtotime($task_time . ' - ' . $totalTime[$i] . ' minutes'));
 
-            $sqlGetTaskId = "SELECT id FROM tb_tasks ORDER BY id DESC LIMIT 1";
-            $queryGetTaskId = mysqli_query($conn, $sqlGetTaskId);
-            $resultGetTaskId = mysqli_fetch_array($queryGetTaskId);
+                $sqlGetTaskId = "SELECT id FROM tb_tasks ORDER BY id DESC LIMIT 1";
+                $queryGetTaskId = mysqli_query($conn, $sqlGetTaskId);
+                $resultGetTaskId = mysqli_fetch_array($queryGetTaskId);
 
-            $task_id = $resultGetTaskId['id'];
-            $sqlReminder = "INSERT INTO tb_reminders(task_id, reminder_date, reminder_time) VALUES('$task_id', '$reminder_date', '$reminder_time')";
-            mysqli_query($conn, $sqlReminder);
+                $task_id = $resultGetTaskId['id'];
+                $sqlReminder = "INSERT INTO tb_reminders(task_id, reminder_date, reminder_time) VALUES('$task_id', '$reminder_date[$i]', '$reminder_time[$i]')";
+                mysqli_query($conn, $sqlReminder);
+            }
         }
 
     } else if ($act == "edit") {

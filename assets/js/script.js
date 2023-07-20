@@ -328,7 +328,7 @@ function checkDateTime() {
 }
 
 //Reload page setiap 1 menit
-setInterval(refreshPage, 60000);
+// setInterval(refreshPage, 60000);
 
 function refreshPage() {
   location.reload(); // Memuat ulang halaman
