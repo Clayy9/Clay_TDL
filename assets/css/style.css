@@ -654,6 +654,7 @@ button[type=button] {
 div.inputForm.reminder {
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 div.inputForm.reminder>#reminder_type {
@@ -675,10 +676,10 @@ div.inputForm.reminder>#reminder_type {
     padding: 16px 20px;
     border: none;
     border-radius: 10px;
-    width: 240px;
+    width: 220px;
     height: auto;
     color: var(--white);
-    margin-right: 40px;
+    margin-right: 20px;
 }
 
 /* Button */
@@ -1054,4 +1055,29 @@ h3 {
 
 audio {
     visibility: hidden;
+}
+
+#add_more_reminder {
+    margin-left: 10px;
+}
+
+div.inputForm.title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#add_reminder {
+    padding: 10px;
+    right: 0px;
+    cursor: pointer;
+}
+
+#delete_reminder {
+    padding: 10px;
+    right: 0px;
+    cursor: pointer;
+    margin-left: 4px;
 }

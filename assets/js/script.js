@@ -195,7 +195,7 @@ $("#submit-button").click(function (e) {
     url: "sv_task.php",
     data: formData,
     success: function () {
-      alert("Data Berhasil");
+      alert("Data berhasil ditambah!");
 
       get_data();
       completed_data();
@@ -341,4 +341,39 @@ $(document).ready(function () {
   get_data();
   completed_data();
   loadingPET();
+
+// Reminder Multiply Input
+    var max_fields = 5;
+    var x = 1; // Default Input Count
+
+    $("#add_reminder").click(function (e) {
+        e.preventDefault();
+
+        if (x < max_fields) {
+            x++;
+
+            $("#inputForm_reminder_wrapper").append(
+                '<div class="inputForm reminder">' +
+                '<input class="textField reminder" type="number" name="reminder_number[]" placeholder="Type number" />' +
+                '<div class="customSelect reminder">' +
+                '<select name="reminder_type[]">' +
+                '<option value="minutes" default selected="selected">Minute(s)</option>' +
+                '<option value="hours">Hour(s)</option>' +
+                '<option value="days">Day(s)</option>' +
+                '</select>' +
+                '<span class="arrow"></span>' +
+                '</div>' +
+                '<a id="delete_reminder"><i class="fas fa-trash" style="color: #ffffff;"></i></a>' +
+                '</div>'
+            );
+        }
+    });
+
+    // Delete Reminder
+    $("#inputForm_reminder_wrapper").on("click", "#delete_reminder", function (e) {
+        e.preventDefault();
+        $(this).parent('div').remove();
+        x--;
+    });
 });
+

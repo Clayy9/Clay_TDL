@@ -143,22 +143,27 @@ include "config/connection.php";
 
             <div class="inputForm">
                 <div class="inputForm">
-                    <h3>Reminder</h3>
-                    <div class="inputForm reminder">
-                        <!-- Input angka -->
-                        <input class="textField reminder" type="number" name="reminder_number" id="reminder_number"
-                            placeholder="Type number" />
+                    <div class="inputForm title">
+                        <h3>Reminder</h3>
+                        <a id="add_reminder"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></a>
+                    </div>
+                    <div id="inputForm_reminder_wrapper">
+                        <div class="inputForm reminder">
+                            <!-- Input angka -->
+                            <input class="textField reminder" type="number" name="reminder_number" id="reminder_number"
+                                placeholder="Type number" />
 
-                        <!-- Pilih Tipe Reminder -->
-                        <div class="customSelect reminder">
-                            <select name="reminder_type" id="reminder_type">
-                                <option value="minutes" default selected="selected">Minutes</option>
-                                <option value="hours">Hours</option>
-                                <option value="days">Days</option>
-                            </select>
-                            <span class="arrow"></span>
+                            <!-- Pilih Tipe Reminder -->
+                            <div class="customSelect reminder">
+                                <select name="reminder_type" id="reminder_type">
+                                    <option value="minutes" default selected="selected">Minute(s)</option>
+                                    <option value="hours">Hour(s)</option>
+                                    <option value="days">Day(s)</option>
+                                </select>
+                                <span class="arrow"></span>
+                            </div>
+                            <a id="delete_reminder"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a>
                         </div>
-                        <a><i class="add_more_reminder" class="fa-solid fa-plus" style="color: #ffffff;"></i></a>
                     </div>
                 </div>
             </div>
@@ -223,43 +228,6 @@ include "config/connection.php";
     </div>
 
     <!-- Modal Reminder -->
-    <!-- <script>
-        // Mengecek apakah fitur Autoplay didukung oleh peramban
-        function isAutoplaySupported() {
-            // Periksa apakah peramban mendukung fitur Autoplay
-            if ("autoplay" in document.createElement("audio")) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-
-        // Memainkan ringtone
-        function playRingtone() {
-            var ringtone = new Audio("./assets/ringtones/default.mp3");
-            ringtone.play();
-        }
-
-        // Fungsi untuk memulai pemutaran ringtone setelah interaksi pengguna
-        function startAutoplay() {
-            if (isAutoplaySupported()) {
-                playRingtone();
-            } else {
-                // Jika Autoplay tidak didukung, tampilkan pesan untuk mengingatkan pengguna
-                alert("Reminder: ");
-            }
-        }
-
-        // Menambahkan event listener untuk deteksi interaksi pengguna
-        document.addEventListener('onload', function () {
-            startAutoplay();
-        });
-
-        // Memulai pemutaran otomatis saat halaman dimuat
-        startAutoplay();
-
-    </script> -->
-
     <div id="reminder">
 
     </div>

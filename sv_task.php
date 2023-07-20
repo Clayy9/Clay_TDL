@@ -248,7 +248,22 @@ if ($act == "set_done") {
         $totalTime = 0;
         $execReminder = false;
 
-        // Cek apakah reminder_number ada value
+        // Olah data dari multiple input reminder
+        $arrayLength = count($reminder_number);
+
+        // Buat array kosong untuk menyimpan data reminder
+        $reminders = [];
+
+        for ($i = 0; $i < $arrayLength; $i++) {
+            if (!empty($reminder_number[$i]) && !empty($reminder_type[$i])) {
+                // Tambahkan data reminder ke dalam array $reminders
+                $reminderData = "reminder_date[]=" . $reminderDates[$i] . "&reminder_time[]=" . $reminderTimes[$i];
+                array_push($reminders, $reminderData);
+            }
+        }
+
+
+        // Proses reminder_number ada value
         if ($reminder_number != "") {
             if ($reminder_type == "minutes") {
                 $totalTime = $reminder_number;
