@@ -16,6 +16,7 @@ include "config/connection.php";
     <!-- Link -->
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 
 
@@ -124,11 +125,9 @@ include "config/connection.php";
             </div>
 
             <div class="inputForm">
+                <h3>Date</h3>
                 <div class="inputForm">
-                    <h3>Date</h3>
-                    <div class="inputForm">
-                        <input class="textField" type="date" name="task_date" id="task_date" value="" />
-                    </div>
+                    <input class="textField" type="date" name="task_date" id="task_date" value="" />
                 </div>
             </div>
 
@@ -142,34 +141,52 @@ include "config/connection.php";
             </div>
 
             <div class="inputForm">
-                <div class="inputForm">
-                    <div class="inputForm title">
-                        <h3>Reminder</h3>
-                        <a id="add_reminder"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></a>
-                    </div>
-                    <div id="inputForm_reminder_wrapper">
-                        <div class="inputForm reminder">
-                            <!-- Input angka -->
-                            <input class="textField reminder" type="number" name="reminder_number[]"
-                                id="reminder_number" placeholder="Type number" />
+                <div class="inputForm title">
+                    <h3>Reminder</h3>
+                    <a id="add_reminder"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></a>
+                </div>
+                <div id="inputForm_reminder_wrapper">
+                    <div class="inputForm reminder">
+                        <!-- Input angka -->
+                        <input class="textField reminder" type="number" name="reminder_number[]" id="reminder_number"
+                            placeholder="Type number" />
 
-                            <!-- Pilih Tipe Reminder -->
-                            <div class="customSelect reminder">
-                                <select name="reminder_type[]" id="reminder_type">
-                                    <option value="minutes" default selected="selected">Minute(s)</option>
-                                    <option value="hours">Hour(s)</option>
-                                    <option value="days">Day(s)</option>
-                                </select>
-                                <span class="arrow"></span>
-                            </div>
-                            <a id="delete_reminder"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a>
+                        <!-- Pilih Tipe Reminder -->
+                        <div class="customSelect reminder">
+                            <select name="reminder_type[]" id="reminder_type">
+                                <option value="minutes" default selected="selected">Minute(s)</option>
+                                <option value="hours">Hour(s)</option>
+                                <option value="days">Day(s)</option>
+                            </select>
+                            <span class="arrow"></span>
                         </div>
+                        <a id="delete_reminder"><i class="fa-solid fa-trash" style="color: #ffffff;"></i></a>
                     </div>
                 </div>
             </div>
 
             <input type="hidden" name="status_id" class="id form-control" id="status_id" value="">
 
+            <div class="inputForm">
+                <h3 class="collaborator_title">Collaborator</h3>
+                <div class="customSelect">
+                    <select class="js-example-basic-multiple" name="collaborator[]" multiple="multiple">
+                        <option class="option" value="" selected disabled>Add collaborator</option>
+
+                        <?php
+                        $user_id = $_SESSION['id'];
+                        $sqlCollab = "SELECT id, username FROM tb_users WHERE id != '$user_id'";
+                        $queryCollab = mysqli_query($conn, $sqlCollab);
+                        while ($resultCollab = mysqli_fetch_array($queryCollab)) {
+                            ?>
+                            <option value="<?php echo $resultCollab['id'] ?>"><?php echo $resultCollab['username'] ?>
+                            </option>
+                            <?php
+                        }
+                        ?>
+                    </select>
+                </div>
+            </div>
 
             <div class="button_submit">
                 <td colspan="2"><input class="form_button" type="button" value="SAVE" id="submit-button" name="submit">
@@ -237,6 +254,7 @@ include "config/connection.php";
     <script src="./assets/js/script.js"></script>
     <script src="./assets/js/script-profile.js"></script>
     <script src="https://kit.fontawesome.com/67a87c1aef.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -246,6 +264,10 @@ include "config/connection.php";
             loadingPET();
             loadingProfile();
             checkDateTime();
+        });
+
+        $(document).ready(function () {
+            $('js-example-basic-multiple').select2();
         });
     </script>
 </body>

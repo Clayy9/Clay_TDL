@@ -342,6 +342,9 @@ $(document).ready(function () {
   completed_data();
   loadingPET();
 
+// Select2
+    $('.js-example-basic-multiple').select2();
+
 // Reminder Multiply Input
     var max_fields = 5;
     var x = 1; // Default Input Count

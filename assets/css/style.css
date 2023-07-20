@@ -546,6 +546,8 @@ button[type=button] {
     border-radius: 10px;
 }
 
+
+
 .form_container {
     display: flex;
     flex-direction: column;
@@ -1080,4 +1082,75 @@ div.inputForm.title {
     right: 0px;
     cursor: pointer;
     margin-left: 4px;
+}
+
+/* Collaborator */
+span.select2-selection.select2-selection--multiple {
+    font-family: "Satoshi-Regular";
+    background-color: #1D1B1B;
+    background-color: #1D1B1B;
+
+    font-size: 16px;
+    padding: 16px 20px;
+    border: none;
+    border-radius: 10px;
+    width: 400px;
+    height: auto;
+    color: var(--white);
+}
+
+span.selection {
+    font-family: "Satoshi-Regular";
+    background-color: #1D1B1B;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    width: 400px;
+    height: auto;
+    color: var(--white);
+}
+
+.select2-selection__choice {
+    font-family: "Satoshi-Bold";
+
+}
+
+/* Mengubah warna latar belakang dropdown Select2 */
+.select2-container--default .select2-results__option {
+    background-color: #1D1B1B;
+}
+
+/* Mengubah warna teks dropdown Select2 */
+.select2-container--default .select2-results__option {
+    color: var(--white);
+    font-family: "Satoshi-Regular";
+    font-size: 16px;
+}
+
+/* Mengubah warna latar belakang pilihan yang dipilih */
+.select2-container--default .select2-selection__choice {
+    background-color: #1D1B1B;
+    border: 1px solid var(--white);
+    color: #1D1B1B;
+}
+
+/* Mengubah warna teks pilihan yang dipilih */
+.select2-container--default .select2-selection__choice {
+    background-color: rgb(33, 33, 33);
+    font-family: "Satoshi-Regular";
+    font-size: 16px;
+}
+
+/* Mengubah warna latar belakang input (pencarian) pada Select2 */
+.select2-container--default .select2-search__field {
+    background-color: #1D1B1B;
+}
+
+.select2-container--default {
+    background-color: #1D1B1B;
+
+}
+
+.collaborator_title {
+    margin-bottom: 100px;
 }

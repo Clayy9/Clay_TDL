@@ -245,55 +245,92 @@ if ($act == "set_done") {
 
         $reminder_number = $_POST['reminder_number'];
         $reminder_type = $_POST['reminder_type'];
+
+        $collaborator = $_POST['collaborator'];
+
+        // Untuk memproses reminder
         $totalTime = 0;
         $execReminder = false;
 
         // Olah data dari multiple input reminder
         $arrayLength = count($reminder_number);
 
-        // Periksa apakah $reminder_number dan $reminder_type adalah array
-        if (is_array($reminder_number) && is_array($reminder_type)) {
-            $arrayLength = count($reminder_number); // atau count($reminder_type), keduanya harus memiliki panjang yang sama
+        if ($reminder_number != "") {
+            // Periksa apakah $reminder_number dan $reminder_type adalah array
+            if (is_array($reminder_number) && is_array($reminder_type)) {
+                $arrayReminderLength = count($reminder_number); // atau count($reminder_type), keduanya harus memiliki panjang yang sama
     
-            // Buat array untuk menyimpan nilai yang dihitung
-            $totalTime = array();
-            $execReminder = false;
+                // Buat array untuk menyimpan nilai yang dihitung
+                $totalTime = array();
+                $execReminder = false;
 
-            for ($i = 0; $i < $arrayLength; $i++) {
-                if (!empty($reminder_number[$i]) && !empty($reminder_type[$i])) {
-                    // Proses reminder_number jika memiliki nilai
-                    if ($reminder_number[$i] != "") {
-                        if ($reminder_type[$i] == "minutes") {
-                            $totalTime[$i] = $reminder_number[$i];
-                        } else if ($reminder_type[$i] == "hours") {
-                            $totalTime[$i] = $reminder_number[$i] * 60;
-                        } else if ($reminder_type[$i] == "days") {
-                            $totalTime[$i] = $reminder_number[$i] * 1440;
+                for ($i = 0; $i < $arrayReminderLength; $i++) {
+                    if (!empty($reminder_number[$i]) && !empty($reminder_type[$i])) {
+                        // Proses reminder_number jika memiliki nilai
+                        if ($reminder_number[$i] != "") {
+                            if ($reminder_type[$i] == "minutes") {
+                                $totalTime[$i] = $reminder_number[$i];
+                            } else if ($reminder_type[$i] == "hours") {
+                                $totalTime[$i] = $reminder_number[$i] * 60;
+                            } else if ($reminder_type[$i] == "days") {
+                                $totalTime[$i] = $reminder_number[$i] * 1440;
+                            }
+                            $execReminder = true;
                         }
-                        $execReminder = true;
                     }
                 }
             }
         }
 
+        // Input task baru ke database
         $status_id = 1;
         $sql_insert = "INSERT INTO tb_tasks(task_name, task_date, task_time, task_desc, priority_id, user_id, category_id, status_id) VALUES ('$task_name', '$task_date', '$task_time', '$task_desc', '$priority_id', '$user_id', '$category_id', '$status_id')";
         $run_query_check = mysqli_query($conn, $sql_insert);
 
+        // Jika ada reminder, jalankan code ini
         if ($execReminder) {
-            for ($i = 0; $i < $arrayLength; $i++) {
+            // Mendapatkan id dari task yang baru dibuat
+            $sqlGetTaskId = "SELECT id FROM tb_tasks ORDER BY id DESC LIMIT 1";
+            $queryGetTaskId = mysqli_query($conn, $sqlGetTaskId);
+            $resultGetTaskId = mysqli_fetch_array($queryGetTaskId);
+            $task_id = $resultGetTaskId['id'];
+
+            // Melakukan pengulangan untuk input semua reminder ke database
+            for ($i = 0; $i < $arrayReminderLength; $i++) {
                 $reminder_date[$i] = date('Y-m-d', strtotime($task_date . ' ' . $task_time . ' - ' . $totalTime[$i] . ' minutes'));
                 $reminder_time[$i] = date('H:i', strtotime($task_time . ' - ' . $totalTime[$i] . ' minutes'));
 
-                $sqlGetTaskId = "SELECT id FROM tb_tasks ORDER BY id DESC LIMIT 1";
-                $queryGetTaskId = mysqli_query($conn, $sqlGetTaskId);
-                $resultGetTaskId = mysqli_fetch_array($queryGetTaskId);
-
-                $task_id = $resultGetTaskId['id'];
                 $sqlReminder = "INSERT INTO tb_reminders(task_id, reminder_date, reminder_time) VALUES('$task_id', '$reminder_date[$i]', '$reminder_time[$i]')";
                 mysqli_query($conn, $sqlReminder);
             }
         }
+
+        if ($collaborator != "") {
+            if (is_array($collaborator)) {
+                // Hitung Array
+                $arrayCollaboratorLength = count($collaborator);
+
+                // Mengambil Id task terakhir
+                $sqlGetTaskId = "SELECT id FROM tb_tasks ORDER BY id DESC LIMIT 1";
+                $queryGetTaskId = mysqli_query($conn, $sqlGetTaskId);
+                $resultGetTaskId = mysqli_fetch_array($queryGetTaskId);
+                $task_id = $resultGetTaskId['id'];
+
+                for ($i = 0; $i < $arrayCollaboratorLength; $i++) {
+
+                    $sqlCheckProfile = "SELECT id, username FROM tb_users WHERE id = '$collaborator[$i]'";
+                    $queryCheckProfile = mysqli_query($conn, $sqlCheckProfile);
+                    $resultCheckProfile = mysqli_fetch_array($queryCheckProfile);
+                    $username = $resultCheckProfile['username'];
+                    $user_collaborator_id = $resultCheckProfile['id'];
+
+                    // Menambahkan data ke tabel kolaborator berdasarkan id
+                    $sqlCollaborator = "INSERT INTO tb_collaborators(collaborator_username, task_id, user_id) VALUES('$username', '$task_id', '$user_collaborator_id')";
+                    mysqli_query($conn, $sqlCollaborator);
+                }
+            }
+        }
+
 
     } else if ($act == "edit") {
         $id = $_POST['id'];
