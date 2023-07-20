@@ -1017,7 +1017,7 @@ h3 {
     z-index: 100;
     background-color: var(--black);
     border: 1px solid var(--white);
-
+    border-left: 10px solid var(--white);
     width: 400px;
     height: auto;
 }
@@ -1050,4 +1050,8 @@ h3 {
     transition: 0.5s;
 
     cursor: pointer;
+}
+
+audio {
+    visibility: hidden;
 }

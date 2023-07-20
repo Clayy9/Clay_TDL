@@ -15,6 +15,7 @@ include "config/connection.php";
 
     <!-- Link -->
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 </head>
 
 
@@ -144,8 +145,11 @@ include "config/connection.php";
                 <div class="inputForm">
                     <h3>Reminder</h3>
                     <div class="inputForm reminder">
+                        <!-- Input angka -->
                         <input class="textField reminder" type="number" name="reminder_number" id="reminder_number"
                             placeholder="Type number" />
+
+                        <!-- Pilih Tipe Reminder -->
                         <div class="customSelect reminder">
                             <select name="reminder_type" id="reminder_type">
                                 <option value="minutes" default selected="selected">Minutes</option>
@@ -154,11 +158,11 @@ include "config/connection.php";
                             </select>
                             <span class="arrow"></span>
                         </div>
+                        <a><i class="add_more_reminder" class="fa-solid fa-plus" style="color: #ffffff;"></i></a>
                     </div>
                 </div>
             </div>
 
-            <!-- <input type="hidden" name="reminder_id" class="id form-control" id="reminder_id" value=""> -->
             <input type="hidden" name="status_id" class="id form-control" id="status_id" value="">
 
 
@@ -219,7 +223,6 @@ include "config/connection.php";
     </div>
 
     <!-- Modal Reminder -->
-
     <!-- <script>
         // Mengecek apakah fitur Autoplay didukung oleh peramban
         function isAutoplaySupported() {

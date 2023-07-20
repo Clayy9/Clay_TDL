@@ -30,9 +30,9 @@ if ($act == "set_done") {
 
     // Mendapatkan tanggal dan waktu hari ini
     $currentDate = date('Y-m-d');
-    $currentTime = date('H:i', time());
+    $currentTime = date('H:i:00', time());
 
-    $sql = "SELECT tb_reminders.*, tb_tasks.* FROM tb_reminders LEFT JOIN tb_tasks ON tb_reminders.task_id = tb_tasks.id WHERE reminder_date = '$currentDate' AND reminder_time = '$currentTime' AND tb_tasks.user_id = '$user_id'";
+    $sql = "SELECT tb_reminders.*, tb_tasks.* FROM tb_reminders LEFT JOIN tb_tasks ON tb_reminders.task_id = tb_tasks.id WHERE reminder_date = '$currentDate' AND reminder_time = '$currentTime' AND tb_tasks.user_id = '$user_id' AND tb_tasks.status_id = 1";
     $query = mysqli_query($conn, $sql);
     $numRows = mysqli_num_rows($query);
 
@@ -93,6 +93,7 @@ if ($act == "set_done") {
                         // Memulai pemutaran otomatis saat halaman dimuat
                         startAutoplay();
                     </script>
+
                     <div class="reminder_container">
                         <div class="reminder_title">
                             <p>Task Reminder</p>
@@ -100,10 +101,8 @@ if ($act == "set_done") {
                         <div class="reminder_desc">
                             <p>You have an important task to complete</p>
                             <p>Title:
-                    <?php echo $result['task_name']; ?>
-                            </p>
-                            <p>Deadline:
-                    <?php echo $result['task_date']; ?>
+                    <?php echo $result['task_name']; ?> (
+                    <?php echo $result['task_date']; ?>)
                             </p>
                         </div>
                         <div class="button_close_reminder">
@@ -120,20 +119,20 @@ if ($act == "set_done") {
 
 } else if ($act == "loadingPET") {
     $sql = "UPDATE tb_users
-            SET pet_phases_id = (
-            SELECT tb_pet_phases.id
-            FROM tb_pet_phases
-            LEFT JOIN tb_pets ON tb_pet_phases.pet_id = tb_pets.id
-            LEFT JOIN tb_users ON tb_users.pet_id = tb_pet_phases.pet_id
-            WHERE tb_users.id = '$user_id'
-            AND (
-            (xp >= min_xp AND xp <= max_xp)
-            OR (xp > max_xp AND max_xp = 100)
-            )
-            ORDER BY max_xp DESC
-            LIMIT 1
-            )
-            WHERE id = '$user_id'";
+                    SET pet_phases_id = (
+                    SELECT tb_pet_phases.id
+                    FROM tb_pet_phases
+                    LEFT JOIN tb_pets ON tb_pet_phases.pet_id = tb_pets.id
+                    LEFT JOIN tb_users ON tb_users.pet_id = tb_pet_phases.pet_id
+                    WHERE tb_users.id = '$user_id'
+                    AND (
+                    (xp >= min_xp AND xp <= max_xp)
+                    OR (xp > max_xp AND max_xp = 100)
+                    )
+                    ORDER BY max_xp DESC
+                    LIMIT 1
+                    )
+                    WHERE id = '$user_id'";
 
     $query = mysqli_query($conn, $sql);
 
@@ -156,7 +155,8 @@ if ($act == "set_done") {
 
                     <div class="pet_display">
                         <img class="pet_display_img" id="pet_display_img"
-                            src="./assets/images/pet/<?php echo $resultUpdatePET['phase_img']; ?>" />
+                            src="./assets/images/pet/<?php echo $resultUpdatePET['phase_img']; ?>"
+                            alt="<?php echo $resultUpdatePET['phase_img']; ?>" />
                     </div>
 
                     <div class="pet_info">
@@ -277,8 +277,6 @@ if ($act == "set_done") {
             mysqli_query($conn, $sqlReminder);
         }
 
-
-
     } else if ($act == "edit") {
         $id = $_POST['id'];
 
@@ -391,7 +389,6 @@ if ($act == "set_done") {
                                                     </button>
                                                 </div>
                                             </div>
-
                                             <br>
         <?php
         }
@@ -408,7 +405,6 @@ if ($act == "set_done") {
             $category_img = $result['category_img'];
 
             ?>
-
                                                 <div class="task_active_card">
                                                     <div class="task_category">
                                                         <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
@@ -445,7 +441,6 @@ if ($act == "set_done") {
                                                         </button>
                                                     </div>
                                                 </div>
-
                                                 <br>
         <?php
         }
