@@ -36,7 +36,15 @@ if ($act == "set_done") {
     $currentDate = date('Y-m-d');
     $currentTime = date('H:i:00', time());
 
-    $sql = "SELECT tb_reminders.*, tb_tasks.* FROM tb_reminders LEFT JOIN tb_tasks ON tb_reminders.task_id = tb_tasks.id WHERE reminder_date = '$currentDate' AND reminder_time = '$currentTime' AND tb_tasks.user_id = '$user_id' AND tb_tasks.status_id = 1";
+    $sql = "SELECT tb_reminders.*, tb_tasks.*
+                FROM tb_reminders 
+                LEFT JOIN tb_tasks ON tb_reminders.task_id = tb_tasks.id
+                WHERE reminder_date = '$currentDate' 
+                AND reminder_time = '$currentTime' 
+                AND tb_tasks.status_id = 1
+                AND (tb_tasks.user_id = '$user_id' OR tb_tasks.id IN (SELECT task_id FROM tb_collaborators WHERE user_id = '$user_id'))";
+
+
     $query = mysqli_query($conn, $sql);
     $numRows = mysqli_num_rows($query);
 
@@ -318,6 +326,12 @@ if ($act == "set_done") {
             $resultGetTaskId = mysqli_fetch_array($queryGetTaskId);
             $task_id = $resultGetTaskId['id'];
 
+            $sqlCheckProfile = "SELECT id, username FROM tb_users WHERE id = '$user_id'";
+            $queryCheckProfile = mysqli_query($conn, $sqlCheckProfile);
+            $resultCheckProfile = mysqli_fetch_array($queryCheckProfile);
+            $username = $resultCheckProfile['username'];
+            $user_collaborator_id = $resultCheckProfile['id'];
+
             for ($i = 0; $i < $arrayCollaboratorsLength; $i++) {
 
                 $sqlCheckProfile = "SELECT id, username FROM tb_users WHERE id = '$collaborators[$i]'";
@@ -508,18 +522,15 @@ if ($act == "set_done") {
         echo "data berhasil diperbarui";
     }
 
-    // } else if ($act == "loading") {
-    //     $sql = "SELECT t.*, c.category_name, c.category_img, co.* FROM tb_tasks t 
-    //                 LEFT JOIN tb_categories c ON t.category_id = c.id 
-    //                 LEFT JOIN tb_collaborators co ON t.id = co.task_id
-    //                 WHERE (t.user_id = '$user_id' OR co.user_id = '$user_id') AND t.status_id = 1 
-    //                 ORDER BY t.task_date ";
-
 } else if ($act == "loading") {
-    $sql = "SELECT t.*, c.category_name, c.category_img FROM tb_tasks t 
+    $sql = "SELECT t.*, c.category_name, c.category_img 
+                    FROM tb_tasks t 
                     LEFT JOIN tb_categories c ON t.category_id = c.id 
-                    WHERE t.user_id = '$user_id' AND t.status_id = 1 
+                    LEFT JOIN tb_collaborators collab ON t.id = collab.task_id
+                    WHERE (t.user_id = '$user_id' OR collab.user_id = '$user_id') AND t.status_id = 1 
+                    GROUP BY t.id
                     ORDER BY t.task_date ";
+
 
     $query = mysqli_query($conn, $sql);
     while ($result = mysqli_fetch_array($query)) {
@@ -551,29 +562,22 @@ if ($act == "set_done") {
             $status_id = 3;
         }
 
-        if ($user_id == '$owner_id') { // Jika user adalah collaborator
-            ?>
+        ?>
 
-                                                <div class="task_active_card">
-                                                    <div class="task_category">
-                                                        <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
-                                                    </div>
-                                                    <div class=" task_info"></div>
+                                            <div class="task_active_card">
+                                                <div class="task_category">
+                                                    <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
+                                                </div>
+                                                <div class=" task_info">
                                                     <div class="task_subtitle">
                                                         <p>
-                        <?php echo $task_title; ?><span class="priority_tag">
-                            <?php echo $priority_tag; ?>
-                                                            </span>
+                        <?php echo $task_title; ?>
                                                         </p>
                                                     </div>
                                                     <div class="task_deadline">
-                                                        <i class="fa-regular fa-calendar" style="color: #ffffff;"></i>
+                                                        <i class="fa-solid fa-clock" style="color: white;"></i>
                                                         <p>
                         <?php echo $task_date; ?>
-                                                        </p>
-                                                        <p>⠀
-                                                            <i class="fa-solid fa-clock" style="color: white;"></i>
-                        <?php echo $task_time; ?>
                                                         </p>
                                                     </div>
                                                     <div class="task_desc">
@@ -582,90 +586,38 @@ if ($act == "set_done") {
                                                         </p>
                                                     </div>
                                                 </div>
-                                                </div>
-                                                <br>
                 <?php
-                ?>
-
-                                                <div class="task_active_card">
-                                                    <div class="task_category">
-                                                        <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
-                                                    </div>
-                                                    <div class=" task_info">
-                                                        <div class="task_subtitle">
-                                                            <p>
-                            <?php echo $task_title; ?><span class="priority_tag">
-                                <?php echo $priority_tag; ?>
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                        <div class="task_deadline">
-                                                            <i class="fa-regular fa-calendar" style="color: #ffffff;"></i>
-                                                            <p>
-                            <?php echo $task_date; ?>
-                                                            </p>
-                                                            <p>⠀
-                                                                <i class="fa-solid fa-clock" style="color: white;"></i>
-                            <?php echo $task_time; ?>
-                                                            </p>
-                                                        </div>
-                                                        <div class="task_desc">
-                                                            <p>
-                            <?php echo $task_desc; ?>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <br>
-            <?php
-        } else {
-            ?>
-
-                                                <div class="task_active_card">
-                                                    <div class="task_category">
-                                                        <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
-                                                    </div>
-                                                    <div class=" task_info">
-                                                        <div class="task_subtitle">
-                                                            <p>
-                            <?php echo $task_title; ?><span class="priority_tag">
-                                <?php echo $priority_tag; ?>
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                        <div class="task_deadline">
-                                                            <i class="fa-regular fa-calendar" style="color: #ffffff;"></i>
-                                                            <p>
-                            <?php echo $task_date; ?>
-                                                            </p>
-                                                            <p>⠀
-                                                                <i class="fa-solid fa-clock" style="color: white;"></i>
-                            <?php echo $task_time; ?>
-                                                            </p>
-                                                        </div>
-                                                        <div class="task_desc">
-                                                            <p>
-                            <?php echo $task_desc; ?>
-                                                            </p>
-                                                        </div>
-                                                    </div>
+                // ... (kode sebelumnya)
+        
+                if ($user_id == $owner_id) {
+                    // Jika user adalah owner (pembuat task), tampilkan tombol edit, delete, dan checkbox
+                    ?>
                                                     <div class="task_checkbox">
-                                                        <input type="checkbox" id="undone<?php echo $task_id; ?>" data-task-id="<?php echo $task_id; ?>"
-                                                            data-priority=" <?php echo $priority_id; ?>" onclick="check_task(<?php echo $task_id; ?>)" /> <button
-                                                            type="button" style="cursor:pointer" id="delete_undone<?php echo $task_id; ?>"
-                                                            onclick=" delete_task(<?php echo $task_id; ?>)" class="button_delete" value="Delete">
+                                                        <input type="checkbox" id="done<?php echo $task_id; ?>" onclick="check_task(<?php echo $task_id; ?>)" />
+                                                        <button type="button" id="delete_done<?php echo $task_id; ?>" onclick="delete_task(<?php echo $task_id; ?>)"
+                                                            class="button_delete" value="Delete">
                                                             <p style="cursor:pointer">Delete</p>
                                                         </button>
                                                         <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
-                                                            onclick=" editTask(<?php echo $task_id; ?>)" id="edit_task_button<?php echo $task_id; ?>"
+                                                            onclick="editTask(<?php echo $task_id; ?>)" id="edit_task_button<?php echo $task_id; ?>"
                                                             class="button_update" value="Edit">
                                                             <p style="cursor:pointer">Edit</p>
                                                         </button>
                                                     </div>
-                                                </div>
-                                                <br>
-            <?php
-        }
+                <?php
+                } else {
+                    // Jika user adalah collaborator, tampilkan hanya task checkbox tanpa tombol edit dan delete
+                    ?>
+                                                    <div class="task_checkbox">
+                                                        <input type="checkbox" id="done<?php echo $task_id; ?>" onclick="check_task(<?php echo $task_id; ?>)"
+                                                            disabled />
+                                                    </div>
+                <?php
+                }
+                ?>
+                                            </div>
+                                            <br>
+        <?php
     }
 
 } else if ($act == "completed") {

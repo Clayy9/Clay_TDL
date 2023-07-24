@@ -1169,8 +1169,6 @@ span.selection {
     /* Lebar scrollbar */
 }
 
-.task_active_list_box {}
-
 /* Pseudo-element untuk scrollbar track */
 .task_active_list::-webkit-scrollbar {
     width: 5px;
