@@ -250,15 +250,26 @@ function editTask(task_id) {
         );
       });
 
+      // Initialize select2 untuk elemen select collaborator
+      $("#collaborator").select2();
+
       var collaborators = JSON.parse(data[10]);
 
-      // Kosongkan dulu default dari collaborator wrapper
+      // Kosongkan dulu collaborator wrapper
+      $("#collaborator").empty();
 
       // Memproses data dari collaborators dan melakukan append pada div
       collaborators.forEach(function (collaborator) {
-        $("#collaborator_wrapper").append(
-          '<option value="' + collaborator.user_id + ' selected">' + collaborator.collaborator_username + '</option > '
-        );
+        $("#collaborator").append('<option value="' + collaborator.user_id + '" selected>' + collaborator.collaborator_username + '</option>');
+      });
+
+
+      // Tampilkan semua collaborator di database
+      var allCollaborators = JSON.parse(data[11]);
+
+      // Memproses data dari all collaborators dan melakukan append pada div
+      allCollaborators.forEach(function (allCollaborator) {
+        $("#collaborator").append('<option value="' + allCollaborator.user_id + '">' + allCollaborator.collaborator_username + '</option>');
       });
 
       // Tambahkan kode untuk menampilkan modal
@@ -281,7 +292,7 @@ function editTask(task_id) {
 }
 
 function update_task(task_id) {
-  
+
   var form = $("#add_task_form_container");
 
   // Mengumpulkan data formulir menggunakan serialize()
