@@ -362,7 +362,6 @@ a {
 }
 
 
-
 .task_active {
     margin-bottom: 40px;
 }
@@ -379,6 +378,9 @@ a {
     position: relative;
 }
 
+#completed_tasks {
+    opacity: 0.7;
+}
 
 .task_completed {
     margin-bottom: 40px;
@@ -1166,6 +1168,8 @@ span.selection {
     scrollbar-width: thin;
     /* Lebar scrollbar */
 }
+
+.task_active_list_box {}
 
 /* Pseudo-element untuk scrollbar track */
 .task_active_list::-webkit-scrollbar {

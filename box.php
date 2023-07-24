@@ -56,7 +56,7 @@ $user_id = $_SESSION['id'];
                 }
 
                 ?>
-                <div class="task_active_list" id="active_tasks">
+                <div class="task_active_list_box" id="active_tasks">
                     <div class="task_active_card">
                         <div class="task_category">
                             <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>"
