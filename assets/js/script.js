@@ -227,6 +227,40 @@ function editTask(task_id) {
       $("#task_time").val(data[7]);
       $("#status_id").val(data[8]);
 
+      var reminderDetail = JSON.parse(data[9]);
+
+      // Kosongkan dulu default dari reminder wrapper
+      $("#inputForm_reminder_wrapper").empty();
+
+      // Memproses data dari reminderDetail dan melakukan append pada div
+      reminderDetail.forEach(function (reminder) {
+        $("#inputForm_reminder_wrapper").append(
+          '<div class="inputForm reminder">' +
+          '<input class="textField reminder" type="number" name="reminder_number[]" value="' + reminder.reminder_number + '" placeholder="Type number" />' +
+          '<div class="customSelect reminder">' +
+          '<select name="reminder_type[]">' +
+          '<option value="minutes"' + (reminder.reminder_type === 'minutes' ? ' selected' : '') + '>Minute(s)</option>' +
+          '<option value="hours"' + (reminder.reminder_type === 'hours' ? ' selected' : '') + '>Hour(s)</option>' +
+          '<option value="days"' + (reminder.reminder_type === 'days' ? ' selected' : '') + '>Day(s)</option>' +
+          '</select>' +
+          '<span class="arrow"></span>' +
+          '</div>' +
+          '<a id="delete_reminder"><i class="fas fa-trash" style="color: #ffffff;"></i></a>' +
+          '</div>'
+        );
+      });
+
+      var collaborators = JSON.parse(data[10]);
+
+      // Kosongkan dulu default dari collaborator wrapper
+
+      // Memproses data dari collaborators dan melakukan append pada div
+      collaborators.forEach(function (collaborator) {
+        $("#collaborator_wrapper").append(
+          '<option value="' + collaborator.user_id + ' selected">' + collaborator.collaborator_username + '</option > '
+        );
+      });
+
       // Tambahkan kode untuk menampilkan modal
       var addTaskForm = document.getElementById("add_task_form_container");
       addTaskForm.style.display = "block";
@@ -237,36 +271,38 @@ function editTask(task_id) {
       $("#submit-button").unbind("click");
       $("#submit-button").on("click", function () {
         update_task(task_id);
+
       });
+
+      //  foreach $reminders, panggil ulang yang append
+      // foreach $collaborator 
     },
   });
 }
 
 function update_task(task_id) {
-  var id = $("#id").val();
-  var task_name = $("#task_name").val();
-  var task_desc = $("#task_desc").val();
-  var category_id = $("#category_id").val();
-  var priority_id = $("#priority_id").val();
-  var task_date = $("#task_date").val();
-  var task_time = $("#task_time").val();
-  var status_id = $("#status_id").val();
+  
+  var form = $("#add_task_form_container");
+
+  // Mengumpulkan data formulir menggunakan serialize()
+  var formData = form.serialize();
+
+  // Menambahkan data "act" secara manual ke dalam data formulir
+  formData += "&act=update";
+
   $.ajax({
     url: "sv_task.php",
     method: "POST",
-    data: {
-      id: task_id,
-      task_name: task_name,
-      task_desc: task_desc,
-      category_id: category_id,
-      priority_id: priority_id,
-      task_date: task_date,
-      task_time: task_time,
-      status_id: status_id,
-      act: "update",
-    },
+    data: formData,
     success: function (result) {
+      alert("Data berhasil diedit!");
+
       get_data();
+      completed_data();
+      loadingPET();
+
+      // Mengatur ulang form
+      $("#add_task_form_container")[0].reset();
     },
   });
 }
@@ -342,41 +378,41 @@ $(document).ready(function () {
   completed_data();
   loadingPET();
 
-// Select2
-    $('.js-example-basic-multiple').select2();
+  // Select2
+  $('.js-example-basic-multiple').select2();
 
-// Reminder Multiply Input
-    var max_fields = 5;
-    var x = 1; // Default Input Count
+  // Reminder Multiply Input
+  var max_fields = 5; // Maksimal Input
+  var x = 1; // Input bawaan
 
-    $("#add_reminder").click(function (e) {
-        e.preventDefault();
+  $("#add_reminder").click(function (e) {
+    e.preventDefault();
 
-        if (x < max_fields) {
-            x++;
+    if (x < max_fields) {
+      x++;
 
-            $("#inputForm_reminder_wrapper").append(
-                '<div class="inputForm reminder">' +
-                '<input class="textField reminder" type="number" name="reminder_number[]" placeholder="Type number" />' +
-                '<div class="customSelect reminder">' +
-                '<select name="reminder_type[]">' +
-                '<option value="minutes" default selected="selected">Minute(s)</option>' +
-                '<option value="hours">Hour(s)</option>' +
-                '<option value="days">Day(s)</option>' +
-                '</select>' +
-                '<span class="arrow"></span>' +
-                '</div>' +
-                '<a id="delete_reminder"><i class="fas fa-trash" style="color: #ffffff;"></i></a>' +
-                '</div>'
-            );
-        }
-    });
+      $("#inputForm_reminder_wrapper").append(
+        '<div class="inputForm reminder">' +
+        '<input class="textField reminder" type="number" name="reminder_number[]" placeholder="Type number" />' +
+        '<div class="customSelect reminder">' +
+        '<select name="reminder_type[]">' +
+        '<option value="minutes" default selected="selected">Minute(s)</option>' +
+        '<option value="hours">Hour(s)</option>' +
+        '<option value="days">Day(s)</option>' +
+        '</select>' +
+        '<span class="arrow"></span>' +
+        '</div>' +
+        '<a id="delete_reminder"><i class="fas fa-trash" style="color: #ffffff;"></i></a>' +
+        '</div>'
+      );
+    }
+  });
 
-    // Delete Reminder
-    $("#inputForm_reminder_wrapper").on("click", "#delete_reminder", function (e) {
-        e.preventDefault();
-        $(this).parent('div').remove();
-        x--;
-    });
+  // Delete Reminder
+  $("#inputForm_reminder_wrapper").on("click", "#delete_reminder", function (e) {
+    e.preventDefault();
+    $(this).parent('div').remove();
+    x--;
+  });
 });
 

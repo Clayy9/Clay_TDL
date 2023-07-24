@@ -19,6 +19,10 @@ if ($act == "set_done") {
     $deleteRemindersQuery = "DELETE FROM tb_reminders WHERE task_id = '$id'";
     mysqli_query($conn, $deleteRemindersQuery);
 
+    // Lakukan penghapusan record di dalam tb_reminders
+    $deleteRemindersQuery = "DELETE FROM tb_collaborators WHERE task_id = '$id'";
+    mysqli_query($conn, $deleteRemindersQuery);
+
     $sql = "DELETE FROM tb_tasks WHERE id = '$id'";
     $query = mysqli_query($conn, $sql);
 
@@ -45,76 +49,75 @@ if ($act == "set_done") {
         $resultRingtone = mysqli_fetch_array($queryRingtone);
 
         ?>
-                    <script>
+                                                                                                                                            <script>
+                                                                                                                                                // Menutup modal reminder
+                                                                                                                                                const reminderModal = document.getElementById("reminder");
+                                                                                                                                                const reminderModalButton = document.getElementById("button_close_reminder");
 
-                        // Menutup modal reminder
-                        const reminderModal = document.getElementById("reminder");
-                        const reminderModalButton = document.getElementById("button_close_reminder");
+                                                                                                                                                reminderModalButton.addEventListener('click', function () {
+                                                                                                                                                    reminderModal.style.display = "none";
+                                                                                                                                                    reminderModal.style.visibility = "hidden";
+                                                                                                                                                    reminderModal.style.opacity = "0";
+                                                                                                                                                });
 
-                        reminderModalButton.addEventListener('click', function () {
-                            reminderModal.style.display = "none";
-                            reminderModal.style.visibility = "hidden";
-                            reminderModal.style.opacity = "0";
-                        });
+                                                                                                                                                // Mengecek apakah fitur Autoplay didukung oleh peramban
+                                                                                                                                                function isAutoplaySupported() {
+                                                                                                                                                    // Periksa apakah peramban mendukung fitur Autoplay
+                                                                                                                                                    if ("autoplay" in document.createElement("audio")) {
+                                                                                                                                                        return true;
+                                                                                                                                                    } else {
+                                                                                                                                                        return false;
+                                                                                                                                                    }
+                                                                                                                                                }
 
-                        // Mengecek apakah fitur Autoplay didukung oleh peramban
-                        function isAutoplaySupported() {
-                            // Periksa apakah peramban mendukung fitur Autoplay
-                            if ("autoplay" in document.createElement("audio")) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
+                                                                                                                                                // Memainkan ringtone
+                                                                                                                                                function playRingtone() {
+                                                                                                                                                    var ringtone = new Audio("./assets/ringtones/<?php echo $resultRingtone['sound']; ?>");
+                                                                                                                                                    ringtone.play();
+                                                                                                                                                    ringtone.autoplay = true;
+                                                                                                                                                }
 
-                        // Memainkan ringtone
-                        function playRingtone() {
-                            var ringtone = new Audio("./assets/ringtones/<?php echo $resultRingtone['sound']; ?>");
-                            ringtone.play();
-                            ringtone.autoplay = true;
-                        }
+                                                                                                                                                // Fungsi untuk memulai pemutaran ringtone setelah interaksi pengguna
+                                                                                                                                                function startAutoplay() {
+                                                                                                                                                    if (isAutoplaySupported()) {
+                                                                                                                                                        playRingtone();
+                                                                                                                                                    } else {
+                                                                                                                                                        // Jika Autoplay tidak didukung, tampilkan pesan untuk mengingatkan pengguna
+                                                                                                                                                        alert("Reminder: ");
+                                                                                                                                                    }
+                                                                                                                                                }
 
-                        // Fungsi untuk memulai pemutaran ringtone setelah interaksi pengguna
-                        function startAutoplay() {
-                            if (isAutoplaySupported()) {
-                                playRingtone();
-                            } else {
-                                // Jika Autoplay tidak didukung, tampilkan pesan untuk mengingatkan pengguna
-                                alert("Reminder: ");
-                            }
-                        }
-
-                        // Menambahkan event listener untuk deteksi interaksi pengguna
-                        document.addEventListener('onload', function () {
-                            startAutoplay();
-                        });
+                                                                                                                                                // Menambahkan event listener untuk deteksi interaksi pengguna
+                                                                                                                                                document.addEventListener('onload', function () {
+                                                                                                                                                    startAutoplay();
+                                                                                                                                                });
 
 
-                        // Memulai pemutaran otomatis saat halaman dimuat
-                        startAutoplay();
-                    </script>
+                                                                                                                                                // Memulai pemutaran otomatis saat halaman dimuat
+                                                                                                                                                startAutoplay();
+                                                                                                                                            </script>
 
-                    <div class="reminder_container">
-                        <div class="reminder_title">
-                            <p>Task Reminder</p>
-                        </div>
-                        <div class="reminder_desc">
-                            <p>You have an important task to complete</p>
-                            <p>Title:
-                    <?php echo $result['task_name']; ?> (
-                    <?php echo $result['task_date']; ?>)
-                            </p>
-                        </div>
-                        <div class="button_close_reminder">
-                            <td colspan="2"><input class="reminder_button" type="button" value="CLOSE" id="button_close_reminder"
-                                    onclick="closeReminder()">
-                            </td>
-                        </div>
-                    </div>
+                                                                                                                                            <div class="reminder_container">
+                                                                                                                                                <div class="reminder_title">
+                                                                                                                                                    <p>Task Reminder</p>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="reminder_desc">
+                                                                                                                                                    <p>You have an important task to complete</p>
+                                                                                                                                                    <p>Title:
+                                                                    <?php echo $result['task_name']; ?> (
+                                                                    <?php echo $result['task_date']; ?>)
+                                                                                                                                                    </p>
+                                                                                                                                                </div>
+                                                                                                                                                <div class="button_close_reminder">
+                                                                                                                                                    <td colspan="2"><input class="reminder_button" type="button" value="CLOSE" id="button_close_reminder"
+                                                                                                                                                            onclick="closeReminder()">
+                                                                                                                                                    </td>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
 
-            <?php
+                                                                                    <?php
 
-            header("Refresh:0");
+                                                                                    header("Refresh:0");
     }
 
 } else if ($act == "loadingPET") {
@@ -153,432 +156,596 @@ if ($act == "set_done") {
 
     ?>
 
-                    <div class="pet_display">
-                        <img class="pet_display_img" id="pet_display_img"
-                            src="./assets/images/pet/<?php echo $resultUpdatePET['phase_img']; ?>"
-                            alt="<?php echo $resultUpdatePET['phase_img']; ?>" />
-                    </div>
+                                                                                                                                            <div class="pet_display">
+                                                                                                                                                <img class="pet_display_img" id="pet_display_img"
+                                                                                                                                                    src="./assets/images/pet/<?php echo $resultUpdatePET['phase_img']; ?>"
+                                                                                                                                                    alt="<?php echo $resultUpdatePET['phase_img']; ?>" />
+                                                                                                                                            </div>
 
-                    <div class="pet_info">
-                        <div class="pet_info_name">
-                            <p>
-                <?php echo $resultUpdatePET['pet_name']; ?>
-                            </p>
-                        </div>
+                                                                                                                                            <div class="pet_info">
+                                                                                                                                                <div class="pet_info_name">
+                                                                                                                                                    <p>
+                                        <?php echo $resultUpdatePET['pet_name']; ?>
+                                                                                                                                                    </p>
+                                                                                                                                                </div>
 
-                        <div class="pet_info_task_completed">
-                            <div id="pet_score">
-                                <div class="pet_info_task_completed">
-                                    <div class="pet_info_task_completed_track">
-                                        <p>
-                            <?php echo $task_completed ?> Task Completed
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pet_info_task_completed_percentage" id="pet_xp">
-                                <p>
-                    <?php echo $resultUpdatePET['xp'] ?> XP
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    </div>
+                                                                                                                                                <div class="pet_info_task_completed">
+                                                                                                                                                    <div id="pet_score">
+                                                                                                                                                        <div class="pet_info_task_completed">
+                                                                                                                                                            <div class="pet_info_task_completed_track">
+                                                                                                                                                                <p>
+                                                    <?php echo $task_completed ?> Task Completed
+                                                                                                                                                                </p>
+                                                                                                                                                            </div>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="pet_info_task_completed_percentage" id="pet_xp">
+                                                                                                                                                        <p>
+                                            <?php echo $resultUpdatePET['xp'] ?> XP
+                                                                                                                                                        </p>
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
+                                                                                                                                            </div>
 
-    <?php
+                            <?php
 } else if ($act == "addXP") {
     $task_id = $_POST['task_id'];
     $user_id = $_SESSION['id'];
     ?>
 
-        <?php
-        $checkPriority = "SELECT priority_id from tb_tasks WHERE id = '$task_id' AND user_id = '$user_id'";
-        $resultPriority = mysqli_query($conn, $checkPriority);
+                                                        <?php
+                                                        $checkPriority = "SELECT priority_id from tb_tasks WHERE id = '$task_id' AND user_id = '$user_id'";
+                                                        $resultPriority = mysqli_query($conn, $checkPriority);
 
-        $priority_value = mysqli_fetch_array($resultPriority)['priority_id'];
+                                                        $priority_value = mysqli_fetch_array($resultPriority)['priority_id'];
 
-        $checkXP = "SELECT xp FROM tb_users WHERE id = '$user_id'";
-        $result = mysqli_query($conn, $checkXP);
-        $currentXP = mysqli_fetch_array($result)['xp'];
+                                                        $checkXP = "SELECT xp FROM tb_users WHERE id = '$user_id'";
+                                                        $result = mysqli_query($conn, $checkXP);
+                                                        $currentXP = mysqli_fetch_array($result)['xp'];
 
-        $newScore = $currentXP + $priority_value;
+                                                        $newScore = $currentXP + $priority_value;
 
-        $sqlUpdate = "UPDATE tb_users SET xp = '$newScore' WHERE id = '$user_id'";
-        $queryUpdate = mysqli_query($conn, $sqlUpdate);
+                                                        $sqlUpdate = "UPDATE tb_users SET xp = '$newScore' WHERE id = '$user_id'";
+                                                        $queryUpdate = mysqli_query($conn, $sqlUpdate);
 
-        ?>
-                        <p>
-        <?php echo $newScore; ?> XP
-                        </p>
-    <?php
+                                                        ?>
+                                                                                                                                                                        <p>
+                                <?php echo $newScore; ?> XP
+                                                                                                                                                                        </p>
+                                                    <?php
 
-?>
-    <?php
-    } else if ($act == "add") {
-        $task_name = $_POST['task_name'];
-        $task_date = $_POST['task_date'];
-        if (empty($task_date)) {
-            $task_date = date('Y-m-d');
-        }
+                                                    ?>
+                            <?php
+} else if ($act == "add") {
+    $task_name = $_POST['task_name'];
+    $task_date = $_POST['task_date'];
+    if (empty($task_date)) {
+        $task_date = date('Y-m-d');
+    }
 
-        $task_time = $_POST['task_time'];
-        if (empty($task_time)) {
-            $task_time = "00:00";
-        }
+    $task_time = $_POST['task_time'];
+    if (empty($task_time)) {
+        $task_time = "00:00";
+    }
 
-        $task_desc = $_POST['task_desc'];
-        if (empty($task_desc)) {
-            $task_desc = "Tidak ada deskripsi";
-        }
+    $task_desc = $_POST['task_desc'];
+    if (empty($task_desc)) {
+        $task_desc = "Tidak ada deskripsi";
+    }
 
-        $priority_id = $_POST['priority_id'];
-        if (empty($priority_id)) {
-            $priority_id = "1";
-        }
+    $priority_id = $_POST['priority_id'];
+    if (empty($priority_id)) {
+        $priority_id = "1";
+    }
 
-        $user_id = $_SESSION['id'];
+    $user_id = $_SESSION['id'];
 
-        $category_id = $_POST['category_id'];
-        if (empty($category_id)) {
-            $category_id = "0";
-        }
+    $category_id = $_POST['category_id'];
+    if (empty($category_id)) {
+        $category_id = "0";
+    }
 
-        $reminder_number = $_POST['reminder_number'];
-        $reminder_type = $_POST['reminder_type'];
+    $reminder_number = $_POST['reminder_number'];
+    $reminder_type = $_POST['reminder_type'];
 
-        $collaborator = $_POST['collaborator'];
+    $collaborators = $_POST['collaborator'];
 
-        // Untuk memproses reminder
-        $totalTime = 0;
-        $execReminder = false;
+    // Untuk memproses reminder
+    $totalTime = 0;
+    $execReminder = false;
 
-        // Olah data dari multiple input reminder
-        $arrayLength = count($reminder_number);
+    // Olah data dari multiple input reminder
+    $arrayLength = count($reminder_number);
 
-        if ($reminder_number != "") {
-            // Periksa apakah $reminder_number dan $reminder_type adalah array
-            if (is_array($reminder_number) && is_array($reminder_type)) {
-                $arrayReminderLength = count($reminder_number); // atau count($reminder_type), keduanya harus memiliki panjang yang sama
-    
-                // Buat array untuk menyimpan nilai yang dihitung
-                $totalTime = array();
-                $execReminder = false;
+    if ($reminder_number != "") {
 
-                for ($i = 0; $i < $arrayReminderLength; $i++) {
-                    if (!empty($reminder_number[$i]) && !empty($reminder_type[$i])) {
-                        // Proses reminder_number jika memiliki nilai
-                        if ($reminder_number[$i] != "") {
-                            if ($reminder_type[$i] == "minutes") {
-                                $totalTime[$i] = $reminder_number[$i];
-                            } else if ($reminder_type[$i] == "hours") {
-                                $totalTime[$i] = $reminder_number[$i] * 60;
-                            } else if ($reminder_type[$i] == "days") {
-                                $totalTime[$i] = $reminder_number[$i] * 1440;
-                            }
-                            $execReminder = true;
+        // Periksa apakah $reminder_number dan $reminder_type adalah array
+        if (is_array($reminder_number) && is_array($reminder_type)) {
+            $arrayReminderLength = count($reminder_number); // atau count($reminder_type), keduanya harus memiliki panjang yang sama
+
+            // Buat array untuk menyimpan nilai yang dihitung
+            $totalTime = array();
+            $execReminder = false;
+
+            for ($i = 0; $i < $arrayReminderLength; $i++) {
+                if (!empty($reminder_number[$i]) && !empty($reminder_type[$i])) {
+                    // Proses reminder_number jika memiliki nilai
+                    if ($reminder_number[$i] != "") {
+                        if ($reminder_type[$i] == "minutes") {
+                            $totalTime[$i] = $reminder_number[$i];
+                        } else if ($reminder_type[$i] == "hours") {
+                            $totalTime[$i] = $reminder_number[$i] * 60;
+                        } else if ($reminder_type[$i] == "days") {
+                            $totalTime[$i] = $reminder_number[$i] * 1440;
                         }
+                        $execReminder = true;
                     }
                 }
             }
         }
+    }
 
-        // Input task baru ke database
-        $status_id = 1;
-        $sql_insert = "INSERT INTO tb_tasks(task_name, task_date, task_time, task_desc, priority_id, user_id, category_id, status_id) VALUES ('$task_name', '$task_date', '$task_time', '$task_desc', '$priority_id', '$user_id', '$category_id', '$status_id')";
-        $run_query_check = mysqli_query($conn, $sql_insert);
+    // Input task baru ke database
+    $status_id = 1;
+    $sql_insert = "INSERT INTO tb_tasks(task_name, task_date, task_time, task_desc, priority_id, user_id, category_id, status_id) VALUES ('$task_name', '$task_date', '$task_time', '$task_desc', '$priority_id', '$user_id', '$category_id', '$status_id')";
+    $run_query_check = mysqli_query($conn, $sql_insert);
 
-        // Jika ada reminder, jalankan code ini
-        if ($execReminder) {
-            // Mendapatkan id dari task yang baru dibuat
-            $sqlGetTaskId = "SELECT id FROM tb_tasks ORDER BY id DESC LIMIT 1";
+    // Jika ada reminder, jalankan code ini
+    if ($execReminder) {
+        // Mendapatkan id dari task yang baru dibuat
+        $sqlGetTaskId = "SELECT id FROM tb_tasks WHERE user_id = '$user_id' ORDER BY id DESC LIMIT 1";
+        $queryGetTaskId = mysqli_query($conn, $sqlGetTaskId);
+        $resultGetTaskId = mysqli_fetch_array($queryGetTaskId);
+        $task_id = $resultGetTaskId['id'];
+
+        // Melakukan pengulangan untuk input semua reminder ke database
+        for ($i = 0; $i < $arrayReminderLength; $i++) {
+            $reminder_date[$i] = date('Y-m-d', strtotime($task_date . ' ' . $task_time . ' - ' . $totalTime[$i] . ' minutes'));
+            $reminder_time[$i] = date('H:i', strtotime($task_time . ' - ' . $totalTime[$i] . ' minutes'));
+
+            $sqlReminder = "INSERT INTO tb_reminders(task_id, reminder_date, reminder_time, reminder_number, reminder_type) VALUES('$task_id', '$reminder_date[$i]', '$reminder_time[$i]', '$reminder_number[$i]', '$reminder_type[$i]')";
+            mysqli_query($conn, $sqlReminder);
+        }
+    }
+
+    if ($collaborators != "") {
+        if (is_array($collaborators)) {
+            // Hitung Array
+            $arrayCollaboratorsLength = count($collaborators);
+
+            // Mengambil Id task terakhir
+            $sqlGetTaskId = "SELECT id FROM tb_tasks WHERE user_id = '$user_id' ORDER BY id DESC LIMIT 1";
             $queryGetTaskId = mysqli_query($conn, $sqlGetTaskId);
             $resultGetTaskId = mysqli_fetch_array($queryGetTaskId);
             $task_id = $resultGetTaskId['id'];
 
-            // Melakukan pengulangan untuk input semua reminder ke database
-            for ($i = 0; $i < $arrayReminderLength; $i++) {
-                $reminder_date[$i] = date('Y-m-d', strtotime($task_date . ' ' . $task_time . ' - ' . $totalTime[$i] . ' minutes'));
-                $reminder_time[$i] = date('H:i', strtotime($task_time . ' - ' . $totalTime[$i] . ' minutes'));
+            for ($i = 0; $i < $arrayCollaboratorsLength; $i++) {
 
-                $sqlReminder = "INSERT INTO tb_reminders(task_id, reminder_date, reminder_time) VALUES('$task_id', '$reminder_date[$i]', '$reminder_time[$i]')";
-                mysqli_query($conn, $sqlReminder);
+                $sqlCheckProfile = "SELECT id, username FROM tb_users WHERE id = '$collaborators[$i]'";
+                $queryCheckProfile = mysqli_query($conn, $sqlCheckProfile);
+                $resultCheckProfile = mysqli_fetch_array($queryCheckProfile);
+                $username = $resultCheckProfile['username'];
+                $user_collaborator_id = $resultCheckProfile['id'];
+
+                // Menambahkan data ke tabel kolaborator berdasarkan id
+                $sqlCollaborator = "INSERT INTO tb_collaborators(collaborator_username, task_id, user_id) VALUES('$username', '$task_id', '$user_collaborator_id')";
+                mysqli_query($conn, $sqlCollaborator);
             }
         }
+    }
 
-        if ($collaborator != "") {
-            if (is_array($collaborator)) {
-                // Hitung Array
-                $arrayCollaboratorLength = count($collaborator);
 
-                // Mengambil Id task terakhir
-                $sqlGetTaskId = "SELECT id FROM tb_tasks ORDER BY id DESC LIMIT 1";
-                $queryGetTaskId = mysqli_query($conn, $sqlGetTaskId);
-                $resultGetTaskId = mysqli_fetch_array($queryGetTaskId);
-                $task_id = $resultGetTaskId['id'];
+} else if ($act == "edit") {
+    $id = $_POST['id'];
 
-                for ($i = 0; $i < $arrayCollaboratorLength; $i++) {
+    $sql = "SELECT * FROM tb_tasks WHERE tb_tasks.id = '$id'";
 
-                    $sqlCheckProfile = "SELECT id, username FROM tb_users WHERE id = '$collaborator[$i]'";
-                    $queryCheckProfile = mysqli_query($conn, $sqlCheckProfile);
-                    $resultCheckProfile = mysqli_fetch_array($queryCheckProfile);
-                    $username = $resultCheckProfile['username'];
-                    $user_collaborator_id = $resultCheckProfile['id'];
+    $query = mysqli_query($conn, $sql);
+    $result = mysqli_fetch_array($query);
 
-                    // Menambahkan data ke tabel kolaborator berdasarkan id
-                    $sqlCollaborator = "INSERT INTO tb_collaborators(collaborator_username, task_id, user_id) VALUES('$username', '$task_id', '$user_collaborator_id')";
-                    mysqli_query($conn, $sqlCollaborator);
+    $task_id = $result['id'];
+    $task_name = $result['task_name'];
+    $task_desc = $result['task_desc'];
+    $category_id = $result['category_id'];
+    $priority_id = $result['priority_id'];
+    $task_date = $result['task_date'];
+    $task_time = $result['task_time'];
+    $status_id = $result['status_id'];
+
+    // Mengirimkan objek reminder dalam bentuk JSON ke script.js
+    $sqlGetReminders = "SELECT * FROM tb_reminders WHERE task_id = '$id'";
+    $queryGetReminders = mysqli_query($conn, $sqlGetReminders);
+    $reminderDetail = array(); // Inisialisasi array untuk reminderDetail
+
+    if (mysqli_num_rows($queryGetReminders) > 0) {
+        while ($rowReminders = mysqli_fetch_assoc($queryGetReminders)) {
+            $reminderDetail[] = array(
+                'reminder_number' => $rowReminders['reminder_number'],
+                'reminder_type' => $rowReminders['reminder_type']
+            );
+        }
+
+        // Mengubah array menjadi JSON dan mengirimkan ke script.js
+        $reminderDetailJson = json_encode($reminderDetail);
+    }
+
+
+    // Mengirimkan objek collaborator dalam bentuk JSON ke script.js
+    $sqlGetCollaborators = "SELECT * FROM tb_collaborators WHERE task_id = '$id'";
+    $queryGetCollaborators = mysqli_query($conn, $sqlGetCollaborators);
+    $collaborators = array(); // Inisialisasi array untuk reminderDetail
+
+
+    if (mysqli_num_rows($queryGetCollaborators) > 0) {
+
+        while ($rowCollaborators = mysqli_fetch_assoc($queryGetCollaborators)) {
+            $collaborators[] = array(
+                'user_id' => $rowCollaborators['user_id'],
+                'collaborator_username' => $rowCollaborators['collaborator_username']
+            );
+        }
+
+        // Mengubah array menjadi JSON dan mengirimkan ke script.js
+        $collaboratorsJson = json_encode($collaborators);
+    }
+
+    // Echo data dalam bentuk JSON dengan pemisah '|' untuk digunakan di JavaScript
+    echo "|" . $task_id . "|" . $task_name . "|" . $task_desc . "|" . $category_id . "|" . $priority_id . "|" . $task_date . "|" . $task_time . "|" . $status_id . "|" . $reminderDetailJson . "|" . $collaboratorsJson . "|";
+
+} else if ($act == "update") {
+
+    $user_id = $_SESSION['id'];
+    $task_id = $_POST['id'];
+    $task_name = $_POST['task_name'];
+    $task_desc = $_POST['task_desc'];
+    $category_id = $_POST['category_id'];
+    $priority_id = $_POST['priority_id'];
+    $task_date = $_POST['task_date'];
+    $task_time = $_POST['task_time'];
+    $status_id = $_POST['status_id'];
+    $reminder_number = $_POST['reminder_number'];
+    $reminder_type = $_POST['reminder_type'];
+
+    $sql = "UPDATE tb_tasks SET task_name = '$task_name', task_time = '$task_time', task_date = '$task_date', task_desc = '$task_desc', priority_id = '$priority_id', user_id = '$user_id', category_id = '$category_id', status_id = '$status_id' WHERE id = '$task_id' AND user_id = '$user_id'";
+    $query = mysqli_query($conn, $sql);
+
+    if ($reminder_number != "") {
+
+        // Delete Old Reminder
+        $sqlDeleteOldReminder = "DELETE FROM tb_reminders WHERE task_id = '$task_id'";
+        mysqli_query($conn, $sqlDeleteOldReminder);
+
+        // Periksa apakah $reminder_number dan $reminder_type adalah array
+        if (is_array($reminder_number) && is_array($reminder_type)) {
+            $arrayReminderLength = count($reminder_number); // atau count($reminder_type), keduanya harus memiliki panjang yang sama
+
+            // Buat array untuk menyimpan nilai yang dihitung
+            $totalTime = array();
+            $execReminder = false;
+
+            for ($i = 0; $i < $arrayReminderLength; $i++) {
+                if (!empty($reminder_number[$i]) && !empty($reminder_type[$i])) {
+                    // Proses reminder_number jika memiliki nilai
+                    if ($reminder_number[$i] != "") {
+                        if ($reminder_type[$i] == "minutes") {
+                            $totalTime[$i] = $reminder_number[$i];
+                        } else if ($reminder_type[$i] == "hours") {
+                            $totalTime[$i] = $reminder_number[$i] * 60;
+                        } else if ($reminder_type[$i] == "days") {
+                            $totalTime[$i] = $reminder_number[$i] * 1440;
+                        }
+                    }
+
+                    // Melakukan pengulangan untuk input semua reminder ke database
+                    $reminder_date[$i] = date('Y-m-d', strtotime($task_date . ' ' . $task_time . ' - ' . $totalTime[$i] . ' minutes'));
+                    $reminder_time[$i] = date('H:i', strtotime($task_time . ' - ' . $totalTime[$i] . ' minutes'));
+
+                    $sqlReminder = "INSERT INTO tb_reminders(task_id, reminder_date, reminder_time, reminder_number, reminder_type) VALUES('$task_id', '$reminder_date[$i]', '$reminder_time[$i]', '$reminder_number[$i]', '$reminder_type[$i]')";
+                    mysqli_query($conn, $sqlReminder);
+
                 }
             }
         }
+    }
 
+    if ($query) {
+        echo $sql;
+        echo "data berhasil diperbarui";
+    }
 
-    } else if ($act == "edit") {
-        $id = $_POST['id'];
+    // } else if ($act == "loading") {
+    //     $sql = "SELECT t.*, c.category_name, c.category_img, co.* FROM tb_tasks t 
+    //                 LEFT JOIN tb_categories c ON t.category_id = c.id 
+    //                 LEFT JOIN tb_collaborators co ON t.id = co.task_id
+    //                 WHERE (t.user_id = '$user_id' OR co.user_id = '$user_id') AND t.status_id = 1 
+    //                 ORDER BY t.task_date ";
 
-        $sql = "SELECT * FROM tb_tasks LEFT JOIN tb_reminders ON tb_tasks.id = tb_reminders.task_id WHERE tb_tasks.id = '$id'";
-        $query = mysqli_query($conn, $sql);
-        $result = mysqli_fetch_array($query);
+} else if ($act == "loading") {
+    $sql = "SELECT t.*, c.category_name, c.category_img FROM tb_tasks t 
+                    LEFT JOIN tb_categories c ON t.category_id = c.id 
+                    WHERE t.user_id = '$user_id' AND t.status_id = 1 
+                    ORDER BY t.task_date ";
 
+    $query = mysqli_query($conn, $sql);
+    while ($result = mysqli_fetch_array($query)) {
+        $user_id = $_SESSION['id'];
+        $owner_id = $result['user_id'];
         $task_id = $result['id'];
-        $task_name = $result['task_name'];
+        $task_title = $result['task_name'];
+        $task_date = $result['task_date'] == date('Y-m-d') ? 'Today' : date('d-m-Y', strtotime($result['task_date']));
+        $task_time = $result['task_time'] == "00:00:00" ? '' : date('H:i', strtotime($result['task_time']));
         $task_desc = $result['task_desc'];
-        $category_id = $result['category_id'];
+        $category = $result['category_name'];
+        $category_img = $result['category_img'];
         $priority_id = $result['priority_id'];
-        $task_date = $result['task_date'];
-        $task_time = $result['task_time'];
-        $status_id = $result['status_id'];
 
-        echo "|" . $task_id . "|" . $task_name . "|" . $task_desc . "|" . $category_id . "|" . $priority_id . "|" . $task_date . "|" . $task_time . "|" . $status_id . "|";
+        $task_date = $result['task_date'] == date('Y-m-d') ? 'Today' : date('d-m-Y', strtotime($result['task_date']));
 
-    } else if ($act == "update") {
-
-        $task_id = $_POST['id'];
-        $task_name = $_POST['task_name'];
-        $task_desc = $_POST['task_desc'];
-        $category_id = $_POST['category_id'];
-        $priority_id = $_POST['priority_id'];
-        $task_date = $_POST['task_date'];
-        $task_time = $_POST['task_time'];
-        $status_id = $_POST['status_id'];
-
-        $sql = "UPDATE tb_tasks SET task_name = '$task_name', task_time = '$task_time', task_date = '$task_date', task_desc = '$task_desc', priority_id = '$priority_id', user_id = '$user_id', category_id = '$category_id', status_id = '$status_id' WHERE id = '$task_id'";
-        $query = mysqli_query($conn, $sql);
-
-        if ($query) {
-            echo $sql;
-            echo "data berhasil diperbarui";
+        // Menentukan tag pada title task
+        $priority_tag = "";
+        if ($priority_id == 1) {
+            $priority_tag = "Low";
+        } else if ($priority_id == "2") {
+            $priority_tag = "Medium";
+        } else if ($priority_id == "3") {
+            $priority_tag = "High";
         }
 
-    } else if ($act == "loading") {
-        $sql = "SELECT t.*, c.category_name, c.category_img FROM tb_tasks t LEFT JOIN tb_categories c ON t.category_id = c.id WHERE user_id = '$user_id' AND status_id = 1 ORDER BY task_date ";
-        $query = mysqli_query($conn, $sql);
-        while ($result = mysqli_fetch_array($query)) {
-            $task_id = $result['id'];
-            $task_title = $result['task_name'];
-            $task_date = $result['task_date'] == date('Y-m-d') ? 'Today' : date('d-m-Y', strtotime($result['task_date']));
-            $task_time = $result['task_time'] == "00:00:00" ? '' : date('H:i', strtotime($result['task_time']));
-            $task_desc = $result['task_desc'];
-            $category = $result['category_name'];
-            $category_img = $result['category_img'];
-            $priority_id = $result['priority_id'];
+        if ($result['task_date'] < date('Y-m-d')) {
+            $task_date = '<span style="color: red; font-family: \'Satoshi-Bold\';">' . $task_date . '</span>';
+            $status_id = 3;
+        }
 
-            $task_date = $result['task_date'] == date('Y-m-d') ? 'Today' : date('d-m-Y', strtotime($result['task_date']));
-
-            // Menentukan tag pada title task
-            $priority_tag = "";
-            if ($priority_id == 1) {
-                $priority_tag = "Low";
-            } else if ($priority_id == "2") {
-                $priority_tag = "Medium";
-            } else if ($priority_id == "3") {
-                $priority_tag = "High";
-            }
-
-
-            if ($result['task_date'] < date('Y-m-d')) {
-                $task_date = '<span style="color: red; font-family: \'Satoshi-Bold\';">' . $task_date . '</span>';
-                $status_id = 3;
-            }
-
+        if ($user_id == '$owner_id') { // Jika user adalah collaborator
             ?>
 
-                                            <div class="task_active_card">
-                                                <div class="task_category">
-                                                    <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
-                                                </div>
-                                                <div class=" task_info">
-                                                    <div class="task_subtitle">
-                                                        <p>
-                        <?php echo $task_title; ?><span class="priority_tag">
-                            <?php echo $priority_tag; ?>
-                                                            </span>
-                                                        </p>
-                                                    </div>
-                                                    <div class="task_deadline">
-                                                        <i class="fa-regular fa-calendar" style="color: #ffffff;"></i>
-                                                        <p>
-                        <?php echo $task_date; ?>
-                                                        </p>
-                                                        <p>⠀
-                                                            <i class="fa-solid fa-clock" style="color: white;"></i>
-                        <?php echo $task_time; ?>
-                                                        </p>
-                                                    </div>
-                                                    <div class="task_desc">
-                                                        <p>
-                        <?php echo $task_desc; ?>
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                                <div class="task_checkbox">
-                                                    <input type="checkbox" id="undone<?php echo $task_id; ?>" data-task-id="<?php echo $task_id; ?>"
-                                                        data-priority=" <?php echo $priority_id; ?>" onclick="check_task(<?php echo $task_id; ?>)" /> <button
-                                                        type="button" style="cursor:pointer" id="delete_undone<?php echo $task_id; ?>"
-                                                        onclick=" delete_task(<?php echo $task_id; ?>)" class="button_delete" value="Delete">
-                                                        <p style="cursor:pointer">Delete</p>
-                                                    </button>
-                                                    <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
-                                                        onclick=" editTask(<?php echo $task_id; ?>)" id="edit_task_button<?php echo $task_id; ?>"
-                                                        class="button_update" value="Edit">
-                                                        <p style="cursor:pointer">Edit</p>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <br>
-        <?php
-        }
-    } else if ($act == "completed") {
-        $sql = "SELECT t.*, c.category_name, c.category_img FROM tb_tasks t LEFT JOIN tb_categories c ON t.category_id = c.id WHERE user_id = '$user_id' AND status_id = 2";
-        $query = mysqli_query($conn, $sql);
-        while ($result = mysqli_fetch_array($query)) {
-            $task_id = $result['id'];
-            $task_title = $result['task_name'];
-            $task_date = $result['task_date'] == date('Y-m-d') ? 'Today' : date('d-m-Y', strtotime($result['task_date']));
-            $task_time = $result['task_time'] == "00:00:00" ? '' : date('H:i', strtotime($result['task_time']));
-            $task_desc = $result['task_desc'];
-            $category = $result['category_name'];
-            $category_img = $result['category_img'];
+                                                                                                                                                                                                                                                                                                                                                <div class="task_active_card">
+                                                                                                                                                                                                                                                                                                                                                    <div class="task_category">
+                                                                                                                                                                                                                                                                                                                                                        <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                    <div class=" task_info"></div>
+                                                                                                                                                                                                                                                                                                                                                    <div class="task_subtitle">
+                                                                                                                                                                                                                                                                                                                                                        <p>
+                                                                                                <?php echo $task_title; ?><span class="priority_tag">
+                                                                                                    <?php echo $priority_tag; ?>
+                                                                                                                                                                                                                                                                                                                                                            </span>
+                                                                                                                                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                    <div class="task_deadline">
+                                                                                                                                                                                                                                                                                                                                                        <i class="fa-regular fa-calendar" style="color: #ffffff;"></i>
+                                                                                                                                                                                                                                                                                                                                                        <p>
+                                                                                                <?php echo $task_date; ?>
+                                                                                                                                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                                                                                                                                        <p>⠀
+                                                                                                                                                                                                                                                                                                                                                            <i class="fa-solid fa-clock" style="color: white;"></i>
+                                                                                                <?php echo $task_time; ?>
+                                                                                                                                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                    <div class="task_desc">
+                                                                                                                                                                                                                                                                                                                                                        <p>
+                                                                                                <?php echo $task_desc; ?>
+                                                                                                                                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                <br>
+                                                                                                                <?php
+                                                                                                                ?>
 
-            ?>
-                                                <div class="task_active_card">
-                                                    <div class="task_category">
-                                                        <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
-                                                    </div>
-                                                    <div class=" task_info">
-                                                        <div class="task_subtitle">
-                                                            <p>
-                        <?php echo $task_title; ?>
-                                                            </p>
-                                                        </div>
-                                                        <div class="task_deadline">
-                                                            <i class="fa-solid fa-clock" style="color: white;"></i>
-                                                            <p>
-                        <?php echo $task_date; ?>
-                                                            </p>
-                                                        </div>
-                                                        <div class="task_desc">
-                                                            <p>
-                        <?php echo $task_desc; ?>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="task_checkbox">
-                                                        <input type="checkbox" id="done<?php echo $task_id; ?>" onclick="uncheck_task(<?php echo $task_id; ?>)"
-                                                            checked />
-                                                        <button type="button" id="delete_done<?php echo $task_id; ?>" onclick="delete_task(<?php echo $task_id; ?>)"
-                                                            class="button_delete" value="Delete">
-                                                            <p style="cursor:pointer">Delete</p>
-                                                        </button>
-                                                        <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
-                                                            onclick="editTask(<?php echo $task_id; ?>)" id="edit_task_button<?php echo $task_id; ?>"
-                                                            class="button_update" value="Edit">
-                                                            <p style="cursor:pointer">Edit</p>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <br>
-        <?php
-        }
-    } else if ($act == "filter") {
-        $fromDate = $_POST['task_date_filter_from'];
-        $toDate = $_POST['task_date_filter_to_date'];
-        $statusFilter = $_POST['status_id_filter'];
-
-        $sql = "SELECT t.*, c.category_name, c.category_img FROM tb_tasks t LEFT JOIN tb_categories c ON t.category_id = c.id WHERE user_id = '$user_id'";
-
-        if ($statusFilter == "") {
-            $sql .= " AND status_id = '$id'";
-        } else if ($statusFilter == "1") {
-            $sql .= " AND status_id = 1";
-        } else if ($statusFilter == "2") {
-            $sql .= " AND status_id = 2";
-        } else if ($statusFilter == "3") {
-            $sql .= " AND status_id = 3";
-        }
-
-
-        if ($fromDate !== '' && $toDate !== '') {
-            $sql .= "AND (t.task_date BETWEEN DATE('$fromDate') AND DATE('$toDate'))";
-        } else if ($fromDate !== '' && $toDate == '') {
-            $sql .= "AND (t.task_date BETWEEN DATE('$fromDate') AND DATE(0000-00-00))";
-        } else if ($fromDate == '' && $toDate !== '') {
-            $sql .= "AND (t.task_date BETWEEN DATE(0000-00-00) AND DATE('$toDate'))";
-        }
-
-        $sql .= " ORDER BY t.task_date ASC";
-
-        $query = mysqli_query($conn, $sql);
-        while ($result = mysqli_fetch_array($query)) {
-            $task_id = $result['id'];
-            $task_title = $result['task_name'];
-            $task_date = $result['task_date'] == date('Y-m-d') ? 'Today' : date('d-m-Y', strtotime($result['task_date']));
-            $task_time = $result['task_time'] == "00:00:00" ? '' : date('H:i', strtotime($result['task_time']));
-            $task_desc = $result['task_desc'];
-            $category = $result['category_name'];
-            $category_img = $result['category_img'];
+                                                                                                                                                                                                                                                                                                                                                <div class="task_active_card">
+                                                                                                                                                                                                                                                                                                                                                    <div class="task_category">
+                                                                                                                                                                                                                                                                                                                                                        <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                    <div class=" task_info">
+                                                                                                                                                                                                                                                                                                                                                        <div class="task_subtitle">
+                                                                                                                                                                                                                                                                                                                                                            <p>
+                                                                                                    <?php echo $task_title; ?><span class="priority_tag">
+                                                                                                        <?php echo $priority_tag; ?>
+                                                                                                                                                                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                        <div class="task_deadline">
+                                                                                                                                                                                                                                                                                                                                                            <i class="fa-regular fa-calendar" style="color: #ffffff;"></i>
+                                                                                                                                                                                                                                                                                                                                                            <p>
+                                                                                                    <?php echo $task_date; ?>
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                            <p>⠀
+                                                                                                                                                                                                                                                                                                                                                                <i class="fa-solid fa-clock" style="color: white;"></i>
+                                                                                                    <?php echo $task_time; ?>
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                        <div class="task_desc">
+                                                                                                                                                                                                                                                                                                                                                            <p>
+                                                                                                    <?php echo $task_desc; ?>
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                <br>
+                                                                                    <?php
+        } else { // Jika user adalah owner dari task itu sendiri
             ?>
 
-                                                    <div class="task_active_card">
-                                                        <div class="task_category">
-                                                            <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
-                                                        </div>
-                                                        <div class="task_info">
-                                                            <div class="task_subtitle">
-                                                                <p>
-                        <?php echo $task_title; ?>
-                                                                </p>
-                                                            </div>
-                                                            <div class="task_deadline">
-                                                                <i class="fa-solid fa-clock" style="color: white;"></i>
-                                                                <p>
-                        <?php echo $task_date; ?>
-                                                                </p>
-                                                                <p>⠀
-                        <?php echo $task_time; ?>
-                                                                </p>
-                                                            </div>
-                                                            <div class="task_desc">
-                                                                <p>
-                        <?php echo $task_desc; ?>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="task_checkbox">
-                                                            <input type="checkbox" id="undone<?php echo $task_id; ?>" onclick="check_task(<?php echo $task_id; ?>)"
-                                                                selected />
-                                                            <button type="button" style="cursor:pointer" id="delete_undone<?php echo $task_id; ?>"
-                                                                onclick="delete_task(<?php echo $task_id; ?>)" class="button_delete" value="Delete">
-                                                                <p style="cursor:pointer">Delete</p>
-                                                            </button>
-                                                            <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
-                                                                onclick="editTask(<?php echo $task_id; ?>)" class="button_update" value="Edit">
-                                                                <p style="cursor:pointer">Edit</p>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <br>
-        <?php
+                                                                                                                                                                                                                                                                                                                                                <div class="task_active_card">
+                                                                                                                                                                                                                                                                                                                                                    <div class="task_category">
+                                                                                                                                                                                                                                                                                                                                                        <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                    <div class=" task_info">
+                                                                                                                                                                                                                                                                                                                                                        <div class="task_subtitle">
+                                                                                                                                                                                                                                                                                                                                                            <p>
+                                                                                                    <?php echo $task_title; ?><span class="priority_tag">
+                                                                                                        <?php echo $priority_tag; ?>
+                                                                                                                                                                                                                                                                                                                                                                </span>
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                        <div class="task_deadline">
+                                                                                                                                                                                                                                                                                                                                                            <i class="fa-regular fa-calendar" style="color: #ffffff;"></i>
+                                                                                                                                                                                                                                                                                                                                                            <p>
+                                                                                                    <?php echo $task_date; ?>
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                            <p>⠀
+                                                                                                                                                                                                                                                                                                                                                                <i class="fa-solid fa-clock" style="color: white;"></i>
+                                                                                                    <?php echo $task_time; ?>
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                        <div class="task_desc">
+                                                                                                                                                                                                                                                                                                                                                            <p>
+                                                                                                    <?php echo $task_desc; ?>
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                                        <div class="task_checkbox">
+                                                                                                                                                                                                                                                                                                                                                        <input type="checkbox" id="undone<?php echo $task_id; ?>" data-task-id="<?php echo $task_id; ?>"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                data-priority=" <?php echo $priority_id; ?>" onclick="check_task(<?php echo $task_id; ?>)" /> <button
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                type="button" style="cursor:pointer" id="delete_undone<?php echo $task_id; ?>"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                onclick=" delete_task(<?php echo $task_id; ?>)" class="button_delete" value="Delete">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                <p style="cursor:pointer">Delete</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            </button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                onclick=" editTask(<?php echo $task_id; ?>)" id="edit_task_button<?php echo $task_id; ?>" class="button_update"
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                value="Edit">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                <p style="cursor:pointer">Edit</p>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            </button>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                                <br>
+                                                                                    <?php
         }
     }
+
+} else if ($act == "completed") {
+    $sql = "SELECT t.*, c.category_name, c.category_img FROM tb_tasks t LEFT JOIN tb_categories c ON t.category_id = c.id WHERE user_id = '$user_id' AND status_id = 2";
+    $query = mysqli_query($conn, $sql);
+    while ($result = mysqli_fetch_array($query)) {
+        $task_id = $result['id'];
+        $task_title = $result['task_name'];
+        $task_date = $result['task_date'] == date('Y-m-d') ? 'Today' : date('d-m-Y', strtotime($result['task_date']));
+        $task_time = $result['task_time'] == "00:00:00" ? '' : date('H:i', strtotime($result['task_time']));
+        $task_desc = $result['task_desc'];
+        $category = $result['category_name'];
+        $category_img = $result['category_img'];
+
+        ?>
+                                                                                                                                                                                                                                                                                                                                                <div class="task_active_card">
+                                                                                                                                                                                                                                                                                                                                                    <div class="task_category">
+                                                                                                                                                                                                                                                                                                                                                        <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                    <div class=" task_info">
+                                                                                                                                                                                                                                                                                                                                                        <div class="task_subtitle">
+                                                                                                                                                                                                                                                                                                                                                            <p>
+                                                                        <?php echo $task_title; ?>
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                        <div class="task_deadline">
+                                                                                                                                                                                                                                                                                                                                                            <i class="fa-solid fa-clock" style="color: white;"></i>
+                                                                                                                                                                                                                                                                                                                                                            <p>
+                                                                        <?php echo $task_date; ?>
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                        <div class="task_desc">
+                                                                                                                                                                                                                                                                                                                                                            <p>
+                                                                        <?php echo $task_desc; ?>
+                                                                                                                                                                                                                                                                                                                                                            </p>
+                                                                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                    <div class="task_checkbox">
+                                                                                                                                                                                                                                                                                                                                                        <input type="checkbox" id="done<?php echo $task_id; ?>" onclick="uncheck_task(<?php echo $task_id; ?>)"
+                                                                                                                                                                                                                                                                                                                                                            checked />
+                                                                                                                                                                                                                                                                                                                                                        <button type="button" id="delete_done<?php echo $task_id; ?>" onclick="delete_task(<?php echo $task_id; ?>)"
+                                                                                                                                                                                                                                                                                                                                                            class="button_delete" value="Delete">
+                                                                                                                                                                                                                                                                                                                                                            <p style="cursor:pointer">Delete</p>
+                                                                                                                                                                                                                                                                                                                                                        </button>
+                                                                                                                                                                                                                                                                                                                                                        <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
+                                                                                                                                                                                                                                                                                                                                                            onclick="editTask(<?php echo $task_id; ?>)" id="edit_task_button<?php echo $task_id; ?>"
+                                                                                                                                                                                                                                                                                                                                                            class="button_update" value="Edit">
+                                                                                                                                                                                                                                                                                                                                                            <p style="cursor:pointer">Edit</p>
+                                                                                                                                                                                                                                                                                                                                                        </button>
+                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                <br>
+                                                        <?php
+    }
+} else if ($act == "filter") {
+    $fromDate = $_POST['task_date_filter_from'];
+    $toDate = $_POST['task_date_filter_to_date'];
+    $statusFilter = $_POST['status_id_filter'];
+
+    $sql = "SELECT t.*, c.category_name, c.category_img FROM tb_tasks t LEFT JOIN tb_categories c ON t.category_id = c.id WHERE user_id = '$user_id'";
+
+    if ($statusFilter == "") {
+        $sql .= " AND status_id = '$id'";
+    } else if ($statusFilter == "1") {
+        $sql .= " AND status_id = 1";
+    } else if ($statusFilter == "2") {
+        $sql .= " AND status_id = 2";
+    } else if ($statusFilter == "3") {
+        $sql .= " AND status_id = 3";
+    }
+
+
+    if ($fromDate !== '' && $toDate !== '') {
+        $sql .= "AND (t.task_date BETWEEN DATE('$fromDate') AND DATE('$toDate'))";
+    } else if ($fromDate !== '' && $toDate == '') {
+        $sql .= "AND (t.task_date BETWEEN DATE('$fromDate') AND DATE(0000-00-00))";
+    } else if ($fromDate == '' && $toDate !== '') {
+        $sql .= "AND (t.task_date BETWEEN DATE(0000-00-00) AND DATE('$toDate'))";
+    }
+
+    $sql .= " ORDER BY t.task_date ASC";
+
+    $query = mysqli_query($conn, $sql);
+    while ($result = mysqli_fetch_array($query)) {
+        $task_id = $result['id'];
+        $task_title = $result['task_name'];
+        $task_date = $result['task_date'] == date('Y-m-d') ? 'Today' : date('d-m-Y', strtotime($result['task_date']));
+        $task_time = $result['task_time'] == "00:00:00" ? '' : date('H:i', strtotime($result['task_time']));
+        $task_desc = $result['task_desc'];
+        $category = $result['category_name'];
+        $category_img = $result['category_img'];
+        ?>
+
+                                                                                                                                                                                                                                                                                                                                                                            <div class="task_active_card">
+                                                                                                                                                                                                                                                                                                                                                                                <div class="task_category">
+                                                                                                                                                                                                                                                                                                                                                                                    <img class="task_category_img" src="./assets/images/category/<?php echo $category_img ?>" alt="">
+                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                <div class="task_info">
+                                                                                                                                                                                                                                                                                                                                                                                    <div class="task_subtitle">
+                                                                                                                                                                                                                                                                                                                                                                                        <p>
+                                                                        <?php echo $task_title; ?>
+                                                                                                                                                                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                    <div class="task_deadline">
+                                                                                                                                                                                                                                                                                                                                                                                        <i class="fa-solid fa-clock" style="color: white;"></i>
+                                                                                                                                                                                                                                                                                                                                                                                        <p>
+                                                                        <?php echo $task_date; ?>
+                                                                                                                                                                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                                                                                                                                                                        <p>⠀
+                                                                        <?php echo $task_time; ?>
+                                                                                                                                                                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                    <div class="task_desc">
+                                                                                                                                                                                                                                                                                                                                                                                        <p>
+                                                                        <?php echo $task_desc; ?>
+                                                                                                                                                                                                                                                                                                                                                                                        </p>
+                                                                                                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                                <div class="task_checkbox">
+                                                                                                                                                                                                                                                                                                                                                                                    <input type="checkbox" id="undone<?php echo $task_id; ?>" onclick="check_task(<?php echo $task_id; ?>)"
+                                                                                                                                                                                                                                                                                                                                                                                        selected />
+                                                                                                                                                                                                                                                                                                                                                                                    <button type="button" style="cursor:pointer" id="delete_undone<?php echo $task_id; ?>"
+                                                                                                                                                                                                                                                                                                                                                                                        onclick="delete_task(<?php echo $task_id; ?>)" class="button_delete" value="Delete">
+                                                                                                                                                                                                                                                                                                                                                                                        <p style="cursor:pointer">Delete</p>
+                                                                                                                                                                                                                                                                                                                                                                                    </button>
+                                                                                                                                                                                                                                                                                                                                                                                    <button type="button" style="cursor:pointer" id="update_undone<?php echo $task_id; ?>"
+                                                                                                                                                                                                                                                                                                                                                                                        onclick="editTask(<?php echo $task_id; ?>)" class="button_update" value="Edit">
+                                                                                                                                                                                                                                                                                                                                                                                        <p style="cursor:pointer">Edit</p>
+                                                                                                                                                                                                                                                                                                                                                                                    </button>
+                                                                                                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                                                                                                            </div>
+
+                                                                                                                                                                                                                                                                                                                                                                            <br>
+                                                        <?php
+    }
+}
 ?>

@@ -170,7 +170,8 @@ include "config/connection.php";
             <div class="inputForm">
                 <h3 class="collaborator_title">Collaborator</h3>
                 <div class="customSelect">
-                    <select class="js-example-basic-multiple" name="collaborator[]" multiple="multiple">
+                    <select id="collaborator" class="js-example-basic-multiple" name="collaborator[]"
+                        multiple="multiple">
                         <option class="option" value="" selected disabled>Add collaborator</option>
 
                         <?php

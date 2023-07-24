@@ -116,6 +116,7 @@ a {
     height: auto;
     border-radius: 10px;
     margin-right: 20px;
+    aspect-ratio: 1/1;
 }
 
 .profile_desc {
@@ -131,7 +132,7 @@ a {
 }
 
 .profile_desc_email {
-    font-size: 16px;
+    font-size: 12px;
     font-family: "Satoshi-Regular";
 }
 
