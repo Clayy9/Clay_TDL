@@ -7,7 +7,7 @@ $bg = "./assets/bg_login.png";
 <head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://kit.fontawesome.com/2c04a65836.js" crossorigin="anonymous"></script>
-    <title>Register - Teman Kanvas</title>
+    <title>Register</title>
     <link rel="icon" type="image/x-icon" href="./assets/faviconTK.ico">
     <link rel="stylesheet" href="./assets/css/style_register.css">
     <style type="text/css">

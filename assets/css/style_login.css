@@ -2,23 +2,23 @@
 :root {
 
   /* Font color */
-    --black: #000000;
-    --white: #F1F1F1;
+  --black: #000000;
+  --white: #F1F1F1;
 
   /* Font size */
 
-    --hero: 80px;
-    --header1: 60px;
-    --header2: 40px;
-    --header3: 32px;
-    --text: 24px;
-    --text2: 16px;
+  --hero: 80px;
+  --header1: 60px;
+  --header2: 40px;
+  --header3: 32px;
+  --text: 24px;
+  --text2: 16px;
 }
 
 @font-face {
   font-family: 'Satoshi-Light';
   src: url('../fonts/Satoshi-Light.otf');
-} 
+}
 
 @font-face {
   font-family: 'Satoshi-Regular';
@@ -44,34 +44,34 @@ html {
   scroll-behavior: smooth;
 
 }
-  
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  body::-webkit-scrollbar {
-    display: none;
-  }
-  
-  /* Hide scrollbar for IE, Edge and Firefox */
-  body {
-    -ms-overflow-style: none;
-    /* IE and Edge */
-    scrollbar-width: none;
-    /* Firefox */
-    height: 100%;
-    background-color: var(--black);
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 
-  }
-  
-  h1 {
-    font-family: "Satoshi-Black";
-    margin-bottom: 40;
-  }
-  
-  /* Task */
-.form_container{
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+body {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  height: 100%;
+  background-color: var(--black);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+h1 {
+  font-family: "Satoshi-Black";
+  margin-bottom: 40;
+}
+
+/* Task */
+.form_container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -83,22 +83,22 @@ html {
   border-radius: 40px;
 }
 
-.form_container h1{
+.form_container h1 {
   font-family: "Satoshi-Black";
   font-size: 24px;
   margin-bottom: 24px;
-  color:var(--white);
+  color: var(--white);
 }
 
-.form_container h3{
+.form_container h3 {
   font-family: "Satoshi-Bold";
   font-size: 16px;
   margin-bottom: 4px;
 
-  color:var(--white);
+  color: var(--white);
 }
 
-.textField{
+.textField {
   font-family: "Satoshi-Regular";
   background-color: #1D1B1B;
   font-size: 16px;
@@ -108,22 +108,22 @@ html {
   width: 400px;
   height: auto;
 
-  color:var(--white);
+  color: var(--white);
 
 }
 
-.inputForm{
+.inputForm {
   margin-bottom: 16px;
 }
 
 /* Button */
 
-.form_button{
+.form_button {
   font-family: 'Satoshi-Black';
   font-size: 20px;
   color: var(--white);
   background-color: var(--black);
-  border : 1px solid var(--white);
+  border: 1px solid var(--white);
   border-radius: 12px;
   margin-top: 20px;
   margin-bottom: 24px;
@@ -131,27 +131,28 @@ html {
 
   transition: 0.5s;
 
-  cursor:pointer;
+  cursor: pointer;
 
 }
-.form_button:hover{
+
+.form_button:hover {
   font-family: 'Satoshi-Black';
   font-size: 20px;
   color: var(--black);
   background-color: var(--white);
-  border : 1px solid var(--white);
+  border: 1px solid var(--white);
   border-radius: 12px;
   margin-top: 20px;
   margin-bottom: 24px;
   padding: 8px 40px;
 
 
-  cursor:pointer;
+  cursor: pointer;
 
 }
 
-.register{
-  color:var(--white);
+.register {
+  color: var(--white);
   font-family: "Satoshi-Regular";
 }
 
@@ -177,4 +178,10 @@ a:active {
   color: var(--white);
   background-color: transparent;
   text-decoration: underline;
+}
+
+/* Scrollable DIV */
+.task_active_list {
+  overflow-y: auto;
+  height: 200px;
 }
