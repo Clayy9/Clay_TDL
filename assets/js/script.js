@@ -217,7 +217,7 @@ function editTask(task_id) {
     success: function (result) {
       var data = result.split("|");
 
-      var id = $("#id").val(data[1]);
+      $("#id").val(data[1]);
       $("#title_task").html("Edit Task");
       $("#task_name").val(data[2]);
       $("#task_desc").val(data[3]);
@@ -253,24 +253,21 @@ function editTask(task_id) {
       // Initialize select2 untuk elemen select collaborator
       $("#collaborator").select2();
 
+      // Tampilkan semua collaborator di database
+      var allCollaborators = JSON.parse(data[11]);
+
+      // Data collaborator pada task tersebut
       var collaborators = JSON.parse(data[10]);
 
       // Kosongkan dulu collaborator wrapper
       $("#collaborator").empty();
 
-      // Memproses data dari collaborators dan melakukan append pada div
-      collaborators.forEach(function (collaborator) {
-        $("#collaborator").append('<option value="' + collaborator.user_id + '" selected>' + collaborator.collaborator_username + '</option>');
-      });
-
-      // revisi : generate dulu semua baru di loop check selected atau tidak =============================
-
-      // Tampilkan semua collaborator di database
-      var allCollaborators = JSON.parse(data[11]);
-
       // Memproses data dari all collaborators dan melakukan append pada div
       allCollaborators.forEach(function (allCollaborator) {
-        $("#collaborator").append('<option value="' + allCollaborator.user_id + '">' + allCollaborator.collaborator_username + '</option>');
+        $("#collaborator").append('<option value="' + allCollaborator.user_id + '"' +
+          (collaborators.some(function (collaborator) { return collaborator.user_id === allCollaborator.user_id; }) ? ' selected' : '') + '>' +
+          allCollaborator.collaborator_username +
+          '</option>');
       });
 
       // Tambahkan kode untuk menampilkan modal
@@ -283,14 +280,11 @@ function editTask(task_id) {
       $("#submit-button").unbind("click");
       $("#submit-button").on("click", function () {
         update_task(task_id);
-
       });
-
-      //  foreach $reminders, panggil ulang yang append
-      // foreach $collaborator 
     },
   });
 }
+
 
 function update_task(task_id) {
 
