@@ -420,6 +420,18 @@ a {
     font-family: "Satoshi-Regular";
 }
 
+.creator_info {
+    font-size: 14px;
+    font-family: "Satoshi-Bold";
+    width: 332px;
+    color: gainsboro;
+    margin-top: 12px;
+}
+
+.creator_icon {
+    margin-right: 8px;
+}
+
 .task_desc {
     font-size: 16px;
     font-family: "Satoshi-Medium";

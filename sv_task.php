@@ -3,6 +3,7 @@ include "config/security.php";
 include "config/connection.php";
 
 $user_id = $_SESSION['id'];
+$username = $_SESSION['username'];
 $act = $_POST['act']; // membedakan prosesnya
 $id = $_POST['id'] ?? '';
 
@@ -117,8 +118,7 @@ if ($act == "set_done") {
                             </p>
                         </div>
                         <div class="button_close_reminder">
-                            <td colspan="2"><input class="reminder_button" type="button" value="CLOSE" id="button_close_reminder"
-                                    onclick="closeReminder()">
+                            <td colspan="2"><input class="reminder_button" type="button" value="CLOSE" id="button_close_reminder">
                             </td>
                         </div>
                     </div>
@@ -126,6 +126,37 @@ if ($act == "set_done") {
             <?php
 
             header("Refresh:0");
+    }
+
+    // Mengecek apakah user ditambahkan pada task collaboration
+    $sqlCheckCollab = "SELECT c.*, t.*, t.task_name AS task_name, t.task_desc AS task_desc FROM tb_collaborators c
+                            LEFT JOIN tb_tasks t ON c.task_id = t.id
+                            WHERE added_date = '$currentDate' 
+                            AND added_time = '$currentTime' 
+                            AND t.status_id = 1 
+                            AND t.id IN (SELECT task_id FROM tb_collaborators WHERE user_id = '$user_id')";
+
+    $queryCheckCollab = mysqli_query($conn, $sqlCheckCollab);
+    $numRowsCheckCollab = mysqli_num_rows($queryCheckCollab);
+
+    if ($numRowsCheckCollab > 0) {
+        $resultCheckCollab = mysqli_fetch_array($queryCheckCollab);
+        $task_name = $resultCheckCollab['task_name'];
+        ?>
+                    <div class="reminder_container">
+                        <div class="reminder_title">
+                            <p>Hello
+                    <?php echo $username; ?>!
+                            </p>
+                        </div>
+                        <div class="reminder_desc">
+                            <p>You got a new collaboration task!</p>
+                            <p>Title:
+                    <?php echo $task_name; ?>
+                            </p>
+                        </div>
+                    </div>
+        <?php
     }
 
 } else if ($act == "loadingPET") {
@@ -340,8 +371,15 @@ if ($act == "set_done") {
                 $username = $resultCheckProfile['username'];
                 $user_collaborator_id = $resultCheckProfile['id'];
 
+                // Menggunakan timezone Asia Jakarta
+                date_default_timezone_set('Asia/Jakarta');
+
+                // Mendapatkan tanggal dan waktu hari ini
+                $currentDate = date('Y-m-d');
+                $currentTime = date('H:i:00', time());
+
                 // Menambahkan data ke tabel kolaborator berdasarkan id
-                $sqlCollaborator = "INSERT INTO tb_collaborators(collaborator_username, task_id, user_id) VALUES('$username', '$task_id', '$user_collaborator_id')";
+                $sqlCollaborator = "INSERT INTO tb_collaborators(collaborator_username, task_id, user_id, added_date, added_time) VALUES('$username', '$task_id', '$user_collaborator_id', '$currentDate', '$currentTime')";
                 mysqli_query($conn, $sqlCollaborator);
             }
         }
@@ -481,7 +519,6 @@ if ($act == "set_done") {
 
                     $sqlReminder = "INSERT INTO tb_reminders(task_id, reminder_date, reminder_time, reminder_number, reminder_type) VALUES('$task_id', '$reminder_date[$i]', '$reminder_time[$i]', '$reminder_number[$i]', '$reminder_type[$i]')";
                     mysqli_query($conn, $sqlReminder);
-
                 }
             }
         }
@@ -509,8 +546,15 @@ if ($act == "set_done") {
                 $username = $resultCheckProfile['username'];
                 $user_collaborator_id = $resultCheckProfile['id'];
 
-                // Menambahkan data ke tabel collaborator berdasarkan id
-                $sqlCollaborator = "INSERT INTO tb_collaborators(collaborator_username, task_id, user_id) VALUES('$username', '$task_id', '$user_collaborator_id')";
+                // Menggunakan timezone Asia Jakarta
+                date_default_timezone_set('Asia/Jakarta');
+
+                // Mendapatkan tanggal dan waktu hari ini
+                $currentDate = date('Y-m-d');
+                $currentTime = date('H:i:00', time());
+
+                // Menambahkan data ke tabel kolaborator berdasarkan id
+                $sqlCollaborator = "INSERT INTO tb_collaborators(collaborator_username, task_id, user_id, added_date, added_time) VALUES('$username', '$task_id', '$user_collaborator_id', '$currentDate', '$currentTime')";
                 mysqli_query($conn, $sqlCollaborator);
             }
 
@@ -523,10 +567,11 @@ if ($act == "set_done") {
     }
 
 } else if ($act == "loading") {
-    $sql = "SELECT t.*, c.category_name, c.category_img 
+    $sql = "SELECT t.*, c.category_name, c.category_img, u.username AS owner_username 
                     FROM tb_tasks t 
                     LEFT JOIN tb_categories c ON t.category_id = c.id 
                     LEFT JOIN tb_collaborators collab ON t.id = collab.task_id
+                    LEFT JOIN tb_users u ON t.user_id = u.id
                     WHERE (t.user_id = '$user_id' OR collab.user_id = '$user_id') AND t.status_id = 1 
                     GROUP BY t.id
                     ORDER BY t.task_date";
@@ -545,6 +590,7 @@ if ($act == "set_done") {
         $category = $result['category_name'];
         $category_img = $result['category_img'];
         $priority_id = $result['priority_id'];
+        $owner_username = $result['owner_username'];
 
         $task_date = $result['task_date'] == date('Y-m-d') ? 'Today' : date('d-m-Y', strtotime($result['task_date']));
 
@@ -601,6 +647,17 @@ if ($act == "set_done") {
                         <?php echo $task_desc; ?>
                                                         </p>
                                                     </div>
+                    <?php
+                    if ($numRowsCheckTask > 0) {
+                        ?>
+                                                        <div class="creator_info">
+                                                            <p><span class="creator_icon"><i class="fa-solid fa-user-gear" style="color: #ffffff;"></i></span>Created by
+                            <?php echo $owner_username; ?>
+                                                            </p>
+                                                        </div>
+                    <?php
+                    }
+                    ?>
                                                 </div>
 
                 <?php
