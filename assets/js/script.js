@@ -263,6 +263,7 @@ function editTask(task_id) {
         $("#collaborator").append('<option value="' + collaborator.user_id + '" selected>' + collaborator.collaborator_username + '</option>');
       });
 
+      // revisi : generate dulu semua baru di loop check selected atau tidak =============================
 
       // Tampilkan semua collaborator di database
       var allCollaborators = JSON.parse(data[11]);
@@ -375,7 +376,7 @@ function checkDateTime() {
 }
 
 //Reload page setiap 1 menit
-setInterval(refreshPage, 60000);
+// setInterval(refreshPage, 60000);
 
 function refreshPage() {
   location.reload(); // Memuat ulang halaman

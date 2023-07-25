@@ -529,7 +529,8 @@ if ($act == "set_done") {
                     LEFT JOIN tb_collaborators collab ON t.id = collab.task_id
                     WHERE (t.user_id = '$user_id' OR collab.user_id = '$user_id') AND t.status_id = 1 
                     GROUP BY t.id
-                    ORDER BY t.task_date ";
+                    ORDER BY t.task_date";
+
 
 
     $query = mysqli_query($conn, $sql);
@@ -562,6 +563,10 @@ if ($act == "set_done") {
             $status_id = 3;
         }
 
+        // Cek apakah task termasuk collaborator atau bukan
+        $sqlCheckTask = "SELECT * FROM tb_collaborators WHERE task_id = '$task_id'";
+        $queryCheckTask = mysqli_query($conn, $sqlCheckTask);
+        $numRowsCheckTask = mysqli_num_rows($queryCheckTask);
         ?>
 
                                             <div class="task_active_card">
@@ -571,7 +576,18 @@ if ($act == "set_done") {
                                                 <div class=" task_info">
                                                     <div class="task_subtitle">
                                                         <p>
+                            <?php
+                            if ($numRowsCheckTask > 0) {
+                                ?>
+                                                                <span class="team_icon">
+                                                                    <i class="fa-solid fa-people-group" style="color: #ffffff;"></i> </span>
+                            <?php
+                            }
+                            ?>
                         <?php echo $task_title; ?>
+                                                            <span class="priority_tag">
+                            <?php echo $priority_tag; ?>
+                                                            </span>
                                                         </p>
                                                     </div>
                                                     <div class="task_deadline">
@@ -586,9 +602,9 @@ if ($act == "set_done") {
                                                         </p>
                                                     </div>
                                                 </div>
+
                 <?php
-                // ... (kode sebelumnya)
-        
+
                 if ($user_id == $owner_id) {
                     // Jika user adalah owner (pembuat task), tampilkan tombol edit, delete, dan checkbox
                     ?>
